@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "934359846616",
+    "project_id": "studyapplication-f4df0",
+    "storage_bucket": "studyapplication-f4df0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934359846616:android:d4c3f8117e9431fc3d11ad",
+        "android_client_info": {
+          "package_name": "uef.com.studyapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGbX4hynCG_cJf3laduCxYzcl05FFwlgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
