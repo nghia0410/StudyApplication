@@ -103,8 +103,8 @@ public class LoginActivity extends AppCompatActivity {
         tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-//                startActivity(intent);
+               Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -121,13 +121,13 @@ public class LoginActivity extends AppCompatActivity {
         btn_Login = findViewById(R.id.btn_Login);
 //        rememberCheck = findViewById(R.id.checkBox);
     }
-//    private void initListener() {
-////        layoutSignUp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-////                startActivity(intent);
-//            }
-//        });
-//    }
+    private void initListener() {
+        layoutSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 }
