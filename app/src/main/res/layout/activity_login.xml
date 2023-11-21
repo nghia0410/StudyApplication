@@ -9,34 +9,38 @@
     tools:context=".LoginActivity">
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/shape" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Self-Study"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="30sp"
         android:textStyle="bold"
-        android:transitionName="splash_text" ></TextView>
+        android:transitionName="splash_text"></TextView>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Application"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="28sp"
         android:textStyle="bold"
-        android:transitionName="splash_text" ></TextView>
+        android:transitionName="splash_text"></TextView>
 
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="113dp"
+        android:layout_width="165dp"
+        android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:src="@drawable/homework_icon"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:src="@drawable/logo1"
         android:transitionName="splash_image" />
 
     <EditText
@@ -86,8 +90,10 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:background="@drawable/login_btn"
-        app:backgroundTint="@null"
-        android:text="LOG IN"/>
+        android:text="LOG IN"
+        android:textColor="@color/background"
+        android:textColorHighlight="#0C0C0C"
+        app:backgroundTint="@null" />
 
     <LinearLayout
         android:id="@+id/layout_signUp"
