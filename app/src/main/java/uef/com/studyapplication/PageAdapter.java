@@ -25,6 +25,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         return 2;
     }
 
+
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
@@ -36,5 +37,6 @@ public class PageAdapter extends FragmentPagerAdapter {
                 return super.getPageTitle(position);
         }
     }
+
 }
 

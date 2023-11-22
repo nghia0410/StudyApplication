@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
@@ -31,16 +31,16 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center|bottom"
                 android:layout_marginTop="5dp"
-                android:elevation="12dp"
                 android:clickable="true"
+                android:elevation="12dp"
                 app:cardCornerRadius="35dp">
 
                 <ImageView
                     android:id="@+id/userpfp"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/_userdefaultlogo"/>
+                    android:src="@drawable/logo_user" />
 
             </androidx.cardview.widget.CardView>
 
@@ -60,6 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
         <TabHost
             android:id="@+id/tabhost"
             android:layout_width="fill_parent"
@@ -81,7 +82,7 @@
                         android:id="@+id/assignmenttab"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/appbackground">
+                        android:background="@drawable/layoutpage">
 
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/assignmenttab_layout"
@@ -134,7 +135,7 @@
                         android:id="@+id/activitytab"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/appbackground"
+                        android:background="@drawable/layoutpage"
                         android:orientation="vertical">
 
                         <FrameLayout
@@ -148,9 +149,9 @@
 
                 <TabWidget
                     android:id="@android:id/tabs"
-                    android:layout_gravity="bottom"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom" />
 
             </LinearLayout>
 

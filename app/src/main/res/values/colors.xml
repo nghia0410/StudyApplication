@@ -3,5 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#F0F4F3</color>
-    <color name="signup">#134B4F</color>
+    <color name="signup">#FF000000</color>
 </resources>

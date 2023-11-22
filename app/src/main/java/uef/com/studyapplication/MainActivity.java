@@ -1,6 +1,7 @@
 package uef.com.studyapplication;
 
 import static uef.com.studyapplication.LoginActivity.user;
+import static uef.com.studyapplication.LoginActivity.userDocument;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.VectorEnabledTintResources;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.io.File;
 
@@ -38,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        create= findViewById(R.id.floatingActionButton);
+
         TabHost tabHost = findViewById(R.id.tabhost);
-//
         tabHost.setup();
         TabHost.TabSpec spec1 = tabHost.newTabSpec("Bài Tập");
         spec1.setIndicator("", getResources().getDrawable(R.drawable.book_icon_tabhost));
@@ -57,10 +61,36 @@ public class MainActivity extends AppCompatActivity {
             final TextView title = (TextView) tab.findViewById(android.R.id.title);
             title.setSingleLine();
         }
-        viewPager  = findViewById(R.id.submitted_pager);
-        viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
-        tabLayout = findViewById(R.id.assignmenttab_layout);
-        tabLayout.setupWithViewPager(viewPager);
+
+        if(user.getUsername().equals("admin")){
+            viewPager  = findViewById(R.id.submitted_pager);
+            viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
+            tabLayout = findViewById(R.id.assignmenttab_layout);
+            tabLayout.setupWithViewPager(viewPager);
+            tabLayout.removeTabAt(1);
+
+
+            create.setOnClickListener(view -> {
+                Intent intent = new Intent(MainActivity.this, CreateActivity.class);
+                startActivity(intent);
+            });
+
+        }else{
+            viewPager  = findViewById(R.id.submitted_pager);
+            viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
+            tabLayout = findViewById(R.id.assignmenttab_layout);
+            tabLayout.setupWithViewPager(viewPager);
+            create.hide();
+
+        }
+        userDetails = (CardView) findViewById(R.id.userDetail);
+        userDetails.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, UserActivity.class);
+            startActivity(intent);
+        });
+//
+
+
 //
 //        userPfp = findViewById(R.id.userpfp);
 //        userName = findViewById(R.id.textView_username);
