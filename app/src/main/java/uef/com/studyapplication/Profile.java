@@ -26,4 +26,3 @@ public class Profile {
         return preferences.getString(key, null);
     }
 }
-

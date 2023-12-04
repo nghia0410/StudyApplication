@@ -8,7 +8,6 @@ public class User {
     private String email;
     private String phone;
 
-
     public String getFullname() {
         return fullname;
     }

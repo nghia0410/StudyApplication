@@ -1,6 +1,6 @@
 package uef.com.studyapplication;
 
-//import static uef.com.studyapplication.LoginActivity.mList;
+import static uef.com.studyapplication.LoginActivity.mList;
 import static uef.com.studyapplication.LoginActivity.user;
 import static uef.com.studyapplication.LoginActivity.userDocument;
 
@@ -207,21 +207,25 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
                 tabLayout = findViewById(R.id.assignmenttab_layout);
                 tabLayout.setupWithViewPager(viewPager);
+                userPfp = findViewById(R.id.userpfp);
+                userName = findViewById(R.id.textView_username);
+                userName.setText(user.getUsername());
+
                 tabLayout.removeTabAt(1);
-
-
                 create.setOnClickListener(view -> {
                     Intent intent = new Intent(MainActivity.this, CreateActivity.class);
                     startActivity(intent);
                 });
-
             } else {
                 viewPager = findViewById(R.id.submitted_pager);
                 viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
                 tabLayout = findViewById(R.id.assignmenttab_layout);
                 tabLayout.setupWithViewPager(viewPager);
-                create.hide();
+                userPfp = findViewById(R.id.userpfp);
+                userName = findViewById(R.id.textView_username);
+                userName.setText(user.getUsername());
 
+                create.hide();
             }
             userDetails = (CardView) findViewById(R.id.userDetail);
             userDetails.setOnClickListener(view -> {
@@ -233,7 +237,17 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, CreateActivity.class);
                 startActivity(intent);
             });
+            userDetails = (CardView) findViewById(R.id.userDetail);
+            userDetails.setOnClickListener(view -> {
+                Intent intent = new Intent(MainActivity.this, UserActivity.class);
+                startActivity(intent);
+            });
 
+            create= findViewById(R.id.floatingActionButton);
+            create.setOnClickListener(view -> {
+                Intent intent = new Intent(MainActivity.this, CreateActivity.class);
+                startActivity(intent);
+            });
             imgButtonSort = findViewById(R.id.imageButtonSort);
             imgButtonSort.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -241,7 +255,5 @@ public class MainActivity extends AppCompatActivity {
                     dropDownMenu.show();
                 }
             });
-
-
         }
     }
