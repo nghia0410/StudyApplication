@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CreateActivity"
+    tools:context=".ViewAssignment"
     android:background="@drawable/layoutpage" >
 
     <LinearLayout
@@ -29,20 +29,6 @@
         android:layout_gravity="center"
         >
 
-        <ImageButton
-            android:id="@+id/returnButton"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="top|left"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@null"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/backarrowicon" />
-
     </RelativeLayout>
 
     <ScrollView
@@ -64,8 +50,8 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/editText1"
+            <TextView
+                android:id="@+id/testViewCourse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -117,16 +103,26 @@
                     android:id="@+id/YoutubeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="YoutubeButton"
                     android:src="@drawable/ic_playvideo" />
 
-                <EditText
-                    android:id="@+id/LinkURL"
+                <TextView
+                    android:id="@+id/textViewURL"
                     android:layout_width="343dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:hint="Link URL"
                     android:visibility="visible" />
             </LinearLayout>
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button" />
 
             <Spinner
                 android:id="@+id/tagSpinner"
@@ -209,16 +205,16 @@
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/createnew_btn"
+            android:id="@+id/backButton"
             android:layout_width="195dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_margin="10dp"
             android:layout_marginTop="10dp"
-            android:text="Add Question" />
+            android:text="Back" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/create_btn"
+            android:id="@+id/doneButton"
             android:layout_width="195dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

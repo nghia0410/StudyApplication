@@ -1,8 +1,6 @@
 package uef.com.studyapplication;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,27 +8,20 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-
 public class LoginActivity extends AppCompatActivity {
-
     //    static FirebaseStorage storage = FirebaseStorage.getInstance();;
-
 //    StorageReference storageRef = storage.getReference();
-
     FirebaseFirestore db;
     static DocumentSnapshot userDocument;
     static User user = new User();
     private LinearLayout layoutSignUp;
     private TextView tvSignUp, tvUsername, tvPassword;
     private Button btn_Login;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = tvUsername.getText().toString();
                 String password = tvPassword.getText().toString();
-
                 if (username.isEmpty()) {
 //                    AnimationForLoginFail();
                     Toast.makeText(LoginActivity.this, "Please fill username", Toast.LENGTH_SHORT).show();
@@ -98,36 +88,32 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-
         tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+//                startActivity(intent);
             }
         });
-
 //            initUi();
 //       initListener();
     }
     private void addControl() {
         // Code using Cloud Firebase
         db = FirebaseFirestore.getInstance();
-
         tvSignUp = findViewById(R.id.tvSignUp);
         tvUsername = findViewById(R.id.Username);
         tvPassword = findViewById(R.id.Password);
         btn_Login = findViewById(R.id.btn_Login);
 //        rememberCheck = findViewById(R.id.checkBox);
     }
-    private void initListener() {
-        layoutSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
+//    private void initListener() {
+////        layoutSignUp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+////                startActivity(intent);
+//            }
+//        });
+//    }
 }

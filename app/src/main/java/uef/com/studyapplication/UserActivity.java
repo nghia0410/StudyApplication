@@ -1,9 +1,6 @@
 package uef.com.studyapplication;
-
 import static uef.com.studyapplication.LoginActivity.user;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,12 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.io.File;
 import java.io.IOException;
-
 public class UserActivity extends AppCompatActivity {
     private EditText fullName, phoneNumber, email;
     int SELECT_PICTURE = 200;
@@ -30,7 +24,6 @@ public class UserActivity extends AppCompatActivity {
     ImageButton uploadImage_btn,return_btn,logout_btn;
     ImageView uploadedImage_view;
     FirebaseFirestore db;
-
     // Create a storage reference from our app
 //    StorageReference storageRef;
     // Save login/logout state
@@ -41,16 +34,12 @@ public class UserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         //Initialize variables
         initializeVar();
-
         if (user.getFullname() != null) fullName.setHint(user.getFullname());
         if (user.getEmail() != null) email.setHint(user.getEmail());
         if (user.getPhone() != null) phoneNumber.setHint(user.getPhone());
-
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +65,6 @@ public class UserActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
     private void initializeVar(){
         fullName = findViewById(R.id.editText_FullName);
@@ -87,13 +75,10 @@ public class UserActivity extends AppCompatActivity {
         uploadedImage_view = findViewById(R.id.uploadedImage);
         return_btn = findViewById(R.id.returnButton);
         logout_btn = findViewById(R.id.logoutButton);
-
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         editor = sharedPref.edit();
-
         db = FirebaseFirestore.getInstance();
 //        storageRef = storage.getReference();
-
         try{
             File image = new File(getApplicationInfo().dataDir + "/user/pfp/userpfp.jpg");
             if(image.exists()){

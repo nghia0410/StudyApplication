@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="false"
+    android:background="@drawable/layoutpage"
     android:orientation="vertical"
-    tools:context=".UserActivity"
-    android:background="@drawable/layoutpage">
+    app:layout_gravity="fill"
+    tools:context=".UserActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -65,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="30dp">
+                android:layout_marginBottom="20dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/view2"
@@ -171,7 +172,15 @@
                 android:ems="10"
                 android:hint="Phone"
                 android:inputType="text"
-                android:textSize="22dp" />
+                android:textSize="30dp" />
+
+            <Button
+                android:id="@+id/ChangePass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="end"
+                android:text="ChangePassword" />
 
         </LinearLayout>
     </ScrollView>
@@ -183,6 +192,6 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="10dp"
         android:text="Done"
-        android:textSize="22dp" />
+        android:textSize="20dp" />
 
 </LinearLayout>
