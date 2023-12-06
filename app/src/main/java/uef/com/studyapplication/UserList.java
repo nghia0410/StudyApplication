@@ -41,10 +41,10 @@ public class UserList {
                             mList.sort(new Comparator<AssignmentList>(){
                                 @Override
                                 public int compare(AssignmentList t0, AssignmentList t1) {
-                                    if(t1.getAssignment().getTitle() == null){
+                                    if(t1.getAssignment().getCourse() == null){
                                         Log.v("mList","neutral sort");
                                         return -1;
-                                    }else if(t0.getAssignment().getTitle() == null){
+                                    }else if(t0.getAssignment().getCourse() == null){
                                         Log.v("mList","neutral sort");
                                         return 1;
                                     }

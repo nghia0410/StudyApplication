@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     StorageReference storageRef = storage.getReference();
     FirebaseFirestore db;
     static DocumentSnapshot userDocument;
+
     static List mList = new ArrayList<AssignmentList>();
     static User user = new User();
 //    private LinearLayout layoutSignUp;
