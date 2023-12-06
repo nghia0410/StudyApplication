@@ -61,6 +61,8 @@ public class CreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
+        EditText textCourse = findViewById(R.id.editText1);
+        Spinner tagSpinner = findViewById(R.id.tagSpinner);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -76,12 +78,14 @@ public class CreateActivity extends AppCompatActivity {
             }
         });
         createdone_btn = findViewById(R.id.create_btn);
-        tagSpinner = findViewById(R.id.tagSpinner);
-
         createdone_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CreateActivity.this,ViewAssignment.class);
+                // Thêm dữ liệu vào Intent
+                intent.putExtra("id", textCourse.getText().toString());
+                intent.putExtra("tag", tagSpinner.getSelectedItem().toString());
+
                 startActivity(intent);
             }
         });

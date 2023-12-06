@@ -58,7 +58,7 @@
                 android:background="@drawable/vien"
                 android:contentDescription="Course"
                 android:gravity="top"
-                android:hint="Topic"
+                android:hint="Course"
                 android:inputType="textMultiLine"
                 android:maxLines="2"
                 android:scrollbars="vertical"
@@ -120,18 +120,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button" />
 
-            <Spinner
-                android:id="@+id/tagSpinner"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/bg_spinner"
-                android:paddingBottom="13dp"
-                android:textColor="@color/white" />
+                android:layout_height="37dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                android:background="#C6CBCC"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Cấp độ :"
+                    android:paddingBottom="13dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tagSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#C6CBCC"
+                    android:paddingBottom="13dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/ExcerciseTitle"

@@ -72,7 +72,7 @@
                 android:background="@drawable/vien"
                 android:contentDescription="Course"
                 android:gravity="top"
-                android:hint="Topic"
+                android:hint="Nhập Course"
                 android:inputType="textMultiLine"
                 android:maxLines="2"
                 android:scrollbars="vertical"
