@@ -3,7 +3,7 @@ package uef.com.studyapplication;
 public class Assignment {
     private String Course;
     private String Level;
-    private String Desc;
+    private String Youtube;
 
 
     public int getNumAttachments() {
@@ -26,20 +26,14 @@ public class Assignment {
     public String getSubmitTime() { return SubmitTime; }
     public String getCourse() {return Course;}
     public void setCourse(String Course ) { this.Course = Course; }
+    public String getYoutube() {return Youtube;}
+    public void setYoutube(String Youtube ) { this.Youtube = Youtube; }
     public String getLevel() {
         return Level;
     }
     public void setLevel(String Level) {
         this.Level = Level;
     }
-
-    public String getDesc() {
-        return Desc;
-    }
-    public void setDesc(String Desc) {
-        this.Desc = Desc;
-    }
-
 
     public Assignment(String Course) {
         this.Course = Course;

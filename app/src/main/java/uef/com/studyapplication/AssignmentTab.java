@@ -92,8 +92,7 @@ public class AssignmentTab extends Fragment {
                 Assignment assignment = assignments.getAssignment();
                 if(assignment.getSubmitTime() == null) {
                     item.setCourse(assignment.getCourse());
-                    item.setDesc(assignment.getDesc());
-//                    item.setDate(assignment.getEndDate() + " - " + assignment.getEndTime());
+                    item.setYoutube(assignment.getYoutube());
                     item.setLevel(assignment.getLevel());
                     AssignmentTabList.add(i);
                     rowItems.add(item);
@@ -162,7 +161,7 @@ public class AssignmentTab extends Fragment {
                             editbtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent intent = new Intent(getActivity(), CreateActivity.class);
+                                    Intent intent = new Intent(getActivity(), EditActivity.class);
                                     String i = new String(String.valueOf(position));
                                     String id = String.valueOf(AssignmentTabList.get(Integer.parseInt(i)));
                                     intent.putExtra("assignment_pos", id);

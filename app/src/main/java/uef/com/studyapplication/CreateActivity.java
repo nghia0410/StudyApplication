@@ -27,9 +27,11 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -56,6 +58,12 @@ public class CreateActivity extends AppCompatActivity {
     private ImageButton attachmentButton,return_btn;
     private TextView attachmentTextView;
     private FirebaseFirestore db;
+    AppCompatButton btn1;
+    private TextView selectionPrompt;
+    private Button okButton;
+    private EditText customTagEditText;
+    private LinearLayout customTagLayout;
+
     private static final int PICK_FILES_REQUEST_CODE = 1;
     protected static EditText link_edt;
     private AppCompatButton createdone_btn;
@@ -88,12 +96,15 @@ public class CreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        EditText textCourse = findViewById(R.id.editText1);
-        Spinner tagSpinner = findViewById(R.id.tagSpinner);
-        EditText textlinkytb = findViewById(R.id.LinkURL);
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        tagSpinner = findViewById(R.id.tagSpinner);
+        EditText textlinkytb = findViewById(R.id.LinkURL);
+        customTagEditText = findViewById(R.id.customTagEditText);
+        customTagLayout = findViewById(R.id.customTagLayout);
+        okButton = findViewById(R.id.okButton);
+        selectionPrompt = findViewById(R.id.selectionPrompt);
+        btn1=  findViewById(R.id.create_btn);
         link_edt = findViewById(R.id.LinkURL);
         return_btn = findViewById(R.id.returnButton);
 
@@ -110,11 +121,8 @@ public class CreateActivity extends AppCompatActivity {
         createdone_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CreateActivity.this,ViewAssignment.class);
-                // Thêm dữ liệu vào Intent
-                intent.putExtra("id", textCourse.getText().toString());
-                intent.putExtra("tag", tagSpinner.getSelectedItem().toString());
-                intent.putExtra("ytb", textlinkytb.getText().toString());
+                Intent intent = new Intent(CreateActivity.this,MainActivity.class);
+
                 startActivity(intent);
 
                 // Lấy dữ liệu từ các trường nhập liệu
@@ -127,9 +135,9 @@ public class CreateActivity extends AppCompatActivity {
                 String level = tagSpinner.getSelectedItem().toString();
                 String youtube = ((EditText) findViewById(R.id.LinkURL)).getText().toString();
                 // Kiểm tra xem đã chọn "Other" từ Spinner chưa
-//                if (category.equals("Other")) {
-//                    category = customTagEditText.getText().toString();
-//                }
+                if (level.equals("Other")) {
+                    level = customTagEditText.getText().toString();
+                }
 
                 // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
                 if (course.isEmpty()  || level.isEmpty()) {
@@ -143,7 +151,6 @@ public class CreateActivity extends AppCompatActivity {
 
         // Khởi tạo Spinner với các mục
         tags = new ArrayList<>();
-        tags.add("Cấp độ");
         tags.add("Dễ");
         tags.add("Trung Bình");
         tags.add("Khó");
@@ -153,7 +160,7 @@ public class CreateActivity extends AppCompatActivity {
         tagSpinner.setAdapter(tagAdapter);
 
         attachmentButton = findViewById(R.id.attachmentButton);
-//        attachmentTextView = findViewById(R.id.attachmentTextView);
+        attachmentTextView = findViewById(R.id.attachmentTextView);
         attachmentButton.setOnClickListener(v -> openFilePicker());
 
     }
@@ -166,10 +173,8 @@ public class CreateActivity extends AppCompatActivity {
         // Tạo một Map chứa dữ liệu để lưu vào Firestore
         Map<String, Object> assignmentData = new HashMap<>();
         assignmentData.put("course", course);
-//        assignmentData.put("topic", topic  );
         assignmentData.put("level", level);
         assignmentData.put("youtube", youtube);
-//        assignmentData.put("createTime",sdf3.format(timestamp));
         assignmentData.put("numAttachments", selectedFiles.size());
 
 

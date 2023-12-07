@@ -68,51 +68,51 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem item) {
                     int itemId = item.getItemId();
                     if (itemId == R.id.s11) {
-//                        Collections.sort(mList.subList(0,mList.size()-1), new Comparator<AssignmentList>(){
-//                            @Override
-//                            public int compare(AssignmentList t0, AssignmentList t1) {
-//                                if(t0.getAssignment().getCategory().equals("Homework"))
-//                                    return -1;
-//                                return 1;
-//                            }
-//                        });
+                        Collections.sort(mList.subList(0,mList.size()-1), new Comparator<AssignmentList>(){
+                            @Override
+                            public int compare(AssignmentList t0, AssignmentList t1) {
+                                if(t0.getAssignment().getLevel().equals("Dễ"))
+                                    return -1;
+                                return 1;
+                            }
+                        });
                         recreate();
-                        Log.v("SubMenuClick", "Submenu Item: sort by homework");
+                        Log.v("SubMenuClick", "Submenu Item: sort level Dễ");
                         return true;
                     } else if (itemId == R.id.s12) {
-//                        Collections.sort(mList.subList(0,mList.size()-1), new Comparator<AssignmentList>(){
-//                            @Override
-//                            public int compare(AssignmentList t0, AssignmentList t1) {
-//                                int i;
-//                                try {
-//                                    i = t0.getAssignment().getCategory().compareTo(t1.getAssignment().getCategory());
-//                                }
-//                                catch (Exception e){
-//                                    return 0;
-//                                }
-//                                return i;
-//                            }
-//                        });
+                        Collections.sort(mList.subList(0,mList.size()-1), new Comparator<AssignmentList>(){
+                            @Override
+                            public int compare(AssignmentList t0, AssignmentList t1) {
+                                int i;
+                                try {
+                                    i = t0.getAssignment().getLevel().compareTo(t1.getAssignment().getLevel());
+                                }
+                                catch (Exception e){
+                                    return 0;
+                                }
+                                return i;
+                            }
+                        });
                         recreate();
-                        Log.v("SubMenuClick", "Submenu Item: sort by essay");
+                        Log.v("SubMenuClick", "Submenu Item: sort level Trung Bình");
                         return true;
                     } else if (itemId == R.id.s13) {
-//                        Collections.sort(mList.subList(0,mList.size()-1), new Comparator<AssignmentList>(){
-//                            @Override
-//                            public int compare(AssignmentList t0, AssignmentList t1) {
-//                                int i;
-//                                try{
-//                                    i = t0.getAssignment().getCategory().compareTo(t1.getAssignment().getCategory());
-//                                }
-//                                catch (Exception e){
-//                                    return 0;
-//                                }
-//                                if (i != 0) return -i;
-//                                return i;
-//                            }
-//                        });
+                        Collections.sort(mList.subList(0,mList.size()-1), new Comparator<AssignmentList>(){
+                            @Override
+                            public int compare(AssignmentList t0, AssignmentList t1) {
+                                int i;
+                                try{
+                                    i = t0.getAssignment().getLevel().compareTo(t1.getAssignment().getLevel());
+                                }
+                                catch (Exception e){
+                                    return 0;
+                                }
+                                if (i != 0) return -i;
+                                return i;
+                            }
+                        });
                         recreate();
-                        Log.v("SubMenuClick", "Submenu Item: sort by other");
+                        Log.v("SubMenuClick", "Submenu Item: sort level Khó");
                         return true;
                     } else if (itemId == R.id.s21) {
 //                        Collections.sort(mList.subList(0,mList.size()-1), new Comparator<AssignmentList>() {
@@ -198,8 +198,8 @@ public class MainActivity extends AppCompatActivity {
             final TabWidget tabWidget = tabHost.getTabWidget();
             for (int i = 0; i < tabWidget.getTabCount(); i++) {
                 final View tab = tabWidget.getChildTabViewAt(i);
-                final TextView title = (TextView) tab.findViewById(android.R.id.title);
-                title.setSingleLine();
+                final TextView course = (TextView) tab.findViewById(android.R.id.title);
+                course.setSingleLine();
             }
 
             if (user.getUsername().equals("admin")) {

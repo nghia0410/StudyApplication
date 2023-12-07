@@ -21,8 +21,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.webkit.MimeTypeMap;
 import android.webkit.WebView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,12 +46,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewAssignment extends AppCompatActivity {
-    private ImageButton playytb_btn;
+    private ImageButton playytb_btn, attachmentButton;
     private String editLink;
+    private Spinner tagSpinner;
+    private Button okButton;
+    private List<String> tags;
+    private ArrayAdapter<String> tagAdapter;
     private EditText customTagEditText;
-    private EditText course;
-
-    private Spinner level;
+    private TextView youtube,course;
+    private TextView level;
     private WebView webView;
     private Button back_btn, done_btn;
     private static final int PICK_FILES_REQUEST_CODE = 1;
@@ -58,49 +64,193 @@ public class ViewAssignment extends AppCompatActivity {
     private TextView attachmentTextView;
     String value;
 
+    public ViewAssignment() {
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_assignment);
 
-        // Lấy đối tượng TextView
-        TextView textView = findViewById(R.id.testViewCourse);
-        TextView textView2 = findViewById(R.id.tagSpinner);
-        // Lấy dữ liệu từ Intent
-        Intent intent = getIntent();
-        // Lấy giá trị của id
-        String id = intent.getStringExtra("id");
-        String tag = intent.getStringExtra("tag");
-
-        // Hiển thị giá trị của id
-        textView.setText(id);
-        textView2.setText(tag);
-        Bundle extras = getIntent().getExtras();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
         playytb_btn = findViewById(R.id.YoutubeButton);
-
         back_btn = findViewById(R.id.backButton);
+        okButton = findViewById(R.id.okButton);
+        attachmentButton = findViewById(R.id.attachmentButton);
+
+
+        Bundle extras = getIntent().getExtras();if (extras != null) {
+            value = extras.getString("assignment_pos");
+        }
+        AssignmentList selected_assignment = (AssignmentList) mList.get(Integer.parseInt(value));
+        level = findViewById(R.id.tagSpinner);
+        level.setText(selected_assignment.getAssignment().getLevel());
+        youtube = findViewById(R.id.textView2);
+        youtube.setText(selected_assignment.getAssignment().getYoutube());
+        course = findViewById(R.id.textView1);
+        course.setText(selected_assignment.getAssignment().getCourse());
+
+
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ViewAssignment.this, CreateActivity.class);
-                startActivity(intent);
-            }
-        });
-        done_btn = findViewById(R.id.doneButton);
-        done_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
                 Intent intent = new Intent(ViewAssignment.this, MainActivity.class);
                 startActivity(intent);
             }
         });
-    }
+        attachmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFilePicker();
+            }
+        });
 
+        done_btn = findViewById(R.id.doneButton);
+        done_btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String textViewCourse =  ((TextView) findViewById(R.id.textView1)).getText().toString();
+                String textViewYoutube = ((TextView) findViewById(R.id.textView2)).getText().toString();
+                String textViewLevel = ((TextView) findViewById(R.id.tagSpinner)).getText().toString();
+
+
+                updateDataInFirestore(textViewCourse,textViewYoutube, textViewLevel );
+            }
+        });
+    }
+    private void updateDataInFirestore(String textViewCourse, String textViewYoutube, String textViewLevel) {
+        // Lấy ID của người dùng hiện tại từ Firebase Authentication
+        String id = userDocument.getId();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        // Lấy assignmentId từ Intent
+        AssignmentList assignment = (AssignmentList) mList.get(Integer.parseInt(value));
+        String assignmentId = assignment.getId();
+
+//        assignment.getAssignment().setAnswer(answerView.getText().toString());
+//        assignment.getAssignment().setSubmitTime(sdf3.format(timestamp));
+        Log.v("Assignment data",assignment.getAssignment().toString());
+        // Cập nhật dữ liệu vào Firestore trong bảng "assignments" của người dùng hiện tại
+        db.collection("users").document(id)
+                .collection("assignment").document(assignmentId)
+                .set(assignment.getAssignment())
+                .addOnSuccessListener(aVoid -> {
+                    // Xử lý khi dữ liệu được cập nhật thành công
+                    Toast.makeText(ViewAssignment.this, "Dữ liệu đã được cập nhật thành công.", Toast.LENGTH_SHORT).show();
+                    // Điều hướng hoặc thực hiện các hành động cần thiết sau khi cập nhật dữ liệu thành công
+                    Log.v("Asnwer","submitted");
+                    UserList.UpdateL(db, ViewAssignment.this);
+                })
+                .addOnFailureListener(e -> {
+                    // Xử lý khi dữ liệu không thể được cập nhật vào Firestore
+                    Log.v("Asnwer","failed");
+                    Toast.makeText(ViewAssignment.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+    private void openFilePicker() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true); // Cho phép chọn nhiều tệp
+        startActivityForResult(intent, PICK_FILES_REQUEST_CODE);
+    }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_FILES_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            ClipData clipData = data.getClipData();
+            if (clipData != null) {
+                for (int i = 0; i < clipData.getItemCount(); i++) {
+                    Uri fileUri = clipData.getItemAt(i).getUri();
+                    selectedFiles.add(fileUri); // Lưu trữ Uri của tệp đã chọn
+                    selectedFileNames.add(getFileName(fileUri));
+                }
+                attachmentTextView.setText("Đã chọn " + selectedFiles.size() + " tệp");
+                attachmentTextView.setVisibility(View.VISIBLE);
+            } else if (data.getData() != null) {
+                Uri fileUri = data.getData();
+                selectedFiles.add(fileUri); // Lưu trữ Uri của tệp đã chọn
+                String fileName = getFileName(fileUri);
+                selectedFileNames.add(fileName);
+                attachmentTextView.setText(fileName);
+                attachmentTextView.setVisibility(View.VISIBLE);
+            }
+        }
+
+        // Xử lý khi người dùng nhấp vào TextView để kiểm tra danh sách các tệp đã chọn
+
+        attachmentTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSelectedFileList();
+            }
+        });
+    }
+    private void showSelectedFileList() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Danh sách các tệp đã chọn");
+
+        View selectedFilesView = getLayoutInflater().inflate(R.layout.selected_files_list, null);
+        ListView selectedFilesListView = selectedFilesView.findViewById(R.id.selectedFilesListView);
+
+        ViewAssignment.SelectedFilesAdapter adapter = new ViewAssignment.SelectedFilesAdapter(this, selectedFileNames, selectedFiles);
+        selectedFilesListView.setAdapter(adapter);
+
+        selectedFilesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Xử lý khi người dùng nhấp vào một tệp
+                openSelectedFile(selectedFiles.get(position));
+            }
+        });
+
+        builder.setView(selectedFilesView);
+        builder.setPositiveButton("Xong", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Xử lý khi người dùng ấn nút "Xử lý"
+                // Thêm mã xử lý ở đây
+            }
+        });
+
+        builder.show();
+    }
+    private void openSelectedFile(Uri fileUri) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(fileUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(ViewAssignment.this, "Không có ứng dụng nào có thể mở file này", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private String getFileName(Uri uri) {
+        String result = null;
+        Cursor cursor = null;
+        try {
+            cursor = getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                // Kiểm tra xem cột DISPLAY_NAME có tồn tại không
+                int displayNameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if (displayNameIndex >= 0) {
+                    result = cursor.getString(displayNameIndex);
+                } else {
+                    // Nếu cột không tồn tại, xử lý tương ứng (ví dụ: lấy tên từ đường dẫn)
+                    result = uri.getPath();
+                }
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return result;
+    }
 
     public void YoutubeButton(View view) {
         editLink = link_edt.getText().toString();
@@ -109,7 +259,8 @@ public class ViewAssignment extends AppCompatActivity {
 
         // Lấy phần thứ hai của mảng
         String id = parts[3];
-        Log.v("YTID", id);
+        String sub_id = id.substring(0, id.indexOf("?"));
+        Log.v("YTID", sub_id);
 
         String stringJavaScript = "<!DOCTYPE html>\n" +
                 "<html>\n" +
@@ -132,7 +283,7 @@ public class ViewAssignment extends AppCompatActivity {
                 "        player = new YT.Player('player', {\n" +
                 "          height: '195',\n" +
                 "          width: '320',\n" +
-                "          videoId: '" + id + "',\n" +
+                "          videoId: '" + sub_id + "',\n" +
                 "          playerVars: {\n" +
                 "            'playsinline': 1\n" +
                 "          },\n" +
@@ -168,157 +319,6 @@ public class ViewAssignment extends AppCompatActivity {
 
     }
 
-    // Phương thức cập nhật dữ liệu vào Firestore
-    private void updateDataInFirestore(String course, String level) {
-        // Lấy ID của người dùng hiện tại từ Firebase Authentication
-        String userId = userDocument.getId();
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-        // Tạo một Map chứa dữ liệu để cập nhật vào Firestore
-//        Map<String, Object> updatedData = new HashMap<>();
-//        updatedData.put("title", title);
-//        updatedData.put("topic", topic);
-//        updatedData.put("startDate", startDate);
-//        updatedData.put("startTime", startTime);
-//        updatedData.put("endDate", endDate);
-//        updatedData.put("endTime", endTime);
-//        updatedData.put("category", category);
-        // Khởi tạo Firestore
-        db = FirebaseFirestore.getInstance();
-        // Lấy assignmentId từ Intent
-        AssignmentList assignment = (AssignmentList) mList.get(Integer.parseInt(value));
-        String assignmentId = assignment.getId();
-        Assignment updatedData = new Assignment();
-        updatedData.setCourse(course);
-        updatedData.setLevel(level);
-
-        // Cập nhật dữ liệu vào Firestore trong bảng "assignments" của người dùng hiện tại
-        db.collection("users").document(userId)
-                .collection("assignment").document(assignmentId)
-                .set(updatedData)
-                .addOnSuccessListener(aVoid -> {
-                    // Xử lý khi dữ liệu được cập nhật thành công
-                    Toast.makeText(ViewAssignment.this, "Dữ liệu đã được cập nhật thành công.", Toast.LENGTH_SHORT).show();
-                    // Điều hướng hoặc thực hiện các hành động cần thiết sau khi cập nhật dữ liệu thành công
-                    UserList.UpdateL(db, ViewAssignment.this);
-                })
-                .addOnFailureListener(e -> {
-                    // Xử lý khi dữ liệu không thể được cập nhật vào Firestore
-                    Toast.makeText(ViewAssignment.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_FILES_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            ClipData clipData = data.getClipData();
-            if (clipData != null) {
-                for (int i = 0; i < clipData.getItemCount(); i++) {
-                    Uri fileUri = clipData.getItemAt(i).getUri();
-                    selectedFiles.add(fileUri); // Lưu trữ Uri của tệp đã chọn
-                    selectedFileNames.add(getFileName(fileUri));
-                }
-                attachmentTextView.setText("Đã chọn " + selectedFiles.size() + " tệp");
-                attachmentTextView.setVisibility(View.VISIBLE);
-            } else if (data.getData() != null) {
-                Uri fileUri = data.getData();
-                selectedFiles.add(fileUri); // Lưu trữ Uri của tệp đã chọn
-                String fileName = getFileName(fileUri);
-                selectedFileNames.add(fileName);
-                attachmentTextView.setText(fileName);
-                attachmentTextView.setVisibility(View.VISIBLE);
-            }
-        }
-        attachmentTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showSelectedFileList();
-            }
-        });
-    }
-
-
-    private void showSelectedFileList() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Danh sách các tệp đã chọn");
-
-        View selectedFilesView = getLayoutInflater().inflate(R.layout.selected_files_list, null);
-        ListView selectedFilesListView = selectedFilesView.findViewById(R.id.selectedFilesListView);
-
-        SelectedFilesAdapter adapter = new SelectedFilesAdapter(this, selectedFileNames, selectedFiles);
-        selectedFilesListView.setAdapter(adapter);
-
-        selectedFilesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Xử lý khi người dùng nhấp vào một tệp
-                openSelectedFile(selectedFiles.get(position));
-            }
-        });
-
-        builder.setView(selectedFilesView);
-        builder.setPositiveButton("Xong", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Xử lý khi người dùng ấn nút "Xử lý"
-                // Thêm mã xử lý ở đây
-            }
-        });
-
-        builder.show();
-    }
-
-
-    private void openSelectedFile(Uri fileUri) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(fileUri);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(ViewAssignment.this, "Không có ứng dụng nào có thể mở file này", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    // Cập nhật TextView sau khi xóa tệp khỏi danh sách
-    private void updateAttachmentTextView() {
-        if (selectedFileNames.isEmpty()) {
-            attachmentTextView.setText(""); // Nếu không có tệp nào, xóa nội dung TextView
-            attachmentTextView.setVisibility(View.INVISIBLE);
-        } else {
-            attachmentTextView.setText("Đã chọn " + selectedFileNames.size() + " tệp");
-        }
-    }
-
-
-    // Phương thức để lấy tên tệp từ Uri
-    private String getFileName(Uri uri) {
-        String result = null;
-        Cursor cursor = null;
-        try {
-            cursor = getContentResolver().query(uri, null, null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                // Kiểm tra xem cột DISPLAY_NAME có tồn tại không
-                int displayNameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                if (displayNameIndex >= 0) {
-                    result = cursor.getString(displayNameIndex);
-                } else {
-                    // Nếu cột không tồn tại, xử lý tương ứng (ví dụ: lấy tên từ đường dẫn)
-                    result = uri.getPath();
-                }
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return result;
-    }
-
-
     public class SelectedFilesAdapter extends BaseAdapter {
         private List<String> fileNames;
         private List<Uri> fileUris;
@@ -331,8 +331,7 @@ public class ViewAssignment extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {
-            return fileNames.size();
+        public int getCount() {return fileNames.size();
         }
 
         @Override
@@ -399,4 +398,14 @@ public class ViewAssignment extends AppCompatActivity {
             return convertView;
         }
     }
+
+    private void updateAttachmentTextView() {
+        if (selectedFileNames.isEmpty()) {
+            attachmentTextView.setText(""); // Nếu không có tệp nào, xóa nội dung TextView
+            attachmentTextView.setVisibility(View.INVISIBLE);
+        } else {
+            attachmentTextView.setText("Đã chọn " + selectedFileNames.size() + " tệp");
+        }
+    }
+
 }

@@ -15,17 +15,18 @@
         android:theme="@style/Theme.StudyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".ViewAssignment"
+            android:name=".EditActivity"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".ViewCreateAssignment"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".ViewAssignment"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".ViewCreateAssignment" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".AssignmentList"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".GetYoutube"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".GetYoutube" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".CreateActivity"
             android:exported="false" />

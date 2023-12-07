@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class RowItem {
     private String course;
-    private String desc;
+    private String youtube;
     private int bgcolors;
     private String submitdate;
     public int getListid() {
@@ -24,9 +24,9 @@ public class RowItem {
     };
     private Date DayNotification;
 
-    public RowItem(String course, String desc,int bgcolors) {
+    public RowItem(String course, String youtube,int bgcolors) {
         this.course = course;
-        this.desc = desc;
+        this.youtube = youtube;
         this.bgcolors = bgcolors;
     }
 
@@ -66,11 +66,12 @@ public class RowItem {
 
     public int getBgcolors() { return bgcolors; }
     public void setBgcolors(int bgcolors) { this.bgcolors = bgcolors; }
-    public String getDesc() {
-        return desc;
+    public String getYoutube () {
+        return youtube;
     }
-    public void setDesc(String desc) {
-        this.desc = "Try it !!!";
+    public void setYoutube(String youtube) {
+
+        this.youtube = youtube;
     }
     public String getCourse() {
         return course;
