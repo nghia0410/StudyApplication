@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 course.setSingleLine();
             }
 
-            if (user.getUsername().equals("admin")) {
+            if (user.getUsername().equals("admin")||user.getUsername().equals("admin1")) {
                 viewPager = findViewById(R.id.submitted_pager);
                 viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
                 tabLayout = findViewById(R.id.assignmenttab_layout);

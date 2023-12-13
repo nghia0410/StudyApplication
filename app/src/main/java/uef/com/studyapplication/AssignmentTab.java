@@ -109,7 +109,7 @@ public class AssignmentTab extends Fragment {
 //            RowItem item = new RowItem(assignmentsName[i], assignmentsDetail[i],bgColor[i]);
 //            rowItems.add(item);
 //        }
-        if(!user.getUsername().equals("admin")) {
+        if(!user.getUsername().equals("admin")||!user.getUsername().equals("admin1")) {
 
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -134,7 +134,7 @@ public class AssignmentTab extends Fragment {
                                 View inflatedView = super.getView(position, convertView, parent);
                                 // set a click listener
                                 // TODO change "R.id.buttonId" to reference the ID value you set for the button's android:id attribute in foodlist.xml
-                                if(user.getUsername().equals("admin")) {
+                                if(user.getUsername().equals("admin") || user.getUsername().equals("admin1")) {
                                     ImageButton deletebtn = inflatedView.findViewById(R.id.delete_btn);
                                     deletebtn.setFocusable(false);
                                     deletebtn.setOnClickListener(new View.OnClickListener() {

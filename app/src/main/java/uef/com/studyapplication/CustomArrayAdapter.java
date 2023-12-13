@@ -84,7 +84,7 @@ public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
 //            default:
 //                holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
             }
-            if(user.getUsername().equals("admin")) {
+            if(user.getUsername().equals("admin")||user.getUsername().equals("admin1")) {
 //                holder.txtDate.setText("Deadline: " + rowItem.getDate());
                 holder.txtYoutube.setText(""+rowItem.getYoutube());
             }else {
