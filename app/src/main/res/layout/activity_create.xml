@@ -168,67 +168,64 @@
                     android:text="OK" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/ExcerciseTitle"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:text="Excercise 1"
-                android:textAlignment="center"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
             <androidx.gridlayout.widget.GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 app:columnCount="2">
 
                 <LinearLayout
-                    android:layout_width="205dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="410dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/button1"
+                    <EditText
+                        android:id="@+id/QuestionText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Button"
-                        app:layout_row="0" />
-
-                    <Button
-                        android:id="@+id/button2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Button"
-                        app:layout_row="1" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                        android:layout_height="54dp"
+                        android:text="Excercise 1"
+                        android:textAlignment="center"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
-                        android:layout_width="205dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
                         <Button
-                            android:id="@+id/button3"
-                            android:layout_width="200dp"
+                            android:id="@+id/button1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Button" />
+                            android:text="Button"
+                            app:layout_row="0" />
+
+                        <Button
+                            android:id="@+id/button2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Button"
+                            app:layout_row="1" />
+
+                        <Button
+                            android:id="@+id/button3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Button"
+                            app:layout_row="0" />
 
                         <Button
                             android:id="@+id/button4"
-                            android:layout_width="200dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Button" />
+
                     </LinearLayout>
+
                 </LinearLayout>
 
 
             </androidx.gridlayout.widget.GridLayout>
+
         </LinearLayout>
     </ScrollView>
 
