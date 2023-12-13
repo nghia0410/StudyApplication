@@ -17,9 +17,9 @@ public class Assignment {
         return Answer;
     }
 
-    public void setAnswer(String answer) {
-        Answer = answer;
-    }
+//    public void setAnswer(String answer) {
+//        Answer = answer;
+//    }
     private String Answer;
     private String SubmitTime;
 

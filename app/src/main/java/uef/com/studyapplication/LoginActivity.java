@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     static List mList = new ArrayList<AssignmentList>();
     static User user = new User();
 //    private LinearLayout layoutSignUp;
-    private TextView tvSignUp, tvUsername, tvPassword;
+    private TextView tvSignUp, tvUsername, tvPassword, tvEmail;
 
     private Button btn_Login;
     CheckBox rememberCheck;
@@ -53,13 +54,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = tvUsername.getText().toString();
                 String password = tvPassword.getText().toString();
+                String email = tvEmail.getText().toString();
                 if (username.isEmpty()) {
 //                    AnimationForLoginFail();
                     Toast.makeText(LoginActivity.this, "Please fill username", Toast.LENGTH_SHORT).show();
                 } else {
                     // Truy vấn tài liệu trong Firestore để kiểm tra thông tin đăng nhập.
                     db.collection("users")
-                            .whereEqualTo("username", username)
+                            .whereIn("username", Arrays.asList(username, email))
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
@@ -125,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         tvSignUp = findViewById(R.id.tvSignUp);
         tvUsername = findViewById(R.id.Username);
+        tvEmail = findViewById(R.id.Username);
         tvPassword = findViewById(R.id.Password);
         btn_Login = findViewById(R.id.btn_Login);
         rememberCheck = findViewById(R.id.checkBox);

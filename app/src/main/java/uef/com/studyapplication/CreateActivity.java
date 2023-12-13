@@ -9,7 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Context;
@@ -37,7 +40,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -67,6 +72,8 @@ public class CreateActivity extends AppCompatActivity {
     private static final int PICK_FILES_REQUEST_CODE = 1;
     protected static EditText link_edt;
     private AppCompatButton createdone_btn;
+//    private String userID;
+
     private List<Uri> selectedFiles = new ArrayList<>(); // Danh sách các tệp đã chọn
     private List<String> selectedFileNames = new ArrayList<>(); // Danh sách các tên tệp đã chọn
     private String getFileName(Uri uri) {
@@ -91,6 +98,15 @@ public class CreateActivity extends AppCompatActivity {
         }
         return result;
     }
+//    // Kiểm tra xem người dùng hiện tại có phải là admin hay không
+//    private boolean isAdmin() {
+//        // Lấy vai trò của người dùng hiện tại
+//        String role = FirebaseAuth.getInstance().getCurrentUser().getMetadata().get("role");
+//
+//        // Kiểm tra xem vai trò của người dùng hiện tại có phải là "admin" hay không
+//        return role.equals("admin");
+
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +131,9 @@ public class CreateActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+//        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
         // Khởi tạo Firestore
         db = FirebaseFirestore.getInstance();
         createdone_btn = findViewById(R.id.create_btn);
@@ -124,6 +143,7 @@ public class CreateActivity extends AppCompatActivity {
                 Intent intent = new Intent(CreateActivity.this,MainActivity.class);
 
                 startActivity(intent);
+
 
                 // Lấy dữ liệu từ các trường nhập liệu
                 String course = ((EditText) findViewById(R.id.editText1)).getText().toString();
@@ -146,6 +166,19 @@ public class CreateActivity extends AppCompatActivity {
                     // Lưu dữ liệu vào Firestore
                     saveDataToFirestore(course, level, youtube);
                 }
+                // Tạo đối tượng FCM
+                FirebaseMessaging fcm = FirebaseMessaging.getInstance();
+
+                // Tạo thông báo
+//                Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+//                        .setContentTitle("Tạo bài tập mới")
+//                        .setContentText("Bài tập mới có tên là [tên bài tập]. Mức độ khó: [mức độ khó]. Ngày bắt đầu: [ngày bắt đầu]. Ngày kết thúc: [ngày kết thúc].")
+////                        .setSmallIcon(R.drawable.ic_launcher)
+//                        .build();
+
+                // Gửi thông báo
+//                fcm.send(notification);
+                FirebaseMessaging.getInstance().toString();
             }
         });
 

@@ -152,12 +152,6 @@ public class EditActivity extends AppCompatActivity {
 //                String endDate = ((TextView) findViewById(R.id.displayEndDateTextView)).getText().toString();
 //                String endTime = ((TextView) findViewById(R.id.displayEndTimeTextView)).getText().toString();
                 String level = tagSpinner.getSelectedItem().toString();
-
-                // Kiểm tra xem đã chọn "Other" từ Spinner chưa
-                if (level.equals("Other")) {
-                    level = customTagEditText.getText().toString();
-                }
-
                 // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
                 if (course.isEmpty() || youtube.isEmpty() || level.isEmpty()) {
                     Toast.makeText(EditActivity.this, "Vui lòng nhập đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
@@ -294,7 +288,7 @@ public class EditActivity extends AppCompatActivity {
         String assignmentId = assignment.getId();
         Assignment updatedData = new Assignment();
         updatedData.setCourse(course);
-        updatedData.setLevel(youtube);
+        updatedData.setYoutube(youtube);
         updatedData.setLevel(level);
 
         // Cập nhật dữ liệu vào Firestore trong bảng "assignments" của người dùng hiện tại

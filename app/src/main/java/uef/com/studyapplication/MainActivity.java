@@ -57,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            imgButtonSort = findViewById(R.id.imageButtonSort);
+            create = findViewById(R.id.floatingActionButton);
 
+            imgButtonSort = findViewById(R.id.imageButtonSort);
             final PopupMenu dropDownMenu = new PopupMenu(MainActivity.this, imgButtonSort);
             final Menu menu = dropDownMenu.getMenu();
             dropDownMenu.getMenuInflater().inflate(R.menu.sortlist, menu);
-            create = findViewById(R.id.floatingActionButton);
             dropDownMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                         recreate();
                         Log.v("SubMenuClick", "Submenu Item: sort level Khó");
                         return true;
-                    } else if (itemId == R.id.s21) {
+//                    } else if (itemId == R.id.s21) {
 //                        Collections.sort(mList.subList(0,mList.size()-1), new Comparator<AssignmentList>() {
 //                            @Override
 //                            public int compare(AssignmentList t0, AssignmentList t1) {
@@ -143,10 +143,10 @@ public class MainActivity extends AppCompatActivity {
 //                                return 0;
 //                            }
 //                        });
-                        recreate();
-                        Log.v("SubMenuClick", "Submenu Item: sort by closest DL");
-                        return true;
-                    } else if (itemId == R.id.s22) {
+//                        recreate();
+//                        Log.v("SubMenuClick", "Submenu Item: sort by closest DL");
+//                        return true;
+//                    } else if (itemId == R.id.s22) {
 //                        Collections.sort(mList.subList(0,mList.size()-1), new Comparator<AssignmentList>() {
 //                            @Override
 //                            public int compare(AssignmentList t0, AssignmentList t1) {
@@ -174,9 +174,9 @@ public class MainActivity extends AppCompatActivity {
 //                                return 0;
 //                            }
 //                        });
-                        recreate();
-                        Log.v("SubMenuClick", "Submenu Item: sort by furthest DL");
-                        return true;
+//                        recreate();
+//                        Log.v("SubMenuClick", "Submenu Item: sort by furthest DL");
+//                        return true;
                     }
                     return false;
                 }
@@ -216,7 +216,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, CreateActivity.class);
                     startActivity(intent);
                 });
-            } else {
+            }
+            else {
                 viewPager = findViewById(R.id.submitted_pager);
                 viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
                 tabLayout = findViewById(R.id.assignmenttab_layout);

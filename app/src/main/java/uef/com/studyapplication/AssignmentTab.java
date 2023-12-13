@@ -1,6 +1,7 @@
 package uef.com.studyapplication;
 
 import static uef.com.studyapplication.LoginActivity.mList;
+import static uef.com.studyapplication.LoginActivity.user;
 import static uef.com.studyapplication.LoginActivity.userDocument;
 
 import android.content.Intent;
@@ -108,74 +109,80 @@ public class AssignmentTab extends Fragment {
 //            RowItem item = new RowItem(assignmentsName[i], assignmentsDetail[i],bgColor[i]);
 //            rowItems.add(item);
 //        }
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position
-                    , long l) {
-                Log.v("listview","item clicked");
-                Intent intent = new Intent(getActivity(), ViewAssignment.class);
-                String i = new String(String.valueOf(position));
-                String id = String.valueOf(AssignmentTabList.get(Integer.parseInt(i)));
-                intent.putExtra("assignment_pos", id );
-                Log.v("AssignmentTab click","mList id: "+AssignmentTabList.get(Integer.parseInt(i))+
-                        "\n Current pos: "+i);
-                startActivity(intent);
-            }
-        });
-        try {
-            ArrayAdapter<RowItem> mAdapter =
-                    new CustomArrayAdapter(getContext(), R.id.assignmenttab_layout, rowItems.subList(0, rowItems.size() - 1)) {
-                        @Override
-                        public View getView(final int position, View convertView, ViewGroup parent) {
-                            View inflatedView = super.getView(position, convertView, parent);
-                            // set a click listener
-                            // TODO change "R.id.buttonId" to reference the ID value you set for the button's android:id attribute in foodlist.xml
-                            ImageButton deletebtn = inflatedView.findViewById(R.id.delete_btn);
-                            deletebtn.setFocusable(false);
-                            deletebtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    int id = AssignmentTabList.get(position);
-                                    AssignmentList selected_item_id = (AssignmentList) mList.get(id);
-                                    db.collection("users")
-                                            .document(userDocument.getId())
-                                            .collection("assignment").document(selected_item_id.getId()).delete()
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    UserList.UpdateL(db, getContext());
-                                                    Log.d("Delete", "DocumentSnapshot successfully deleted!");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("Delete", "Error deleting document", e);
-                                                }
-                                            });
-//                                Toast.makeText(v.getContext(), "Button 1  clicked for row position=" + selected_item.getId(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            ImageButton editbtn = inflatedView.findViewById(R.id.edit_btn);
-                            editbtn.setFocusable(false);
-                            editbtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent = new Intent(getActivity(), EditActivity.class);
-                                    String i = new String(String.valueOf(position));
-                                    String id = String.valueOf(AssignmentTabList.get(Integer.parseInt(i)));
-                                    intent.putExtra("assignment_pos", id);
-                                    startActivity(intent);
-                                }
-                            });
-                            return inflatedView;
+        if(!user.getUsername().equals("admin")) {
 
-                        }
-                    };
-            lv.setAdapter(mAdapter);
-        }catch (Exception e){
-            Log.e("AssignmentTab",e.getMessage());
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position
+                        , long l) {
+                    Log.v("listview", "item clicked");
+                    Intent intent = new Intent(getActivity(), ViewAssignment.class);
+                    String i = new String(String.valueOf(position));
+                    String id = String.valueOf(AssignmentTabList.get(Integer.parseInt(i)));
+                    intent.putExtra("assignment_pos", id);
+                    Log.v("AssignmentTab click", "mList id: " + AssignmentTabList.get(Integer.parseInt(i)) +
+                            "\n Current pos: " + i);
+                    startActivity(intent);
+                }
+            });
         }
+            try {
+                ArrayAdapter<RowItem> mAdapter =
+                        new CustomArrayAdapter(getContext(), R.id.assignmenttab_layout, rowItems.subList(0, rowItems.size() - 1)) {
+                            @Override
+                            public View getView(final int position, View convertView, ViewGroup parent) {
+                                View inflatedView = super.getView(position, convertView, parent);
+                                // set a click listener
+                                // TODO change "R.id.buttonId" to reference the ID value you set for the button's android:id attribute in foodlist.xml
+                                if(user.getUsername().equals("admin")) {
+                                    ImageButton deletebtn = inflatedView.findViewById(R.id.delete_btn);
+                                    deletebtn.setFocusable(false);
+                                    deletebtn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            int id = AssignmentTabList.get(position);
+                                            AssignmentList selected_item_id = (AssignmentList) mList.get(id);
+                                            db.collection("users")
+                                                    .document(userDocument.getId())
+                                                    .collection("assignment").document(selected_item_id.getId()).delete()
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            UserList.UpdateL(db, getContext());
+                                                            Log.d("Delete", "DocumentSnapshot successfully deleted!");
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.w("Delete", "Error deleting document", e);
+                                                        }
+                                                    });
+//                                Toast.makeText(v.getContext(), "Button 1  clicked for row position=" + selected_item.getId(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    ImageButton editbtn = inflatedView.findViewById(R.id.edit_btn);
+                                    editbtn.setFocusable(false);
+                                    editbtn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent intent = new Intent(getActivity(), EditActivity.class);
+                                            String i = new String(String.valueOf(position));
+                                            String id = String.valueOf(AssignmentTabList.get(Integer.parseInt(i)));
+                                            intent.putExtra("assignment_pos", id);
+                                            startActivity(intent);
+                                        }
+                                    });
+                                }
+                                return inflatedView;
+
+                            }
+                        };
+                lv.setAdapter(mAdapter);
+            } catch (Exception e) {
+                Log.e("AssignmentTab", e.getMessage());
+            }
+        
 
         // Inflate the layout for this fragment
         return parentholder;

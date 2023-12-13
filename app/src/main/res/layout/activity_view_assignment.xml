@@ -99,7 +99,7 @@
                     android:src="@drawable/ic_playvideo" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/ViewlinkURL"
                     android:layout_width="343dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

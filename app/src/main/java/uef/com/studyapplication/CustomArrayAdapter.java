@@ -1,5 +1,7 @@
 package uef.com.studyapplication;
 
+import static uef.com.studyapplication.LoginActivity.user;
+
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -82,7 +84,7 @@ public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
 //            default:
 //                holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
             }
-            if(rowItem.getSubmitdate() == null) {
+            if(user.getUsername().equals("admin")) {
 //                holder.txtDate.setText("Deadline: " + rowItem.getDate());
                 holder.txtYoutube.setText(""+rowItem.getYoutube());
             }else {

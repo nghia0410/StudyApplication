@@ -2,6 +2,7 @@ package uef.com.studyapplication;
 
 import static uef.com.studyapplication.CreateActivity.link_edt;
 import static uef.com.studyapplication.LoginActivity.mList;
+import static uef.com.studyapplication.LoginActivity.user;
 import static uef.com.studyapplication.LoginActivity.userDocument;
 
 import androidx.annotation.Nullable;
@@ -89,7 +90,7 @@ public class ViewAssignment extends AppCompatActivity {
         AssignmentList selected_assignment = (AssignmentList) mList.get(Integer.parseInt(value));
         level = findViewById(R.id.tagSpinner);
         level.setText(selected_assignment.getAssignment().getLevel());
-        youtube = findViewById(R.id.textView2);
+        youtube = findViewById(R.id.ViewlinkURL);
         youtube.setText(selected_assignment.getAssignment().getYoutube());
         course = findViewById(R.id.textView1);
         course.setText(selected_assignment.getAssignment().getCourse());
@@ -115,7 +116,7 @@ public class ViewAssignment extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String textViewCourse =  ((TextView) findViewById(R.id.textView1)).getText().toString();
-                String textViewYoutube = ((TextView) findViewById(R.id.textView2)).getText().toString();
+                String textViewYoutube = ((TextView) findViewById(R.id.ViewlinkURL)).getText().toString();
                 String textViewLevel = ((TextView) findViewById(R.id.tagSpinner)).getText().toString();
 
 
@@ -199,14 +200,13 @@ public class ViewAssignment extends AppCompatActivity {
 
         ViewAssignment.SelectedFilesAdapter adapter = new ViewAssignment.SelectedFilesAdapter(this, selectedFileNames, selectedFiles);
         selectedFilesListView.setAdapter(adapter);
-
-        selectedFilesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Xử lý khi người dùng nhấp vào một tệp
-                openSelectedFile(selectedFiles.get(position));
-            }
-        });
+            selectedFilesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // Xử lý khi người dùng nhấp vào một tệp
+                    openSelectedFile(selectedFiles.get(position));
+                }
+            });
 
         builder.setView(selectedFilesView);
         builder.setPositiveButton("Xong", new DialogInterface.OnClickListener() {
@@ -253,7 +253,7 @@ public class ViewAssignment extends AppCompatActivity {
     }
 
     public void YoutubeButton(View view) {
-        editLink = link_edt.getText().toString();
+        editLink = youtube.getText().toString();
         // Tách URL thành mảng các phần
         String[] parts = editLink.split("/");
 

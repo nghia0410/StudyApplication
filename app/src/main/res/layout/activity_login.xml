@@ -50,9 +50,9 @@
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:paddingLeft="20dp"
-        android:hint="Username"
+        android:hint="Username/Email"
         android:layout_marginTop="10dp"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:background="@drawable/input"/>
 
     <EditText

@@ -29,6 +29,5 @@ public class AssignmentList {
     public void setAssignment(Assignment assignment) {
         this.assignment = assignment;
     }
-
     private Assignment assignment;
 }

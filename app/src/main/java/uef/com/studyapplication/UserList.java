@@ -24,7 +24,7 @@ public class UserList {
     {
 //       List mList = new ArrayList<AssignmentList>();  //this is my arraylist
         db.collection("users")
-                .document(userDocument.getId())
+                .document("Rut0S79rh4nOGAok82jO")
                 .collection("assignment")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
