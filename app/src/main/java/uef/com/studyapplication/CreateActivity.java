@@ -71,7 +71,7 @@ public class CreateActivity extends AppCompatActivity {
 
     private static final int PICK_FILES_REQUEST_CODE = 1;
     protected static EditText link_edt;
-    private AppCompatButton createdone_btn;
+    private AppCompatButton createdone_btn,createquiz_btn;
 //    private String userID;
 
     private List<Uri> selectedFiles = new ArrayList<>(); // Danh sách các tệp đã chọn
@@ -136,6 +136,16 @@ public class CreateActivity extends AppCompatActivity {
 
         // Khởi tạo Firestore
         db = FirebaseFirestore.getInstance();
+        createquiz_btn = findViewById(R.id.CreateQuiz);
+        createquiz_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateActivity.this,QuizActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
         createdone_btn = findViewById(R.id.create_btn);
         createdone_btn.setOnClickListener(new View.OnClickListener() {
             @Override

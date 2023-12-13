@@ -178,50 +178,22 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/QuestionText"
-                        android:layout_width="match_parent"
-                        android:layout_height="54dp"
-                        android:text="Excercise 1"
-                        android:textAlignment="center"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/button1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Button"
-                            app:layout_row="0" />
-
-                        <Button
-                            android:id="@+id/button2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Button"
-                            app:layout_row="1" />
-
-                        <Button
-                            android:id="@+id/button3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Button"
-                            app:layout_row="0" />
-
-                        <Button
-                            android:id="@+id/button4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Button" />
-
-                    </LinearLayout>
+                        android:orientation="vertical"/>
 
                 </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/CreateQuiz"
+                    android:layout_width="195dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Create Quiz"
+                    app:layout_column="0"
+                    app:layout_row="0" />
 
 
             </androidx.gridlayout.widget.GridLayout>
@@ -234,15 +206,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/createnew_btn"
-            android:layout_width="195dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_margin="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Add Question" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/create_btn"
