@@ -64,29 +64,34 @@
                 android:text="ĐA:"
                 android:textSize="18sp"
                 android:padding="10dp"/>
+            <RadioGroup
+                android:id="@+id/radiogroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/checkbox_option1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="A" />
 
-            <CheckBox
-                android:id="@+id/checkbox_option1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="A" />
+                <RadioButton
+                    android:id="@+id/checkbox_option2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="B" />
 
-            <CheckBox
-                android:id="@+id/checkbox_option2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="B" />
+                <RadioButton
+                    android:id="@+id/checkbox_option3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="C" />
+                <RadioButton
+                    android:id="@+id/checkbox_option4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="D" />
+            </RadioGroup>
 
-            <CheckBox
-                android:id="@+id/checkbox_option3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="C" />
-            <CheckBox
-                android:id="@+id/checkbox_option4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="D" />
 
         </LinearLayout>
     </LinearLayout>
@@ -101,10 +106,17 @@
             android:layout_height="wrap_content"
             android:text="Lưu câu hỏi" />
 
+        <Button
+            android:id="@+id/done_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Done" />
+
     </LinearLayout>
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/listView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

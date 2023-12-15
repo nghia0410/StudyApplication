@@ -96,6 +96,9 @@ public class ViewAssignment extends AppCompatActivity {
         course.setText(selected_assignment.getAssignment().getCourse());
 
 
+
+
+
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -407,5 +410,6 @@ public class ViewAssignment extends AppCompatActivity {
             attachmentTextView.setText("Đã chọn " + selectedFileNames.size() + " tệp");
         }
     }
+
 
 }

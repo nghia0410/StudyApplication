@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/edit_question"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:hint="Câu hỏi" />
+
+        <TextView
+            android:id="@+id/edit_option1"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Phương án 1" />
+
+        <TextView
+            android:id="@+id/edit_option2"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Phương án 2" />
+
+        <TextView
+            android:id="@+id/edit_option3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Phương án 3" />
+
+        <TextView
+            android:id="@+id/edit_option4"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:hint="Phương án 4" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="ĐA:"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/radio1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/answer1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="A" />
+
+            <RadioButton
+                android:id="@+id/answer2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="B" />
+
+            <RadioButton
+                android:id="@+id/answer3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="C" />
+
+            <RadioButton
+                android:id="@+id/answer4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="D" />
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+</LinearLayout>
+

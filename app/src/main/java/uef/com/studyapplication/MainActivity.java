@@ -201,33 +201,35 @@ public class MainActivity extends AppCompatActivity {
                 final TextView course = (TextView) tab.findViewById(android.R.id.title);
                 course.setSingleLine();
             }
+            if (user != null) {
+                if (user.getUsername().equals("admin")||user.getUsername().equals("admin1")) {
+                    viewPager = findViewById(R.id.submitted_pager);
+                    viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
+                    tabLayout = findViewById(R.id.assignmenttab_layout);
+                    tabLayout.setupWithViewPager(viewPager);
+                    userPfp = findViewById(R.id.userpfp);
+                    userName = findViewById(R.id.textView_username);
+                    userName.setText(user.getUsername());
 
-            if (user.getUsername().equals("admin")||user.getUsername().equals("admin1")) {
-                viewPager = findViewById(R.id.submitted_pager);
-                viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
-                tabLayout = findViewById(R.id.assignmenttab_layout);
-                tabLayout.setupWithViewPager(viewPager);
-                userPfp = findViewById(R.id.userpfp);
-                userName = findViewById(R.id.textView_username);
-                userName.setText(user.getUsername());
+                    tabLayout.removeTabAt(1);
+                    create.setOnClickListener(view -> {
+                        Intent intent = new Intent(MainActivity.this, CreateActivity.class);
+                        startActivity(intent);
+                    });
+                }
+                else {
+                    viewPager = findViewById(R.id.submitted_pager);
+                    viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
+                    tabLayout = findViewById(R.id.assignmenttab_layout);
+                    tabLayout.setupWithViewPager(viewPager);
+                    userPfp = findViewById(R.id.userpfp);
+                    userName = findViewById(R.id.textView_username);
+                    userName.setText(user.getUsername());
 
-                tabLayout.removeTabAt(1);
-                create.setOnClickListener(view -> {
-                    Intent intent = new Intent(MainActivity.this, CreateActivity.class);
-                    startActivity(intent);
-                });
+                    create.hide();
+                }
             }
-            else {
-                viewPager = findViewById(R.id.submitted_pager);
-                viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
-                tabLayout = findViewById(R.id.assignmenttab_layout);
-                tabLayout.setupWithViewPager(viewPager);
-                userPfp = findViewById(R.id.userpfp);
-                userName = findViewById(R.id.textView_username);
-                userName.setText(user.getUsername());
 
-                create.hide();
-            }
             userDetails = (CardView) findViewById(R.id.userDetail);
             userDetails.setOnClickListener(view -> {
                 Intent intent = new Intent(MainActivity.this, UserActivity.class);
@@ -241,12 +243,6 @@ public class MainActivity extends AppCompatActivity {
             userDetails = (CardView) findViewById(R.id.userDetail);
             userDetails.setOnClickListener(view -> {
                 Intent intent = new Intent(MainActivity.this, UserActivity.class);
-                startActivity(intent);
-            });
-
-            create= findViewById(R.id.floatingActionButton);
-            create.setOnClickListener(view -> {
-                Intent intent = new Intent(MainActivity.this, CreateActivity.class);
                 startActivity(intent);
             });
             imgButtonSort = findViewById(R.id.imageButtonSort);

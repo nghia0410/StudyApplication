@@ -138,6 +138,11 @@
                 android:paddingBottom="13dp"
                 android:textColor="@color/white" />
 
+            <ListView
+                android:id="@+id/listView3"
+                android:layout_width="match_parent"
+                android:layout_height="252dp" />
+
             <TextView
                 android:id="@+id/selectionPrompt"
                 android:layout_width="wrap_content"
@@ -166,37 +171,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="OK" />
+
             </LinearLayout>
-
-            <androidx.gridlayout.widget.GridLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:columnCount="2">
-
-                <LinearLayout
-                    android:layout_width="410dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"/>
-
-                </LinearLayout>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/CreateQuiz"
-                    android:layout_width="195dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Create Quiz"
-                    app:layout_column="0"
-                    app:layout_row="0" />
-
-
-            </androidx.gridlayout.widget.GridLayout>
 
         </LinearLayout>
     </ScrollView>
@@ -208,12 +184,20 @@
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/CreateQuiz"
+            android:layout_width="195dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Create Quiz" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/create_btn"
             android:layout_width="195dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
             android:layout_margin="10dp"
             android:layout_marginTop="10dp"
             android:text="Done" />
+
     </LinearLayout>
 </LinearLayout>

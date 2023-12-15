@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,6 +59,7 @@ import java.util.Map;
 
 public class CreateActivity extends AppCompatActivity {
     private List<String> tags;
+    private ListView listView;
     private ArrayAdapter<String> tagAdapter;
     private Spinner tagSpinner;
     private ImageButton attachmentButton,return_btn;
@@ -68,6 +70,7 @@ public class CreateActivity extends AppCompatActivity {
     private Button okButton;
     private EditText customTagEditText;
     private LinearLayout customTagLayout;
+    ArrayList<Question> selectedQuestions;
 
     private static final int PICK_FILES_REQUEST_CODE = 1;
     protected static EditText link_edt;
@@ -76,6 +79,8 @@ public class CreateActivity extends AppCompatActivity {
 
     private List<Uri> selectedFiles = new ArrayList<>(); // Danh sách các tệp đã chọn
     private List<String> selectedFileNames = new ArrayList<>(); // Danh sách các tên tệp đã chọn
+
+
     private String getFileName(Uri uri) {
         String result = null;
         Cursor cursor = null;
@@ -263,6 +268,13 @@ public class CreateActivity extends AppCompatActivity {
                     UserList.UpdateL(db,CreateActivity.this);
                     Toast.makeText(CreateActivity.this, "Lỗi khi lưu dữ liệu vào Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+
+        selectedQuestions = getIntent().getParcelableArrayListExtra("EXTRA_DATA");
+
+        listView = findViewById(R.id.listView3);
+        AdapterCreateQuiz adapterCreateQuiz = new AdapterCreateQuiz(selectedQuestions);
+        listView.setAdapter(adapterCreateQuiz);
+
     }
     private void saveAttachmentInfoToFirestore(String name, String fileName, String fileUrl) {
         String id = userDocument.getId();
