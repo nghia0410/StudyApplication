@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -12,31 +14,78 @@
         android:layout_height="wrap_content"
         android:hint="Câu hỏi" />
 
-    <TextView
-        android:id="@+id/edit_option1"
-        android:textSize="15sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phương án 1" />
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:textSize="15sp"
-        android:id="@+id/edit_option2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phương án 2" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/checkbox_option2"
+            app:layout_constraintStart_toEndOf="@+id/checkbox_option2">
 
-    <TextView
-        android:textSize="15sp"
-        android:id="@+id/edit_option3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phương án 3" />
-    <TextView
-        android:textSize="15sp"
-        android:id="@+id/edit_option4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phương án 4" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="220dp"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints">
+
+                <RadioButton
+                    android:id="@+id/edit_option1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="A"
+                    tools:layout_conversion_absoluteHeight="50dp"
+                    tools:layout_conversion_absoluteWidth="48dp" />
+
+                <RadioButton
+                    android:id="@+id/edit_option2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="B"
+                    tools:layout_conversion_absoluteHeight="50dp"
+                    tools:layout_conversion_absoluteWidth="48dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="200dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="0dp">
+
+                <RadioButton
+                    android:id="@+id/edit_option3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="C"
+                    tools:layout_conversion_absoluteHeight="50dp"
+                    tools:layout_conversion_absoluteWidth="48dp" />
+
+                <RadioButton
+                    android:id="@+id/edit_option4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="D"
+                    tools:layout_conversion_absoluteHeight="50dp"
+                    tools:layout_conversion_absoluteWidth="48dp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RadioGroup>
 
 </LinearLayout>

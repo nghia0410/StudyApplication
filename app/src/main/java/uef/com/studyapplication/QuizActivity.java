@@ -39,7 +39,7 @@ public class QuizActivity extends AppCompatActivity {
 
         // Thêm các câu hỏi vào danh sách
         questions = new ArrayList<>();
-        questions.add(new Question(et_question.getText().toString(), new String[]{et_answer1.getText().toString(), et_answer2.getText().toString(),et_answer3.getText().toString(),et_answer4.getText().toString()}, 0));
+//        questions.add(new Question(et_question.getText().toString(), new String[]{et_answer1.getText().toString(), et_answer2.getText().toString(),et_answer3.getText().toString(),et_answer4.getText().toString()}, 0));
 
 
 //        questions.add(new Question("Hình tròn có bao nhiêu đường đối xứng?", new String[]{"1", "2", "3", "4"}, 3));
@@ -112,7 +112,7 @@ public class QuizActivity extends AppCompatActivity {
 
                 // Gửi Intent
                 Intent intent = new Intent(QuizActivity.this, CreateActivity.class);
-                intent.putParcelableArrayListExtra("EXTRA_DATA", questions);
+                intent.putExtra("EXTRA_DATA", questions);
                 startActivity(intent);
             }
         });

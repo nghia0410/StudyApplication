@@ -70,8 +70,7 @@ public class CreateActivity extends AppCompatActivity {
     private Button okButton;
     private EditText customTagEditText;
     private LinearLayout customTagLayout;
-    ArrayList<Question> selectedQuestions;
-
+    List<Question> selectedQuestions;
     private static final int PICK_FILES_REQUEST_CODE = 1;
     protected static EditText link_edt;
     private AppCompatButton createdone_btn,createquiz_btn;
@@ -103,6 +102,7 @@ public class CreateActivity extends AppCompatActivity {
         }
         return result;
     }
+
 //    // Kiểm tra xem người dùng hiện tại có phải là admin hay không
 //    private boolean isAdmin() {
 //        // Lấy vai trò của người dùng hiện tại
@@ -128,6 +128,22 @@ public class CreateActivity extends AppCompatActivity {
         btn1=  findViewById(R.id.create_btn);
         link_edt = findViewById(R.id.LinkURL);
         return_btn = findViewById(R.id.returnButton);
+
+        try {
+
+//            selectedQuestions = this.getIntent().getExtras().getParcelableArrayList("EXTRA_DATA");
+
+            List<Question> selectedQuestions = new ArrayList<Question>();
+            selectedQuestions = (ArrayList<Question>)getIntent().getSerializableExtra("EXTRA_DATA");
+            if(selectedQuestions!=null) {
+                listView = findViewById(R.id.listView3);
+                AdapterCreateQuiz adapterCreateQuiz = new AdapterCreateQuiz(selectedQuestions);
+                listView.setAdapter(adapterCreateQuiz);
+            }
+        }
+        catch (Exception e){
+                    Log.i("selectedQuestions","empty");
+        }
 
         return_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,11 +285,7 @@ public class CreateActivity extends AppCompatActivity {
                     Toast.makeText(CreateActivity.this, "Lỗi khi lưu dữ liệu vào Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
 
-        selectedQuestions = getIntent().getParcelableArrayListExtra("EXTRA_DATA");
 
-        listView = findViewById(R.id.listView3);
-        AdapterCreateQuiz adapterCreateQuiz = new AdapterCreateQuiz(selectedQuestions);
-        listView.setAdapter(adapterCreateQuiz);
 
     }
     private void saveAttachmentInfoToFirestore(String name, String fileName, String fileUrl) {
