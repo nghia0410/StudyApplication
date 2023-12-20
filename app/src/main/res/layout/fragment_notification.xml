@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NotificationFragment">
+
+    <TextView
+        android:id="@+id/notification_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingTop="9dp"
+        android:paddingBottom="10dp"
+        android:text="Notification"
+        android:textAllCaps="true"
+        android:textSize="25dp"
+        android:textStyle="bold">
+
+    </TextView>
+
+    <ListView
+        android:layout_below="@id/notification_textview"
+        android:id="@+id/ListViewNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="10.0sp" />
+
+</RelativeLayout>

@@ -109,7 +109,7 @@ public class SignupActivity extends AppCompatActivity {
                                                             public void onSuccess(DocumentReference documentReference) {
 //                                                                AnimationForSignUpSuccess();
                                                                 docRef = documentReference;
-//                                                                firstMsg();
+                                                                firstMsg();
                                                                 Toast.makeText(SignupActivity.this, "User added successfully", Toast.LENGTH_SHORT).show();
 
                                                                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
@@ -158,27 +158,27 @@ public class SignupActivity extends AppCompatActivity {
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         btnSignup = findViewById(R.id.btnSignup);
     }
-//    private void firstMsg(){
-//        // Lấy ID của người dùng hiện tại từ Firebase Authentication
-//        String id = docRef.getId();
-//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//
-//        // Tạo một Object chứa dữ liệu để lưu vào Firestore
-//        Assignment assignmentData = new Assignment();
-//        assignmentData.setTopic("Welcome to Homework manager");
-//        assignmentData.setCreateTime(String.valueOf(timestamp.toString()));
-//
-//        // Lưu dữ liệu vào Firestore trong bảng "assignments" của người dùng hiện tại
-//        db.collection("users").document(id).collection("assignment")
-//                .add(assignmentData)
-//                .addOnSuccessListener(documentReference -> {
-//                    // Xử lý khi dữ liệu được lưu thành công
-//                    Toast.makeText(SignupActivity.this, "Dữ liệu đã được lưu thành công vào Firestore.", Toast.LENGTH_SHORT).show();
-//                    // Điều hướng hoặc thực hiện các hành động cần thiết sau khi lưu dữ liệu thành công
-//                })
-//                .addOnFailureListener(e -> {
-//                    // Xử lý khi dữ liệu không thể được lưu vào Firestore
-//                    Toast.makeText(SignupActivity.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                });
-//    }
+    private void firstMsg(){
+        // Lấy ID của người dùng hiện tại từ Firebase Authentication
+        String id = docRef.getId();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        // Tạo một Object chứa dữ liệu để lưu vào Firestore
+        Assignment assignmentData = new Assignment();
+        assignmentData.setCourse("Welcome to EduLearn ");
+        assignmentData.setCreateTime(String.valueOf(timestamp.toString()));
+
+        // Lưu dữ liệu vào Firestore trong bảng "assignments" của người dùng hiện tại
+        db.collection("users").document(id).collection("assignment")
+                .add(assignmentData)
+                .addOnSuccessListener(documentReference -> {
+                    // Xử lý khi dữ liệu được lưu thành công
+                    Toast.makeText(SignupActivity.this, "Dữ liệu đã được lưu thành công vào Firestore.", Toast.LENGTH_SHORT).show();
+                    // Điều hướng hoặc thực hiện các hành động cần thiết sau khi lưu dữ liệu thành công
+                })
+                .addOnFailureListener(e -> {
+                    // Xử lý khi dữ liệu không thể được lưu vào Firestore
+                    Toast.makeText(SignupActivity.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
 }

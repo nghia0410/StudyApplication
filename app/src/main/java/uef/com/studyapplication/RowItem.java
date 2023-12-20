@@ -7,6 +7,14 @@ public class RowItem {
     private String youtube;
     private int bgcolors;
     private String submitdate;
+    private String date;
+
+    public RowItem(String course, int i, String submitTime) {
+        this.course = course;
+        this.bgcolors = i;
+        this.date = submitTime;
+    }
+
     public int getListid() {
         return mListid;
     }
@@ -86,5 +94,7 @@ public class RowItem {
     public String getSubmitdate() { return submitdate; }
 
     public void setSubmitdate(String submitdate) { this.submitdate = submitdate; }
+    public String getDate() { return date; }
+    public void setDate(String date) { this.date = date;}
 }
 
