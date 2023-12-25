@@ -93,6 +93,7 @@ public class AssignmentTab extends Fragment {
                 Assignment assignment = assignments.getAssignment();
                 if(assignment.getSubmitTime() == null) {
                     item.setCourse(assignment.getCourse());
+                    item.setDate(assignment.getCreateTime());
                     item.setYoutube(assignment.getYoutube());
                     item.setLevel(assignment.getLevel());
                     AssignmentTabList.add(i);
