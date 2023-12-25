@@ -29,7 +29,7 @@
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
-                android:layout_width="204dp"
+                android:layout_width="210dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="220dp"
                 android:layout_weight="3"
@@ -40,7 +40,7 @@
 
                 <RadioButton
                     android:id="@+id/edit_option1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="A"
                     tools:layout_conversion_absoluteHeight="50dp"

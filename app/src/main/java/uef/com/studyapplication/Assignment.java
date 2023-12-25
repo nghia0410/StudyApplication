@@ -21,8 +21,8 @@ public class Assignment {
 //        Answer = answer;
 //    }
     private String Answer;
-    private String SubmitTime,CreateTime;
-    public String getCreateTime() { return CreateTime; }
+    private String SubmitTime;
+
     public String getSubmitTime() { return SubmitTime; }
     public String getCourse() {return Course;}
     public void setCourse(String Course ) { this.Course = Course; }
@@ -40,9 +40,6 @@ public class Assignment {
     }
     public Assignment() {
 
-    }
-    public void setCreateTime(String CreateTime) {
-        this.CreateTime = CreateTime;
     }
 
 }

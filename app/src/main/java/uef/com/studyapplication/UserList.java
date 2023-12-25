@@ -24,7 +24,7 @@ public class UserList {
     {
 //       List mList = new ArrayList<AssignmentList>();  //this is my arraylist
         db.collection("users")
-                .document("u59kQDAFePuee7k0QamK")
+                .document("Rut0S79rh4nOGAok82jO")
                 .collection("assignment")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -41,10 +41,10 @@ public class UserList {
                             mList.sort(new Comparator<AssignmentList>(){
                                 @Override
                                 public int compare(AssignmentList t0, AssignmentList t1) {
-                                    if(t1.getAssignment().getLevel() == null){
+                                    if(t1.getAssignment().getCourse() == null){
                                         Log.v("mList","neutral sort");
                                         return -1;
-                                    }else if(t0.getAssignment().getLevel() == null){
+                                    }else if(t0.getAssignment().getCourse() == null){
                                         Log.v("mList","neutral sort");
                                         return 1;
                                     }

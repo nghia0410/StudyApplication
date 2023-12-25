@@ -4,8 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import static uef.com.studyapplication.LoginActivity.user;
 import static uef.com.studyapplication.LoginActivity.userDocument;
-import static uef.com.studyapplication.SignupActivity.sdf3;
-
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -14,9 +12,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import android.app.DatePickerDialog;
 import android.app.Notification;
-import android.app.TimePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Context;
@@ -36,7 +32,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,7 +39,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,7 +52,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +66,6 @@ public class CreateActivity extends AppCompatActivity {
     private TextView attachmentTextView;
     private FirebaseFirestore db;
     AppCompatButton btn1;
-    private Calendar startDateTime = Calendar.getInstance();
     private TextView selectionPrompt;
     private Button okButton;
     private EditText customTagEditText;
@@ -136,10 +128,6 @@ public class CreateActivity extends AppCompatActivity {
         btn1=  findViewById(R.id.create_btn);
         link_edt = findViewById(R.id.LinkURL);
         return_btn = findViewById(R.id.returnButton);
-        ImageButton startDatePickerButton = findViewById(R.id.startDatePickerButton);
-        ImageButton startTimePickerButton = findViewById(R.id.startTimePickerButton);
-        final TextView displayStartDateTextView = findViewById(R.id.displayStartDateTextView);
-        final TextView displayStartTimeTextView = findViewById(R.id.displayStartTimeTextView);
 
         try {
 
@@ -162,53 +150,6 @@ public class CreateActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CreateActivity.this, MainActivity.class);
                 startActivity(intent);
-            }
-        });
-        // Ngày bắt đầu
-        startDatePickerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(CreateActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                startDateTime.set(year, month, dayOfMonth);
-                                if (startDateTime.before(Calendar.getInstance())) {
-                                    // Nếu ngày bắt đầu trước ngày hiện tại, thiết lập ngày bắt đầu là ngày hiện tại
-                                    startDateTime = Calendar.getInstance();
-                                }
-                                displayStartDateTextView.setText(startDateTime.get(Calendar.DAY_OF_MONTH) + "/" + (startDateTime.get(Calendar.MONTH) + 1) + "/" + startDateTime.get(Calendar.YEAR));
-                            }
-                        },
-                        startDateTime.get(Calendar.YEAR),
-                        startDateTime.get(Calendar.MONTH),
-                        startDateTime.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
-            }
-        });
-
-
-// Thời gian bắt đầu
-        startTimePickerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(CreateActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                startDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                startDateTime.set(Calendar.MINUTE, minute);
-                                if (startDateTime.before(Calendar.getInstance())) {
-                                    // Nếu thời gian bắt đầu trước thời gian hiện tại, thiết lập thời gian bắt đầu là thời gian hiện tại
-                                    startDateTime = Calendar.getInstance();
-                                }
-                                displayStartTimeTextView.setText(startDateTime.get(Calendar.HOUR_OF_DAY) + ":" + startDateTime.get(Calendar.MINUTE));
-                            }
-                        },
-                        startDateTime.get(Calendar.HOUR_OF_DAY),
-                        startDateTime.get(Calendar.MINUTE),
-                        true);
-                timePickerDialog.show();
             }
         });
 //        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -236,11 +177,10 @@ public class CreateActivity extends AppCompatActivity {
 
 
                 // Lấy dữ liệu từ các trường nhập liệu
-//                String title = ((EditText) findViewById(R.id.editText1)).getText().toString();
                 String course = ((EditText) findViewById(R.id.editText1)).getText().toString();
 //                String topic = ((EditText) findViewById(R.id.editText2)).getText().toString();
-                String startDate = ((TextView) findViewById(R.id.displayStartDateTextView)).getText().toString();
-                String startTime = ((TextView) findViewById(R.id.displayStartTimeTextView)).getText().toString();
+//                String startDate = ((TextView) findViewById(R.id.displayStartDateTextView)).getText().toString();
+//                String startTime = ((TextView) findViewById(R.id.displayStartTimeTextView)).getText().toString();
 //                String endDate = ((TextView) findViewById(R.id.displayEndDateTextView)).getText().toString();
 //                String endTime = ((TextView) findViewById(R.id.displayEndTimeTextView)).getText().toString();
                 String level = tagSpinner.getSelectedItem().toString();
@@ -251,11 +191,11 @@ public class CreateActivity extends AppCompatActivity {
                 }
 
                 // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
-                if (course.isEmpty()  || level.isEmpty() || startDate.isEmpty() || startTime.isEmpty() ) {
+                if (course.isEmpty()  || level.isEmpty()) {
                     Toast.makeText(CreateActivity.this, "Vui lòng nhập đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
                 } else {
                     // Lưu dữ liệu vào Firestore
-                    saveDataToFirestore(course, level, startDate, startTime, youtube);
+                    saveDataToFirestore(course, level, youtube);
                 }
                 // Tạo đối tượng FCM
                 FirebaseMessaging fcm = FirebaseMessaging.getInstance();
@@ -272,47 +212,6 @@ public class CreateActivity extends AppCompatActivity {
                 FirebaseMessaging.getInstance().toString();
             }
         });
-        tagSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedTag = tags.get(position);
-                // Nếu chọn "Other", hiển thị EditText và nút OK
-                if (selectedTag.equals("Other")) {
-                    customTagLayout.setVisibility(View.VISIBLE);
-                } else {
-                    customTagLayout.setVisibility(View.GONE);
-                }
-                // Ẩn hoặc hiển thị câu chú thích tùy thuộc vào việc có chọn mục hay không
-                selectionPrompt.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
-            }
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Nothing to do here
-            }
-        });
-        // Bắt sự kiện khi nhấn nút OK
-        okButton.setOnClickListener(v -> {
-            // Lấy tag tùy chỉnh từ EditText
-            String customTag = customTagEditText.getText().toString().trim();
-            if (!customTag.isEmpty()) {
-                // Thêm tag tùy chỉnh vào Spinner
-                tags.add(customTag);
-                tagAdapter.notifyDataSetChanged();
-                // Chọn tag tùy chỉnh
-                tagSpinner.setSelection(tagAdapter.getCount() - 1);
-                // Ẩn EditText và nút OK
-                customTagLayout.setVisibility(View.GONE);
-                // Reset EditText
-                customTagEditText.setText("");
-                // Ẩn câu chú thích
-                selectionPrompt.setVisibility(View.GONE);
-                Toast.makeText(CreateActivity.this, "Tag đã được thêm vào Spinner.", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(CreateActivity.this, "Vui lòng nhập tag trước khi nhấn OK.", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         // Khởi tạo Spinner với các mục
         tags = new ArrayList<>();
@@ -327,11 +226,9 @@ public class CreateActivity extends AppCompatActivity {
         attachmentButton = findViewById(R.id.attachmentButton);
         attachmentTextView = findViewById(R.id.attachmentTextView);
         attachmentButton.setOnClickListener(v -> openFilePicker());
-        // Khởi tạo Firestore
-
 
     }
-    private void saveDataToFirestore(String course, String level,String startDate, String startTime ,String youtube) {
+    private void saveDataToFirestore(String course, String level,String youtube) {
         // Lấy ID của người dùng hiện tại từ Firebase Authentication
         String id = userDocument.getId();
         db.collection("users").document(id).set(user);
@@ -341,11 +238,8 @@ public class CreateActivity extends AppCompatActivity {
         Map<String, Object> assignmentData = new HashMap<>();
         assignmentData.put("course", course);
         assignmentData.put("level", level);
-        assignmentData.put("startDate", startDate);
-        assignmentData.put("startTime", startTime);
         assignmentData.put("youtube", youtube);
         assignmentData.put("numAttachments", selectedFiles.size());
-        assignmentData.put("createTime",sdf3.format(timestamp));
 
 
         // Lưu dữ liệu vào Firestore trong bảng "assignments" của người dùng hiện tại

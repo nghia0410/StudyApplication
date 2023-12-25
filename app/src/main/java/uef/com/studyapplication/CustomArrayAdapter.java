@@ -20,7 +20,7 @@ public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
     private final Context context;
 
     private class ViewHolder {
-        TextView txtCourse,txtYoutube,txtLevel,txtDate;
+        TextView txtCourse,txtYoutube,txtLevel;
         ImageButton btnDelete,btnEdit;
         RelativeLayout bgColor;
     }
@@ -53,9 +53,9 @@ public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
             convertView = mInflater.inflate(R.layout.list_assignment, null);
             holder = new ViewHolder();
             holder.bgColor = (RelativeLayout) convertView.findViewById(R.id.assignmentlayout);
-//            holder.txtYoutube = (TextView) convertView.findViewById(R.id.secondline);
+            holder.txtYoutube = (TextView) convertView.findViewById(R.id.secondline);
             holder.txtCourse = (TextView) convertView.findViewById(R.id.firstline);
-            holder.txtDate = (TextView) convertView.findViewById(R.id.secondline);
+//            holder.txtDate = (TextView) convertView.findViewById(R.id.thirdline);
             holder.txtLevel = (TextView) convertView.findViewById(R.id.fourthline);
             holder.btnDelete = (ImageButton) convertView.findViewById(R.id.delete_btn);
             holder.btnEdit = (ImageButton) convertView.findViewById(R.id.edit_btn);
@@ -85,11 +85,10 @@ public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
 //                holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
             }
             if(user.getUsername().equals("admin")||user.getUsername().equals("admin1")) {
-                holder.txtDate.setText("StartTime: " + rowItem.getDate());
-//                holder.txtYoutube.setText(""+rowItem.getYoutube());
+//                holder.txtDate.setText("Deadline: " + rowItem.getDate());
+                holder.txtYoutube.setText(""+rowItem.getYoutube());
             }else {
-                holder.txtDate.setText("StartTime: "+rowItem.getDate());
-//                holder.txtYoutube.setText("Answer: "+rowItem.getYoutube());
+                holder.txtYoutube.setText("Answer: "+rowItem.getYoutube());
                 holder.btnDelete.setVisibility(View.GONE);
                 holder.btnEdit.setVisibility(View.GONE);
             }

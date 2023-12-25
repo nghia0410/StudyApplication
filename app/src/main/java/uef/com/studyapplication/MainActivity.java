@@ -83,9 +83,14 @@ public class MainActivity extends AppCompatActivity {
                         Collections.sort(mList.subList(0,mList.size()-1), new Comparator<AssignmentList>(){
                             @Override
                             public int compare(AssignmentList t0, AssignmentList t1) {
-                                if(t0.getAssignment().getLevel().equals("Trung Bình"))
-                                    return -1;
-                                return 1;
+                                int i;
+                                try {
+                                    i = t0.getAssignment().getLevel().compareTo(t1.getAssignment().getLevel());
+                                }
+                                catch (Exception e){
+                                    return 0;
+                                }
+                                return i;
                             }
                         });
                         recreate();
@@ -95,9 +100,15 @@ public class MainActivity extends AppCompatActivity {
                         Collections.sort(mList.subList(0,mList.size()-1), new Comparator<AssignmentList>(){
                             @Override
                             public int compare(AssignmentList t0, AssignmentList t1) {
-                                if(t0.getAssignment().getLevel().equals("Khó"))
-                                    return -1;
-                                return 1;
+                                int i;
+                                try{
+                                    i = t0.getAssignment().getLevel().compareTo(t1.getAssignment().getLevel());
+                                }
+                                catch (Exception e){
+                                    return 0;
+                                }
+                                if (i != 0) return -i;
+                                return i;
                             }
                         });
                         recreate();
@@ -194,10 +205,8 @@ public class MainActivity extends AppCompatActivity {
                 if (user.getUsername().equals("admin")||user.getUsername().equals("admin1")) {
                     viewPager = findViewById(R.id.submitted_pager);
                     viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
-
                     tabLayout = findViewById(R.id.assignmenttab_layout);
                     tabLayout.setupWithViewPager(viewPager);
-
                     userPfp = findViewById(R.id.userpfp);
                     userName = findViewById(R.id.textView_username);
                     userName.setText(user.getUsername());
@@ -219,23 +228,6 @@ public class MainActivity extends AppCompatActivity {
 
                     create.hide();
                 }
-            }
-            // Begin the transaction
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            // Replace the contents of the container with the new fragment
-            ft.replace(R.id.notification_fragment, new NotificationFragment());
-            // or ft.add(R.id.your_placeholder, new FooFragment());
-            // Complete the changes added above
-            ft.commit();
-
-            try{
-                File image = new File(getApplicationInfo().dataDir + "/user/pfp/userpfp.jpg");
-                if(image.exists()){
-                    userPfp.setImageURI(Uri.fromFile(image));
-                }
-            }
-            catch (Exception e){
-                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             userDetails = (CardView) findViewById(R.id.userDetail);
