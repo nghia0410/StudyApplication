@@ -1,15 +1,8 @@
-package uef.com.studyapplication;
+package uef.com.studyapplication.activity;
 
-import static uef.com.studyapplication.LoginActivity.mList;
-import static uef.com.studyapplication.LoginActivity.userDocument;
+import static uef.com.studyapplication.activity.LoginActivity.mList;
+import static uef.com.studyapplication.activity.LoginActivity.userDocument;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Context;
@@ -28,7 +21,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,8 +28,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -46,8 +42,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+
+import uef.com.studyapplication.AssignmentList;
+import uef.com.studyapplication.R;
+import uef.com.studyapplication.UserList;
+import uef.com.studyapplication.dto.Assignment;
 
 public class EditActivity extends AppCompatActivity {
 

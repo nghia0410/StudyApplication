@@ -1,18 +1,17 @@
-package uef.com.studyapplication;
-import static uef.com.studyapplication.Profile.setBooleanDefaults;
-import static uef.com.studyapplication.Profile.setStringDefaults;
+package uef.com.studyapplication.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-//import android.widget.LinearLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -29,19 +28,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import uef.com.studyapplication.AssignmentList;
+import uef.com.studyapplication.R;
+import uef.com.studyapplication.UserList;
+import uef.com.studyapplication.dto.User;
+
 public class LoginActivity extends AppCompatActivity {
         static FirebaseStorage storage = FirebaseStorage.getInstance();;
     StorageReference storageRef = storage.getReference();
     FirebaseFirestore db;
-    static DocumentSnapshot userDocument;
+    public static DocumentSnapshot userDocument;
 
-    static List mList = new ArrayList<AssignmentList>();
-    static User user = new User();
-//    private LinearLayout layoutSignUp;
+    public static List mList = new ArrayList<AssignmentList>();
+    public static User user = new User();
+    private LinearLayout layoutSignUp;
     private TextView tvSignUp, tvUsername, tvPassword, tvEmail;
-
     private Button btn_Login;
-    CheckBox rememberCheck;
     String TAG = "LoginAct";
 
     @Override
@@ -80,15 +82,15 @@ public class LoginActivity extends AppCompatActivity {
                                                 } catch (IOException e) {
                                                     throw new RuntimeException(e);
                                                 }
-                                                if (rememberCheck.isChecked()) {
-                                                    // Ghi chú TT và trạng thái người dùng vào SharedPreferences
-                                                    setBooleanDefaults(getString(R.string.userlogged), true, LoginActivity.this);
-                                                    setStringDefaults("userid",userDocument.getId(), LoginActivity.this);
-                                                    Log.v("Login State", "true");
-                                                } else {
-                                                    setBooleanDefaults(getString(R.string.userlogged), false, LoginActivity.this);
-                                                    Log.v("Login State", "false");
-                                                }
+//                                                if (rememberCheck.isChecked()) {
+//                                                    // Ghi chú TT và trạng thái người dùng vào SharedPreferences
+//                                                    setBooleanDefaults(getString(R.string.userlogged), true, LoginActivity.this);
+//                                                    setStringDefaults("userid",userDocument.getId(), LoginActivity.this);
+//                                                    Log.v("Login State", "true");
+//                                                } else {
+//                                                    setBooleanDefaults(getString(R.string.userlogged), false, LoginActivity.this);
+//                                                    Log.v("Login State", "false");
+//                                                }
                                                 UserList.UpdateL(db, LoginActivity.this);
                                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                 startActivity(intent);
@@ -119,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-//            initUi();
+            initUi();
        initListener();
     }
     private void addControl() {
@@ -130,7 +132,6 @@ public class LoginActivity extends AppCompatActivity {
         tvEmail = findViewById(R.id.Username);
         tvPassword = findViewById(R.id.Password);
         btn_Login = findViewById(R.id.btn_Login);
-        rememberCheck = findViewById(R.id.checkBox);
     }
     private void syncCloud() throws IOException {
         setupDir();
@@ -160,8 +161,11 @@ public class LoginActivity extends AppCompatActivity {
             Log.v("DownloadPfp","failed");
         });
     }
+    private void initUi(){
+        layoutSignUp = findViewById(R.id.layout_signUp);
+    }
     private void initListener() {
-        tvSignUp.setOnClickListener(new View.OnClickListener() {
+        layoutSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, SignupActivity.class);

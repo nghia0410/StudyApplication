@@ -1,6 +1,6 @@
-package uef.com.studyapplication;
+package uef.com.studyapplication.adapter;
 
-import static uef.com.studyapplication.LoginActivity.user;
+import static uef.com.studyapplication.activity.LoginActivity.user;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
+
+import uef.com.studyapplication.R;
+import uef.com.studyapplication.RowItem;
 
 public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
     private final Context context;
@@ -53,7 +55,6 @@ public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
             convertView = mInflater.inflate(R.layout.list_assignment, null);
             holder = new ViewHolder();
             holder.bgColor = (RelativeLayout) convertView.findViewById(R.id.assignmentlayout);
-//            holder.txtYoutube = (TextView) convertView.findViewById(R.id.secondline);
             holder.txtCourse = (TextView) convertView.findViewById(R.id.firstline);
             holder.txtDate = (TextView) convertView.findViewById(R.id.secondline);
             holder.txtLevel = (TextView) convertView.findViewById(R.id.fourthline);
@@ -85,10 +86,10 @@ public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
 //                holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
             }
             if(user.getUsername().equals("admin")||user.getUsername().equals("admin1")) {
-                holder.txtDate.setText("StartTime: " + rowItem.getDate());
+                holder.txtDate.setText("Deadline: " + rowItem.getDate());
 //                holder.txtYoutube.setText(""+rowItem.getYoutube());
             }else {
-                holder.txtDate.setText("StartTime: "+rowItem.getDate());
+                holder.txtDate.setText("Submitted at: "+rowItem.getSubmitdate());
 //                holder.txtYoutube.setText("Answer: "+rowItem.getYoutube());
                 holder.btnDelete.setVisibility(View.GONE);
                 holder.btnEdit.setVisibility(View.GONE);

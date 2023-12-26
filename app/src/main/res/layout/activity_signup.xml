@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".activity.LoginActivity">
 
     <ImageView
-        android:id="@+id/shape"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/shape" />
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/layout_a" />
 
     <TextView
         android:layout_width="match_parent"
@@ -20,17 +20,19 @@
         android:fontFamily="@font/poppins"
         android:text="SIGN UP"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="#3C5AA6"
         android:textSize="30sp"
         android:textStyle="bold"
         android:transitionName="splash_text" />
 
     <ImageView
-        android:layout_width="163dp"
-        android:layout_height="162dp"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:src="@drawable/logo1"
+        android:scaleX="5"
+        android:scaleY="5"
+        android:src="@drawable/logo_learnedu"
         android:transitionName="splash_image" />
 
     <EditText

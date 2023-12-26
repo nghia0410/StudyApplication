@@ -1,21 +1,11 @@
-package uef.com.studyapplication;
+package uef.com.studyapplication.activity;
 
 import static android.content.ContentValues.TAG;
-
-import static uef.com.studyapplication.LoginActivity.user;
-import static uef.com.studyapplication.LoginActivity.userDocument;
-import static uef.com.studyapplication.SignupActivity.sdf3;
-
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+import static uef.com.studyapplication.activity.SignupActivity.sdf3;
+import static uef.com.studyapplication.activity.LoginActivity.user;
+import static uef.com.studyapplication.activity.LoginActivity.userDocument;
 
 import android.app.DatePickerDialog;
-import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
@@ -25,7 +15,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,7 +36,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
@@ -63,6 +56,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import uef.com.studyapplication.R;
+import uef.com.studyapplication.UserList;
+import uef.com.studyapplication.adapter.AdapterCreateQuiz;
+import uef.com.studyapplication.dto.Question;
+
 
 public class CreateActivity extends AppCompatActivity {
     private List<String> tags;
@@ -74,6 +72,7 @@ public class CreateActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     AppCompatButton btn1;
     private Calendar startDateTime = Calendar.getInstance();
+    private Calendar endDateTime = Calendar.getInstance();
     private TextView selectionPrompt;
     private Button okButton;
     private EditText customTagEditText;
@@ -136,10 +135,16 @@ public class CreateActivity extends AppCompatActivity {
         btn1=  findViewById(R.id.create_btn);
         link_edt = findViewById(R.id.LinkURL);
         return_btn = findViewById(R.id.returnButton);
+
         ImageButton startDatePickerButton = findViewById(R.id.startDatePickerButton);
         ImageButton startTimePickerButton = findViewById(R.id.startTimePickerButton);
+        ImageButton endDatePickerButton = findViewById(R.id.endDatePickerButton);
+        ImageButton endTimePickerButton = findViewById(R.id.endTimePickerButton);
+
         final TextView displayStartDateTextView = findViewById(R.id.displayStartDateTextView);
         final TextView displayStartTimeTextView = findViewById(R.id.displayStartTimeTextView);
+        final TextView displayEndDateTextView = findViewById(R.id.displayEndDateTextView);
+        final TextView displayEndTimeTextView = findViewById(R.id.displayEndTimeTextView);
 
         try {
 
@@ -211,8 +216,57 @@ public class CreateActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
-//        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+
+// Ngày kết thúc
+        endDatePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(CreateActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                endDateTime.set(year, month, dayOfMonth);
+                                if (endDateTime.before(startDateTime)) {
+                                    // Nếu ngày kết thúc trước ngày bắt đầu, thiết lập ngày kết thúc là ngày bắt đầu
+                                    endDateTime = (Calendar) startDateTime.clone();
+                                }
+                                displayEndDateTextView.setText(endDateTime.get(Calendar.DAY_OF_MONTH) + "/" + (endDateTime.get(Calendar.MONTH) + 1) + "/" + endDateTime.get(Calendar.YEAR));
+                            }
+                        },
+                        endDateTime.get(Calendar.YEAR),
+                        endDateTime.get(Calendar.MONTH),
+                        endDateTime.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getDatePicker().setMinDate(startDateTime.getTimeInMillis());
+                datePickerDialog.show();
+            }
+        });
+
+
+// Thời gian kết thúc
+        endTimePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(CreateActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                endDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                endDateTime.set(Calendar.MINUTE, minute);
+                                if (endDateTime.before(startDateTime)) {
+                                    // Nếu thời gian kết thúc trước thời gian bắt đầu, thiết lập thời gian kết thúc là thời gian bắt đầu
+                                    endDateTime = (Calendar) startDateTime.clone();
+                                }
+                                displayEndTimeTextView.setText(endDateTime.get(Calendar.HOUR_OF_DAY) + ":" + endDateTime.get(Calendar.MINUTE));
+                            }
+                        },
+
+                        endDateTime.get(Calendar.HOUR_OF_DAY),
+                        endDateTime.get(Calendar.MINUTE),
+                        true);
+                timePickerDialog.show();
+            }
+        });
 
         // Khởi tạo Firestore
         db = FirebaseFirestore.getInstance();
@@ -220,7 +274,7 @@ public class CreateActivity extends AppCompatActivity {
         createquiz_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CreateActivity.this,QuizActivity.class);
+                Intent intent = new Intent(CreateActivity.this, QuizActivity.class);
 
                 startActivity(intent);
             }
@@ -236,13 +290,11 @@ public class CreateActivity extends AppCompatActivity {
 
 
                 // Lấy dữ liệu từ các trường nhập liệu
-//                String title = ((EditText) findViewById(R.id.editText1)).getText().toString();
                 String course = ((EditText) findViewById(R.id.editText1)).getText().toString();
-//                String topic = ((EditText) findViewById(R.id.editText2)).getText().toString();
                 String startDate = ((TextView) findViewById(R.id.displayStartDateTextView)).getText().toString();
                 String startTime = ((TextView) findViewById(R.id.displayStartTimeTextView)).getText().toString();
-//                String endDate = ((TextView) findViewById(R.id.displayEndDateTextView)).getText().toString();
-//                String endTime = ((TextView) findViewById(R.id.displayEndTimeTextView)).getText().toString();
+                String endDate = ((TextView) findViewById(R.id.displayEndDateTextView)).getText().toString();
+                String endTime = ((TextView) findViewById(R.id.displayEndTimeTextView)).getText().toString();
                 String level = tagSpinner.getSelectedItem().toString();
                 String youtube = ((EditText) findViewById(R.id.LinkURL)).getText().toString();
                 // Kiểm tra xem đã chọn "Other" từ Spinner chưa
@@ -251,24 +303,14 @@ public class CreateActivity extends AppCompatActivity {
                 }
 
                 // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
-                if (course.isEmpty()  || level.isEmpty() || startDate.isEmpty() || startTime.isEmpty() ) {
+                if (course.isEmpty()  || level.isEmpty() || startDate.isEmpty() || startTime.isEmpty() ||endDate.isEmpty() ||endTime.isEmpty()  ) {
                     Toast.makeText(CreateActivity.this, "Vui lòng nhập đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
                 } else {
                     // Lưu dữ liệu vào Firestore
-                    saveDataToFirestore(course, level, startDate, startTime, youtube);
+                    saveDataToFirestore(course, level, startDate, startTime, youtube, endDate,endTime);
                 }
                 // Tạo đối tượng FCM
                 FirebaseMessaging fcm = FirebaseMessaging.getInstance();
-
-                // Tạo thông báo
-//                Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                        .setContentTitle("Tạo bài tập mới")
-//                        .setContentText("Bài tập mới có tên là [tên bài tập]. Mức độ khó: [mức độ khó]. Ngày bắt đầu: [ngày bắt đầu]. Ngày kết thúc: [ngày kết thúc].")
-////                        .setSmallIcon(R.drawable.ic_launcher)
-//                        .build();
-
-                // Gửi thông báo
-//                fcm.send(notification);
                 FirebaseMessaging.getInstance().toString();
             }
         });
@@ -331,7 +373,7 @@ public class CreateActivity extends AppCompatActivity {
 
 
     }
-    private void saveDataToFirestore(String course, String level,String startDate, String startTime ,String youtube) {
+    private void saveDataToFirestore(String course, String level,String youtube,String startDate,String endDate, String startTime,String endTime ) {
         // Lấy ID của người dùng hiện tại từ Firebase Authentication
         String id = userDocument.getId();
         db.collection("users").document(id).set(user);
@@ -343,6 +385,8 @@ public class CreateActivity extends AppCompatActivity {
         assignmentData.put("level", level);
         assignmentData.put("startDate", startDate);
         assignmentData.put("startTime", startTime);
+        assignmentData.put("endDate", endDate);
+        assignmentData.put("endTime", endTime);
         assignmentData.put("youtube", youtube);
         assignmentData.put("numAttachments", selectedFiles.size());
         assignmentData.put("createTime",sdf3.format(timestamp));

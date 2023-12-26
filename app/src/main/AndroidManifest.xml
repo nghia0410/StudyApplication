@@ -15,16 +15,19 @@
         android:theme="@style/Theme.StudyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".activity.SignupEmail"
+            android:exported="false" />
+        <activity
             android:name=".QuizList"
             android:exported="false" />
         <activity
-            android:name=".QuizActivity"
+            android:name=".activity.QuizActivity"
             android:exported="false" />
         <activity
             android:name=".MainQuizActivity"
             android:exported="false" />
         <activity
-            android:name=".EditActivity"
+            android:name=".activity.EditActivity"
             android:exported="false" />
         <activity
             android:name=".ViewAssignment"
@@ -37,19 +40,19 @@
         <!-- android:name=".GetYoutube" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".CreateActivity"
+            android:name=".activity.CreateActivity"
             android:exported="false" />
         <activity
-            android:name=".UserActivity"
+            android:name=".activity.UserActivity"
             android:exported="false" />
         <activity
-            android:name=".SignupActivity"
+            android:name=".activity.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

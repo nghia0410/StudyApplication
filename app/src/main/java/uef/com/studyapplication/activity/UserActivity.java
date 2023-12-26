@@ -1,7 +1,7 @@
-package uef.com.studyapplication;
-import static uef.com.studyapplication.LoginActivity.user;
-import static uef.com.studyapplication.LoginActivity.userDocument;
-import static uef.com.studyapplication.Profile.setBooleanDefaults;
+package uef.com.studyapplication.activity;
+import static uef.com.studyapplication.activity.LoginActivity.user;
+import static uef.com.studyapplication.activity.LoginActivity.userDocument;
+import static uef.com.studyapplication.dto.Profile.setBooleanDefaults;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.FileUtils;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -36,6 +35,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import uef.com.studyapplication.R;
 
 public class UserActivity extends AppCompatActivity {
     private EditText fullName, phoneNumber, email;

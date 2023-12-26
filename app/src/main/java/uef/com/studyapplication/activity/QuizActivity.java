@@ -1,23 +1,23 @@
-package uef.com.studyapplication;
+package uef.com.studyapplication.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ComponentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import uef.com.studyapplication.R;
+import uef.com.studyapplication.adapter.AdapterCreateQuiz;
+import uef.com.studyapplication.dto.Question;
 
 public class QuizActivity extends AppCompatActivity {
 
