@@ -1,7 +1,13 @@
 package uef.com.studyapplication;
 
-import static uef.com.studyapplication.activity.LoginActivity.mList;
-import static uef.com.studyapplication.activity.LoginActivity.userDocument;
+import static uef.com.studyapplication.CreateActivity.link_edt;
+import static uef.com.studyapplication.LoginActivity.mList;
+import static uef.com.studyapplication.LoginActivity.user;
+import static uef.com.studyapplication.LoginActivity.userDocument;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
@@ -17,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.MimeTypeMap;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,10 +37,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.BufferedReader;
@@ -42,8 +45,6 @@ import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import uef.com.studyapplication.activity.MainActivity;
 
 public class ViewAssignment extends AppCompatActivity {
     private ImageButton playytb_btn, attachmentButton;

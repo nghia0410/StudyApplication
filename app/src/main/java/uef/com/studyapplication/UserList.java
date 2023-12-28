@@ -2,7 +2,8 @@ package uef.com.studyapplication;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
-import static uef.com.studyapplication.activity.LoginActivity.mList;
+import static uef.com.studyapplication.LoginActivity.mList;
+import static uef.com.studyapplication.LoginActivity.userDocument;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +18,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Comparator;
-
-import uef.com.studyapplication.activity.MainActivity;
-import uef.com.studyapplication.dto.Assignment;
 
 public class UserList {
     public static void UpdateL(FirebaseFirestore db, Context cxt)

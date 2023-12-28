@@ -1,11 +1,8 @@
-package uef.com.studyapplication.adapter;
+package uef.com.studyapplication;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
-import uef.com.studyapplication.AssignmentSubmittedTab;
-import uef.com.studyapplication.AssignmentTab;
 
 public class PageAdapter extends FragmentPagerAdapter {
     public PageAdapter(FragmentManager fm) {
@@ -33,7 +30,7 @@ public class PageAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Course";
+                return "Assignment";
             case 1:
                 return "Submitted";
             default:

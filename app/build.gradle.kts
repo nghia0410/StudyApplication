@@ -43,7 +43,6 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
     implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation("com.google.firebase:firebase-messaging:23.3.1")
-    implementation("com.google.firebase:firebase-auth")
 
     implementation ("joda-time:joda-time:2.9.9")
 

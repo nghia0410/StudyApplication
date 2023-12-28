@@ -1,4 +1,4 @@
-package uef.com.studyapplication.adapter;
+package uef.com.studyapplication;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +8,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.List;
-
-import uef.com.studyapplication.R;
-import uef.com.studyapplication.dto.Question;
 
 public class QuizAdapter extends BaseAdapter {
     private List<Question> questions;

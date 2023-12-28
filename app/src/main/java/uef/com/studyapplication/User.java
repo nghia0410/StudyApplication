@@ -1,4 +1,4 @@
-package uef.com.studyapplication.dto;
+package uef.com.studyapplication;
 
 public class User {
     private String username;

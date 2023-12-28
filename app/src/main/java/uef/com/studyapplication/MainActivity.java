@@ -1,9 +1,18 @@
-package uef.com.studyapplication.activity;
+package uef.com.studyapplication;
 
-import static uef.com.studyapplication.activity.LoginActivity.mList;
-import static uef.com.studyapplication.activity.LoginActivity.user;
+import static uef.com.studyapplication.LoginActivity.mList;
+import static uef.com.studyapplication.LoginActivity.user;
+import static uef.com.studyapplication.LoginActivity.userDocument;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.VectorEnabledTintResources;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,22 +28,17 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
-
-import uef.com.studyapplication.AssignmentList;
-import uef.com.studyapplication.NotificationFragment;
-import uef.com.studyapplication.R;
-import uef.com.studyapplication.adapter.PageAdapter;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {

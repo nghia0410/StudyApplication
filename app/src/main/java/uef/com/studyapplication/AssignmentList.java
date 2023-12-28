@@ -1,6 +1,8 @@
 package uef.com.studyapplication;
 
-import uef.com.studyapplication.dto.Assignment;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
 
 public class AssignmentList {
     public AssignmentList(String id, Assignment assignment) {

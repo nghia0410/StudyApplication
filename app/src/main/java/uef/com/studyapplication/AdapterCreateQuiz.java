@@ -1,15 +1,16 @@
-package uef.com.studyapplication.adapter;
+package uef.com.studyapplication;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
-import java.util.List;
+import androidx.recyclerview.widget.RecyclerView;
 
-import uef.com.studyapplication.dto.Question;
-import uef.com.studyapplication.R;
+import java.util.List;
 
 public class AdapterCreateQuiz extends BaseAdapter {
 

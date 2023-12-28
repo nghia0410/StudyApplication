@@ -1,8 +1,11 @@
 package uef.com.studyapplication;
 
-import static uef.com.studyapplication.activity.LoginActivity.mList;
+import static uef.com.studyapplication.LoginActivity.mList;
 
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +13,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import org.joda.time.DateTimeComparator;
 
-import androidx.fragment.app.Fragment;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
-import uef.com.studyapplication.adapter.AdapterNotification;
-import uef.com.studyapplication.dto.Assignment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -102,38 +104,38 @@ public class NotificationFragment extends Fragment {
                     rowItems.add(item);
                 }
             }
-//            rowItems.sort(new Comparator<RowItem>() {
-//                @Override
-//                public int compare(RowItem t0, RowItem t1) {
-//                    DateTimeComparator dateTimeComparator = DateTimeComparator.getInstance();
-//                    Date date1 = null;
-//                    Date date0 = null;
-//                    try {
-//                        date1 = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(t0.getDate() + " " + t1.getDate());
-//                        date0 = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(t1.getDate() + " " + t0.getDate());
-//                        Log.v("Sort history ", "Debugging." +
-//                                "\nt0:" + t0.getCourse() +
-//                                "\nt1:" + t1.getCourse());
-//                    } catch (ParseException e) {
-//                        Log.e("Sort history ", "Something went wrong with sorting." +
-//                                "\nt0:" + t0.getDate() +
-//                                "\nt1:" + t1.getDate());
-//                        return 0;
-//                    }
-//                    int retVal = dateTimeComparator.compare(date1, date0);
-////                            Log.v("retVal",String.valueOf(retVal));
-//                    if (retVal == 0)
-//                        //both dates are equal
-//                        return 0;
-//                    else if (retVal < 0)
-//                        //myDateOne is before myDateTwo
-//                        return 1;
-//                    else if (retVal > 0)
-//                        //myDateOne is after myDateTwo
-//                        return -1;
-//                    return 0;
-//                }
-//            });
+            rowItems.sort(new Comparator<RowItem>() {
+                @Override
+                public int compare(RowItem t0, RowItem t1) {
+                    DateTimeComparator dateTimeComparator = DateTimeComparator.getInstance();
+                    Date date1 = null;
+                    Date date0 = null;
+                    try {
+                        date1 = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(t0.getDate() + " " + t1.getDate());
+                        date0 = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(t1.getDate() + " " + t0.getDate());
+                        Log.v("Sort history ", "Debugging." +
+                                "\nt0:" + t0.getCourse() +
+                                "\nt1:" + t1.getCourse());
+                    } catch (ParseException e) {
+                        Log.e("Sort history ", "Something went wrong with sorting." +
+                                "\nt0:" + t0.getDate() +
+                                "\nt1:" + t1.getDate());
+                        return 0;
+                    }
+                    int retVal = dateTimeComparator.compare(date1, date0);
+//                            Log.v("retVal",String.valueOf(retVal));
+                    if (retVal == 0)
+                        //both dates are equal
+                        return 0;
+                    else if (retVal < 0)
+                        //myDateOne is before myDateTwo
+                        return 1;
+                    else if (retVal > 0)
+                        //myDateOne is after myDateTwo
+                        return -1;
+                    return 0;
+                }
+            });
         } catch (Exception e) {
             Log.v("Assignment", "Empty");
         }

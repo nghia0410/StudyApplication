@@ -1,11 +1,15 @@
 package uef.com.studyapplication;
 
-import static uef.com.studyapplication.activity.LoginActivity.mList;
-import static uef.com.studyapplication.activity.LoginActivity.user;
-import static uef.com.studyapplication.activity.LoginActivity.userDocument;
+import static uef.com.studyapplication.LoginActivity.mList;
+import static uef.com.studyapplication.LoginActivity.user;
+import static uef.com.studyapplication.LoginActivity.userDocument;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,10 +26,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import uef.com.studyapplication.activity.EditActivity;
-import uef.com.studyapplication.adapter.CustomArrayAdapter;
-import uef.com.studyapplication.dto.Assignment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,7 +93,7 @@ public class AssignmentTab extends Fragment {
                 Assignment assignment = assignments.getAssignment();
                 if(assignment.getSubmitTime() == null) {
                     item.setCourse(assignment.getCourse());
-                    item.setDate(assignment.getEndTime() + " - " + assignment.getStartTime());
+                    item.setDate(assignment.getCreateTime());
                     item.setYoutube(assignment.getYoutube());
                     item.setLevel(assignment.getLevel());
                     AssignmentTabList.add(i);

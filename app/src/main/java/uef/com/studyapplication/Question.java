@@ -1,7 +1,13 @@
-package uef.com.studyapplication.dto;
+package uef.com.studyapplication;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 public class Question implements Serializable {
     private String question;
