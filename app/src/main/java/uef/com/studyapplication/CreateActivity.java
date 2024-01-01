@@ -1,21 +1,11 @@
 package uef.com.studyapplication;
 
 import static android.content.ContentValues.TAG;
-
 import static uef.com.studyapplication.LoginActivity.user;
 import static uef.com.studyapplication.LoginActivity.userDocument;
 import static uef.com.studyapplication.SignupActivity.sdf3;
 
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
 import android.app.DatePickerDialog;
-import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
@@ -25,7 +15,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,7 +36,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
@@ -255,7 +248,7 @@ public class CreateActivity extends AppCompatActivity {
                     Toast.makeText(CreateActivity.this, "Vui lòng nhập đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
                 } else {
                     // Lưu dữ liệu vào Firestore
-                    saveDataToFirestore(course, level, startDate, startTime, youtube);
+                    saveDataToFirestore(course, level, startDate, startTime, youtube, selectedQuestions);
                 }
                 // Tạo đối tượng FCM
                 FirebaseMessaging fcm = FirebaseMessaging.getInstance();
@@ -331,7 +324,7 @@ public class CreateActivity extends AppCompatActivity {
 
 
     }
-    private void saveDataToFirestore(String course, String level,String startDate, String startTime ,String youtube) {
+    private void saveDataToFirestore(String course, String level,String startDate, String startTime ,String youtube, List<Question> questionlist) {
         // Lấy ID của người dùng hiện tại từ Firebase Authentication
         String id = userDocument.getId();
         db.collection("users").document(id).set(user);
@@ -344,6 +337,7 @@ public class CreateActivity extends AppCompatActivity {
         assignmentData.put("startDate", startDate);
         assignmentData.put("startTime", startTime);
         assignmentData.put("youtube", youtube);
+//        assignmentData.put("")
         assignmentData.put("numAttachments", selectedFiles.size());
         assignmentData.put("createTime",sdf3.format(timestamp));
 
@@ -359,28 +353,54 @@ public class CreateActivity extends AppCompatActivity {
                         Uri fileUri = selectedFiles.get(i);
                         String fileName = getFileName(fileUri);
 
-                        // Tạo đường dẫn đến thư mục lưu trữ tệp đính kèm
-                        StorageReference storageRef = FirebaseStorage.getInstance().getReference()
-                                .child(id)
-                                .child("attachments")
-                                .child(assignmentId)
-                                .child(fileName);
 
-                        // Upload tệp đính kèm lên Firebase Storage
-                        storageRef.putFile(fileUri)
-                                .addOnSuccessListener(taskSnapshot -> {
-                                    // Lấy URL của tệp đính kèm đã được tải lên
-                                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                                        // Lưu thông tin tên tệp và URL vào Firestore
-                                        saveAttachmentInfoToFirestore(assignmentId, fileName, uri.toString());
+                        try {
+                            // Tạo đường dẫn đến thư mục lưu trữ tệp đính kèm
+                            StorageReference storageRef = FirebaseStorage.getInstance().getReference()
+                                    .child(id)
+                                    .child("attachments")
+                                    .child(assignmentId)
+                                    .child(fileName);
+
+                            // Upload tệp đính kèm lên Firebase Storage
+                            storageRef.putFile(fileUri)
+                                    .addOnSuccessListener(taskSnapshot -> {
+                                        // Lấy URL của tệp đính kèm đã được tải lên
+                                        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                            // Lưu thông tin tên tệp và URL vào Firestore
+                                            saveAttachmentInfoToFirestore(assignmentId, fileName, uri.toString());
+                                        });
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        // Xử lý khi tệp đính kèm không thể được tải lên Firebase Storage
+                                        Toast.makeText(CreateActivity.this, "Lỗi khi tải tệp lên Firebase Storage: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     });
-                                })
-                                .addOnFailureListener(e -> {
-                                    // Xử lý khi tệp đính kèm không thể được tải lên Firebase Storage
-                                    Toast.makeText(CreateActivity.this, "Lỗi khi tải tệp lên Firebase Storage: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                });
+                        }
+                        catch (Exception e){
+                            Log.w("AttachmentInfo", e);
+                        }
                     }
+                    try{
+                        for (Question question:
+                                questionlist) {
+                            Map<String, Object> questionData = new HashMap<>();
+                            questionData.put("question",question.getQuestion());
+                            questionData.put("Option",question.getOptions());
+                            questionData.put("Answer",question.getAnswer());
 
+                            db.collection("users").document(id)
+                                    .collection("assignment")
+                                    .document(assignmentId)
+                                    .collection("questions")
+                                    .add(questionData)
+                                    .addOnFailureListener(error ->
+                                            Toast.makeText(CreateActivity.this, "Lỗi khi lưu dữ liệu vào Firestore: "
+                                            + error.getMessage(), Toast.LENGTH_LONG).show());
+                        }
+                    }
+                    catch (Exception e){
+                        Log.w("Questions", e);
+                    }
                     // Xử lý khi dữ liệu được lưu thành công
                     UserList.UpdateL(db,CreateActivity.this);
                     Toast.makeText(CreateActivity.this, "Dữ liệu và tệp đính kèm đã được lưu thành công.", Toast.LENGTH_SHORT).show();

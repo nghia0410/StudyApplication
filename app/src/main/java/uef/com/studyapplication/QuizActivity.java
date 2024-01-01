@@ -1,20 +1,17 @@
 package uef.com.studyapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ComponentActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,10 +106,10 @@ public class QuizActivity extends AppCompatActivity {
         done_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Gửi Intent
                 Intent intent = new Intent(QuizActivity.this, CreateActivity.class);
                 intent.putExtra("EXTRA_DATA", questions);
+                Log.i("questions:", String.valueOf(questions));
                 startActivity(intent);
             }
         });

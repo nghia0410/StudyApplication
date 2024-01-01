@@ -13,14 +13,14 @@ public class Assignment {
         NumAttachments = numAttachments;
     }
     private int NumAttachments;
-    public String getAnswer() {
+    public int getAnswer() {
         return Answer;
     }
 
 //    public void setAnswer(String answer) {
 //        Answer = answer;
 //    }
-    private String Answer;
+    private int Answer;
     private String SubmitTime,CreateTime;
     public String getCreateTime() { return CreateTime; }
     public String getSubmitTime() { return SubmitTime; }

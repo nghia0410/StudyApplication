@@ -4,11 +4,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -49,16 +46,30 @@ public class AdapterCreateQuiz extends BaseAdapter {
         TextView etQuestion = view.findViewById(R.id.edit_question);
         etQuestion.setText(question.getQuestion());
 
-        TextView rbAnswer1 = view.findViewById(R.id.edit_option1);
-        TextView rbAnswer2 = view.findViewById(R.id.edit_option2);
-        TextView rbAnswer3 = view.findViewById(R.id.edit_option3);
-        TextView rbAnswer4 = view.findViewById(R.id.edit_option4);
+        RadioButton rbAnswer1 = view.findViewById(R.id.edit_option1);
+        RadioButton rbAnswer2 = view.findViewById(R.id.edit_option2);
+        RadioButton rbAnswer3 = view.findViewById(R.id.edit_option3);
+        RadioButton rbAnswer4 = view.findViewById(R.id.edit_option4);
 
         rbAnswer1.setText(question.getOptions()[0]);
         rbAnswer2.setText(question.getOptions()[1]);
         rbAnswer3.setText(question.getOptions()[2]);
         rbAnswer4.setText(question.getOptions()[3]);
 
+        switch (question.getAnswer()){
+            case 0:
+                rbAnswer1.setChecked(true);
+                break;
+            case 1:
+                rbAnswer2.setChecked(true);
+                break;
+            case 2:
+                rbAnswer3.setChecked(true);
+                break;
+            case 3:
+                rbAnswer4.setChecked(true);
+                break;
+        }
         return view;
     }
 }
