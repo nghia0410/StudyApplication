@@ -51,10 +51,10 @@ public class AdapterCreateQuiz extends BaseAdapter {
         RadioButton rbAnswer3 = view.findViewById(R.id.edit_option3);
         RadioButton rbAnswer4 = view.findViewById(R.id.edit_option4);
 
-        rbAnswer1.setText(question.getOptions()[0]);
-        rbAnswer2.setText(question.getOptions()[1]);
-        rbAnswer3.setText(question.getOptions()[2]);
-        rbAnswer4.setText(question.getOptions()[3]);
+        rbAnswer1.setText(question.getOptions().get(0));
+        rbAnswer2.setText(question.getOptions().get(1));
+        rbAnswer3.setText(question.getOptions().get(2));
+        rbAnswer4.setText(question.getOptions().get(3));
 
         switch (question.getAnswer()){
             case 0:

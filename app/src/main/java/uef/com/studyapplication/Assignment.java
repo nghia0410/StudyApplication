@@ -1,9 +1,13 @@
 package uef.com.studyapplication;
 
+import java.util.List;
+
 public class Assignment {
     private String Course;
     private String Level;
     private String Youtube;
+
+    private List<Question> Questions;
 
 
     public int getNumAttachments() {
@@ -43,6 +47,14 @@ public class Assignment {
     }
     public void setCreateTime(String CreateTime) {
         this.CreateTime = CreateTime;
+    }
+
+    public List<Question> getQuestions() {
+        return Questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        Questions = questions;
     }
 
 }

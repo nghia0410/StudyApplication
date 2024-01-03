@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
@@ -79,11 +80,12 @@ public class QuizActivity extends AppCompatActivity {
                 int selectedPos = rd_answer.indexOfChild(findViewById(selectedRadioButtonId));
 
                 Question newQuestion = new Question(et_question.getText().toString(),
-                        new String[]{
+                        Arrays.asList(
                                 et_answer1.getText().toString(),
                                 et_answer2.getText().toString(),
                                 et_answer3.getText().toString(),
-                                et_answer4.getText().toString()},
+                                et_answer4.getText().toString()
+                        ),
                         selectedPos);
 
                 questions.add(newQuestion); // Thêm câu hỏi mới vào questionList

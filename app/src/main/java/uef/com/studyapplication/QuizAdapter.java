@@ -48,10 +48,10 @@ public class QuizAdapter extends BaseAdapter {
 
         // Thiết lập nội dung cho các view
         questionTextView.setText(question.getQuestion());
-        option1RadioButton.setText(question.getOptions()[0]);
-        option2RadioButton.setText(question.getOptions()[1]);
-        option3RadioButton.setText(question.getOptions()[2]);
-        option4RadioButton.setText(question.getOptions()[3]);
+        option1RadioButton.setText(question.getOptions().get(0));
+        option2RadioButton.setText(question.getOptions().get(1));
+        option3RadioButton.setText(question.getOptions().get(2));
+        option4RadioButton.setText(question.getOptions().get(3));
 
         // Bật hoặc tắt RadioButton tùy theo lựa chọn đúng
         if (question.getAnswer() == 0) {

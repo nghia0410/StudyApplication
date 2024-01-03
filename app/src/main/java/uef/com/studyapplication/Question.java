@@ -1,23 +1,17 @@
 package uef.com.studyapplication;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 public class Question implements Serializable {
     private String question;
-    private String[] options;
+    private List<String> options;
     private int answer;
 
     public Question() {
     }
 
-    public Question(String question, String[] options, int answer) {
+    public Question(String question, List<String> options, int answer) {
         this.question = question;
         this.options = options;
         this.answer = answer;
@@ -31,11 +25,11 @@ public class Question implements Serializable {
         this.question = question;
     }
 
-    public String[] getOptions() {
+    public List<String> getOptions() {
         return options;
     }
 
-    public void setOptions(String[] options) {
+    public void setOptions(List<String> options) {
         this.options = options;
     }
 
@@ -51,7 +45,7 @@ public class Question implements Serializable {
     public String toString() {
         return "Question{" +
                 "question='" + question + '\'' +
-                ", options=" + Arrays.toString(options) +
+                ", options=" + options.toString() +
                 ", answer=" + answer +
                 '}';
     }

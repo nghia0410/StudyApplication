@@ -138,7 +138,7 @@ public class CreateActivity extends AppCompatActivity {
 
 //            selectedQuestions = this.getIntent().getExtras().getParcelableArrayList("EXTRA_DATA");
 
-            List<Question> selectedQuestions = new ArrayList<Question>();
+
             selectedQuestions = (ArrayList<Question>)getIntent().getSerializableExtra("EXTRA_DATA");
             if(selectedQuestions!=null) {
                 listView = findViewById(R.id.listView3);
@@ -385,8 +385,8 @@ public class CreateActivity extends AppCompatActivity {
                                 questionlist) {
                             Map<String, Object> questionData = new HashMap<>();
                             questionData.put("question",question.getQuestion());
-                            questionData.put("Option",question.getOptions());
-                            questionData.put("Answer",question.getAnswer());
+                            questionData.put("options", question.getOptions());
+                            questionData.put("answer",question.getAnswer());
 
                             db.collection("users").document(id)
                                     .collection("assignment")
