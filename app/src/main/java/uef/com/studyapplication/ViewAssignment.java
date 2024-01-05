@@ -26,6 +26,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +43,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ViewAssignment extends AppCompatActivity {
     private ImageButton playytb_btn, attachmentButton;
@@ -60,6 +64,7 @@ public class ViewAssignment extends AppCompatActivity {
     private FirebaseFirestore db;
     private List<Uri> selectedFiles = new ArrayList<>(); // Danh sách các tệp đã chọn
     private List<String> selectedFileNames = new ArrayList<>(); // Danh sách các tên tệp đã chọn
+    private Map<Integer,Integer> answers = new HashMap<>();
     private TextView attachmentTextView;
     String value;
 
@@ -93,12 +98,70 @@ public class ViewAssignment extends AppCompatActivity {
         course = findViewById(R.id.textView1);
         course.setText(selected_assignment.getAssignment().getCourse());
 
-        Listview = findViewById(R.id.QuizListView);
-        AdapterCreateQuiz adapterCreateQuiz = new AdapterCreateQuiz(selected_assignment.getAssignment().getQuestions());
-        Listview.setAdapter(adapterCreateQuiz);
+        Listview = (ListView) findViewById(R.id.QuizListView);
+        AdapterDoQuiz adapterDoQuiz = new AdapterDoQuiz(selected_assignment.getAssignment().getQuestions()){
+            @Override
+            public View getView(final int position, View convertView, ViewGroup parent) {
+                View inflatedView = super.getView(position, convertView, parent);
 
+                RadioButton rd_answer1 = inflatedView.findViewById(R.id.edit_option1);
+                RadioButton rd_answer2 = inflatedView.findViewById(R.id.edit_option2);
+                RadioButton rd_answer3 = inflatedView.findViewById(R.id.edit_option3);
+                RadioButton rd_answer4 = inflatedView.findViewById(R.id.edit_option4);
 
+                RadioGroup rg1 = inflatedView.findViewById(R.id.quizRadioGroup1);
+                RadioGroup rg2 = inflatedView.findViewById(R.id.quizRadioGroup2);
 
+                rd_answer1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rg2.clearCheck();
+                        answers.put(position,1);
+                        Log.i("RadioButtonsQuiz","1 at "+ position);
+                        Log.i("AnwerHashMap",answers.toString());
+
+                    }
+                });
+
+                rd_answer2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rg2.clearCheck();
+
+                        answers.put(position,2);
+                        Log.i("RadioButtonsQuiz","2 at "+ position);
+                        Log.i("AnwerHashMap",answers.toString());
+                    }
+                });
+
+                rd_answer3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rg1.clearCheck();
+
+                        answers.put(position,3);
+                        Log.i("RadioButtonsQuiz","3 at "+ position);
+                        Log.i("AnwerHashMap",answers.toString());
+
+                    }
+                });
+
+                rd_answer4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rg1.clearCheck();
+
+                        answers.put(position,4);
+                        Log.i("RadioButtonsQuiz","4 at "+ position);
+                        Log.i("AnwerHashMap",answers.toString());
+
+                    }
+                });
+
+                return inflatedView;
+            };
+        };
+        Listview.setAdapter(adapterDoQuiz);
 
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,17 +179,32 @@ public class ViewAssignment extends AppCompatActivity {
 
         done_btn = findViewById(R.id.doneButton);
         done_btn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                String textViewCourse =  ((TextView) findViewById(R.id.textView1)).getText().toString();
-                String textViewYoutube = ((TextView) findViewById(R.id.ViewlinkURL)).getText().toString();
-                String textViewLevel = ((TextView) findViewById(R.id.tagSpinner)).getText().toString();
+                try {
+                    int correctanswers = 0;
+                    for (int i = 0; i < Listview.getCount(); i++) {
+                        Question fetchedquestion = (Question) Listview.getItemAtPosition(i);
+                        Log.i("fetchedquestion", fetchedquestion.toString());
+                        if (fetchedquestion.getAnswer() == answers.get(i) - 1) {
+                            correctanswers++;
+                        }
+                    }
 
+                    Intent intent = new Intent(ViewAssignment.this, GradeAssignment.class);
+                    intent.putExtra("PERCENTAGE_SCORE",((double)correctanswers / (double)Listview.getCount()));
+                    intent.putExtra("CORRECT_ANSWER",correctanswers);
+                    intent.putExtra("NUM_OF_QUESTION",Listview.getCount());
 
-                updateDataInFirestore(textViewCourse,textViewYoutube, textViewLevel );
+                    startActivity(intent);
+                }
+                catch (Exception e){
+                    Log.w("CompleteTest",e.getMessage());
+                }
+
             }
         });
+
     }
     private void updateDataInFirestore(String textViewCourse, String textViewYoutube, String textViewLevel) {
         // Lấy ID của người dùng hiện tại từ Firebase Authentication

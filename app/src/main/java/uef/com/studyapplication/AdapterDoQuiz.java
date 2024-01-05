@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class AdapterCreateQuiz extends BaseAdapter {
+public class AdapterDoQuiz extends BaseAdapter {
 
     private List<Question> questions;
 
-    public AdapterCreateQuiz(List<Question> questions) {
+    public AdapterDoQuiz(List<Question> questions) {
         this.questions = questions;
     }
 
@@ -51,10 +51,6 @@ public class AdapterCreateQuiz extends BaseAdapter {
         RadioButton rbAnswer3 = view.findViewById(R.id.edit_option3);
         RadioButton rbAnswer4 = view.findViewById(R.id.edit_option4);
 
-        rbAnswer1.setFocusable(false);
-        rbAnswer2.setFocusable(false);
-        rbAnswer3.setFocusable(false);
-        rbAnswer4.setFocusable(false);
 
         rbAnswer1.setText(question.getOptions().get(0));
         rbAnswer2.setText(question.getOptions().get(1));
@@ -66,20 +62,6 @@ public class AdapterCreateQuiz extends BaseAdapter {
         rbAnswer3.setChecked(false);
         rbAnswer4.setChecked(false);
 
-        switch (question.getAnswer()){
-            case 0:
-                rbAnswer1.setChecked(true);
-                break;
-            case 1:
-                rbAnswer2.setChecked(true);
-                break;
-            case 2:
-                rbAnswer3.setChecked(true);
-                break;
-            case 3:
-                rbAnswer4.setChecked(true);
-                break;
-        }
         return view;
     }
 }

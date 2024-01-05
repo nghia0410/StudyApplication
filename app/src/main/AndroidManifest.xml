@@ -15,6 +15,9 @@
         android:theme="@style/Theme.StudyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".GradeAssignment"
+            android:exported="false" />
+        <activity
             android:name=".QuizList"
             android:exported="false" />
         <activity

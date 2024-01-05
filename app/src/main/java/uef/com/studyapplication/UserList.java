@@ -58,6 +58,7 @@ public class UserList {
                                                 }
                                                 fetchedassignment.setQuestions(QList);
                                                 mList.add(new AssignmentList(document.getId(),fetchedassignment));
+                                                cxt.startActivity(intent);
                                             }
                                         });
                             }

@@ -62,11 +62,11 @@ public class CreateActivity extends AppCompatActivity {
     private ListView listView;
     private ArrayAdapter<String> tagAdapter;
     private Spinner tagSpinner;
-    private ImageButton attachmentButton,return_btn;
+    private ImageButton attachmentButton, return_btn;
     private TextView attachmentTextView;
     private FirebaseFirestore db;
-    AppCompatButton btn1;
     private Calendar startDateTime = Calendar.getInstance();
+    private Calendar endDateTime = Calendar.getInstance();
     private TextView selectionPrompt;
     private Button okButton;
     private EditText customTagEditText;
@@ -126,19 +126,22 @@ public class CreateActivity extends AppCompatActivity {
         customTagLayout = findViewById(R.id.customTagLayout);
         okButton = findViewById(R.id.okButton);
         selectionPrompt = findViewById(R.id.selectionPrompt);
-        btn1=  findViewById(R.id.create_btn);
         link_edt = findViewById(R.id.LinkURL);
         return_btn = findViewById(R.id.returnButton);
+        listView = findViewById(R.id.listView3);
+
         ImageButton startDatePickerButton = findViewById(R.id.startDatePickerButton);
         ImageButton startTimePickerButton = findViewById(R.id.startTimePickerButton);
+        ImageButton endDatePickerButton = findViewById(R.id.endDatePickerButton);
+        ImageButton endTimePickerButton = findViewById(R.id.endTimePickerButton);
+
         final TextView displayStartDateTextView = findViewById(R.id.displayStartDateTextView);
         final TextView displayStartTimeTextView = findViewById(R.id.displayStartTimeTextView);
+        final TextView displayEndDateTextView = findViewById(R.id.displayEndDateTextView);
+        final TextView displayEndTimeTextView = findViewById(R.id.displayEndTimeTextView);
 
         try {
-
 //            selectedQuestions = this.getIntent().getExtras().getParcelableArrayList("EXTRA_DATA");
-
-
             selectedQuestions = (ArrayList<Question>)getIntent().getSerializableExtra("EXTRA_DATA");
             if(selectedQuestions!=null) {
                 listView = findViewById(R.id.listView3);
@@ -147,9 +150,8 @@ public class CreateActivity extends AppCompatActivity {
             }
         }
         catch (Exception e){
-                    Log.i("selectedQuestions","empty");
+            Log.i("selectedQuestions","empty");
         }
-
         return_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,9 +181,7 @@ public class CreateActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
-
-
-// Thời gian bắt đầu
+        // Thời gian bắt đầu
         startTimePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,6 +200,53 @@ public class CreateActivity extends AppCompatActivity {
                         },
                         startDateTime.get(Calendar.HOUR_OF_DAY),
                         startDateTime.get(Calendar.MINUTE),
+                        true);
+                timePickerDialog.show();
+            }
+        });
+        // Ngày kết thúc
+        endDatePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(CreateActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                endDateTime.set(year, month, dayOfMonth);
+                                if (endDateTime.before(startDateTime)) {
+                                    // Nếu ngày kết thúc trước ngày bắt đầu, thiết lập ngày kết thúc là ngày bắt đầu
+                                    endDateTime = (Calendar) startDateTime.clone();
+                                }
+                                displayEndDateTextView.setText(endDateTime.get(Calendar.DAY_OF_MONTH) + "/" + (endDateTime.get(Calendar.MONTH) + 1) + "/" + endDateTime.get(Calendar.YEAR));
+                            }
+                        },
+                        endDateTime.get(Calendar.YEAR),
+                        endDateTime.get(Calendar.MONTH),
+                        endDateTime.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getDatePicker().setMinDate(startDateTime.getTimeInMillis());
+                datePickerDialog.show();
+            }
+        });
+        // Thời gian kết thúc
+        endTimePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(CreateActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                endDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                endDateTime.set(Calendar.MINUTE, minute);
+                                if (endDateTime.before(startDateTime)) {
+                                    // Nếu thời gian kết thúc trước thời gian bắt đầu, thiết lập thời gian kết thúc là thời gian bắt đầu
+                                    endDateTime = (Calendar) startDateTime.clone();
+                                }
+                                displayEndTimeTextView.setText(endDateTime.get(Calendar.HOUR_OF_DAY) + ":" + endDateTime.get(Calendar.MINUTE));
+                            }
+                        },
+
+                        endDateTime.get(Calendar.HOUR_OF_DAY),
+                        endDateTime.get(Calendar.MINUTE),
                         true);
                 timePickerDialog.show();
             }
@@ -352,7 +399,6 @@ public class CreateActivity extends AppCompatActivity {
                     for (int i = 0; i < selectedFiles.size(); i++) {
                         Uri fileUri = selectedFiles.get(i);
                         String fileName = getFileName(fileUri);
-
 
                         try {
                             // Tạo đường dẫn đến thư mục lưu trữ tệp đính kèm
