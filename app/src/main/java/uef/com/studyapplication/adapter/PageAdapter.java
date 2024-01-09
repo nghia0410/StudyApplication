@@ -1,8 +1,11 @@
-package uef.com.studyapplication;
+package uef.com.studyapplication.adapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import uef.com.studyapplication.AssignmentSubmittedTab;
+import uef.com.studyapplication.AssignmentTab;
 
 public class PageAdapter extends FragmentPagerAdapter {
     public PageAdapter(FragmentManager fm) {

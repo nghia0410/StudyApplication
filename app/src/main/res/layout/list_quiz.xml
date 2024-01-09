@@ -2,18 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_quiz_answer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:focusable="false">
+    android:focusable="false"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/edit_question"
-        android:textStyle="bold"
-        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Câu hỏi" />
+        android:hint="Câu hỏi"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <RadioGroup
         android:id="@+id/RG"
@@ -74,8 +75,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="200dp"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:focusable="false"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints"
@@ -84,7 +85,7 @@
                 <RadioGroup
                     android:id="@+id/quizRadioGroup2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent">
 
                     <RadioButton
                         android:id="@+id/edit_option3"

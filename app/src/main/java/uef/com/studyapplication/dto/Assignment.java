@@ -1,4 +1,4 @@
-package uef.com.studyapplication;
+package uef.com.studyapplication.dto;
 
 import java.util.List;
 

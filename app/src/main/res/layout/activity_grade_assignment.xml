@@ -140,25 +140,28 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageViewCertificate"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:gravity="center|top"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/Quaylai"
+            android:id="@+id/btn_returnToQuiz"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:text="Quaylaibaitap" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_getCertificate"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Lay chung chi" />
     </LinearLayout>
 
 </LinearLayout>

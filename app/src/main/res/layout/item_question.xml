@@ -1,0 +1,28 @@
+<!-- item_question.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Câu hỏi -->
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <!-- Danh sách đáp án -->
+    <RadioGroup
+        android:id="@+id/answerOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
+
+        <!-- Tùy thuộc vào loại câu hỏi, sử dụng RadioButton hoặc CheckBox -->
+
+    </RadioGroup>
+</LinearLayout>

@@ -1,6 +1,6 @@
-package uef.com.studyapplication;
+package uef.com.studyapplication.adapter;
 
-import static uef.com.studyapplication.LoginActivity.user;
+import static uef.com.studyapplication.acitivity.LoginActivity.user;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,13 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
-public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
+import uef.com.studyapplication.R;
+import uef.com.studyapplication.dto.NewAssignment;
+
+public class CustomArrayAdapter extends ArrayAdapter<NewAssignment>  {
     private final Context context;
 
     private class ViewHolder {
@@ -24,26 +26,18 @@ public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
         ImageButton btnDelete,btnEdit;
         RelativeLayout bgColor;
     }
-    public CustomArrayAdapter(Context context, int resourceId, List<RowItem> items) {
+    public CustomArrayAdapter(Context context, int resourceId, List<NewAssignment> items) {
         super(context, resourceId, items);
         this.context = context;
     }
+    public CustomArrayAdapter(Context context, int resourceId ) {
+        super(context, resourceId);
+        this.context = context;
+    }
 
-
-    //    public View getView(int position, View convertView, ViewGroup parent) {
-//        LayoutInflater inflater = (LayoutInflater) context
-//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View rowView = inflater.inflate(R.layout.list_assignment, parent, false);
-//        TextView firstline = (TextView) rowView.findViewById(R.id.firstLine);
-//        TextView secondline = (TextView) rowView.findViewById(R.id.secondLine);
-//        firstline.setText(titles[position]);
-//        secondline.setText(details[position]);
-//
-//        return rowView;
-//    }
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        RowItem rowItem = getItem(position);
+        NewAssignment rowItem = getItem(position);
 //        if(rowItem.getCourse() == null)
 //            return convertView;
 
@@ -53,7 +47,6 @@ public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
             convertView = mInflater.inflate(R.layout.list_assignment, null);
             holder = new ViewHolder();
             holder.bgColor = (RelativeLayout) convertView.findViewById(R.id.assignmentlayout);
-//            holder.txtYoutube = (TextView) convertView.findViewById(R.id.secondline);
             holder.txtCourse = (TextView) convertView.findViewById(R.id.firstline);
             holder.txtDate = (TextView) convertView.findViewById(R.id.secondline);
             holder.txtLevel = (TextView) convertView.findViewById(R.id.fourthline);
@@ -66,35 +59,43 @@ public class CustomArrayAdapter extends ArrayAdapter<RowItem>  {
 
         });
         holder.txtCourse.setText(rowItem.getCourse());
-        holder.txtLevel.setText(rowItem.getLevel());
+        holder.txtLevel.setText(rowItem.getLevel().toString());
         try {
             switch (rowItem.getLevel()) {
-                case "Dễ":
+                case easy:
                     holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
                     holder.btnDelete.setVisibility(View.VISIBLE);
                     break;
-                case "Trung Bình":
+                case medium:
                     holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
                     holder.btnDelete.setVisibility(View.VISIBLE);
                     break;
-                case "Khó":
+                case hard:
                     holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
                     holder.btnDelete.setVisibility(View.VISIBLE);
                     break;
 //            default:
 //                holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
             }
-            if(user.getUsername().equals("admin")||user.getUsername().equals("admin1")) {
-                holder.txtDate.setText("StartTime: " + rowItem.getDate());
+            if(user.getType().equals("admin")) {
+                holder.btnDelete.setVisibility(View.VISIBLE);
+                holder.btnEdit.setVisibility(View.VISIBLE);
+                holder.txtDate.setText("Deadline: " + rowItem.getDate());
 //                holder.txtYoutube.setText(""+rowItem.getYoutube());
-            }else {
-                holder.txtDate.setText("StartTime: "+rowItem.getDate());
+            }
+            else {
+//                holder.txtDate.setText("Submitted at: "+((NewAssignment.UserAssignment) rowItem).getSubmitTime());
 //                holder.txtYoutube.setText("Answer: "+rowItem.getYoutube());
                 holder.btnDelete.setVisibility(View.GONE);
                 holder.btnEdit.setVisibility(View.GONE);
             }
         }
         catch (Exception e){
+            Log.e("EROOR", e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()){
+                Log.e("EROOR", element.toString());
+
+            }
             Log.v("mAdapter","No type");
         }
         return convertView;

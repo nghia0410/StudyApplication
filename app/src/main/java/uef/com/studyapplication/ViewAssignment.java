@@ -1,7 +1,7 @@
 package uef.com.studyapplication;
 
-import static uef.com.studyapplication.LoginActivity.mList;
-import static uef.com.studyapplication.LoginActivity.userDocument;
+import static uef.com.studyapplication.acitivity.LoginActivity.user;
+import static uef.com.studyapplication.acitivity.SignupActivity.sdf3;
 
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
@@ -26,8 +26,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,37 +34,40 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import uef.com.studyapplication.acitivity.MainActivity;
+import uef.com.studyapplication.adapter.QuestionAdapter;
+import uef.com.studyapplication.dto.NewAssignment;
+import uef.com.studyapplication.dto.Question;
+import uef.com.studyapplication.dto.UserAssignment;
+import uef.com.studyapplication.service.AssignmentService;
 
 public class ViewAssignment extends AppCompatActivity {
     private ImageButton playytb_btn, attachmentButton;
     private String editLink;
-    private ListView Listview;
     private Spinner tagSpinner;
     private Button okButton;
     private List<String> tags;
     private ArrayAdapter<String> tagAdapter;
     private EditText customTagEditText;
-    private TextView youtube,course;
+    private TextView youtube, course;
     private TextView level;
     private WebView webView;
     private Button back_btn, done_btn;
     private static final int PICK_FILES_REQUEST_CODE = 1;
-    private FirebaseFirestore db;
     private List<Uri> selectedFiles = new ArrayList<>(); // Danh sách các tệp đã chọn
     private List<String> selectedFileNames = new ArrayList<>(); // Danh sách các tên tệp đã chọn
-    private Map<Integer,Integer> answers = new HashMap<>();
     private TextView attachmentTextView;
-    String value;
+    private ListView lvQuestions;
+    AssignmentService service = AssignmentService.getInstance();
+    NewAssignment assignment;
+    UserAssignment userAssignment;
 
     public ViewAssignment() {
     }
@@ -76,8 +77,8 @@ public class ViewAssignment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_assignment);
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -85,83 +86,34 @@ public class ViewAssignment extends AppCompatActivity {
         back_btn = findViewById(R.id.backButton);
         okButton = findViewById(R.id.okButton);
         attachmentButton = findViewById(R.id.attachmentButton);
+        lvQuestions = findViewById(R.id.QuizListView);
 
 
-        Bundle extras = getIntent().getExtras();if (extras != null) {
-            value = extras.getString("assignment_pos");
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            assignment = extras.getParcelable("assignment");
+            if (assignment != null) {
+                userAssignment = new UserAssignment(assignment);
+                userAssignment.getQuestions().forEach(question -> question.getAnswer().clear());
+
+            }
         }
-        AssignmentList selected_assignment = (AssignmentList) mList.get(Integer.parseInt(value));
         level = findViewById(R.id.tagSpinner);
-        level.setText(selected_assignment.getAssignment().getLevel());
+        level.setText(assignment.getLevel().toString());
         youtube = findViewById(R.id.ViewlinkURL);
-        youtube.setText(selected_assignment.getAssignment().getYoutube());
+        youtube.setText(assignment.getYoutube());
         course = findViewById(R.id.textView1);
-        course.setText(selected_assignment.getAssignment().getCourse());
+        course.setText(assignment.getCourse());
+        QuestionAdapter adapter = new QuestionAdapter(this, userAssignment.getQuestions(), (questionPos, answers) -> {
+            userAssignment
+                    .getQuestions()
+                    .get(questionPos)
+                    .setAnswer(answers);
 
-        Listview = (ListView) findViewById(R.id.QuizListView);
-        AdapterDoQuiz adapterDoQuiz = new AdapterDoQuiz(selected_assignment.getAssignment().getQuestions()){
-            @Override
-            public View getView(final int position, View convertView, ViewGroup parent) {
-                View inflatedView = super.getView(position, convertView, parent);
-
-                RadioButton rd_answer1 = inflatedView.findViewById(R.id.edit_option1);
-                RadioButton rd_answer2 = inflatedView.findViewById(R.id.edit_option2);
-                RadioButton rd_answer3 = inflatedView.findViewById(R.id.edit_option3);
-                RadioButton rd_answer4 = inflatedView.findViewById(R.id.edit_option4);
-
-                RadioGroup rg1 = inflatedView.findViewById(R.id.quizRadioGroup1);
-                RadioGroup rg2 = inflatedView.findViewById(R.id.quizRadioGroup2);
-
-                rd_answer1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        rg2.clearCheck();
-                        answers.put(position,1);
-                        Log.i("RadioButtonsQuiz","1 at "+ position);
-                        Log.i("AnwerHashMap",answers.toString());
-
-                    }
-                });
-
-                rd_answer2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        rg2.clearCheck();
-
-                        answers.put(position,2);
-                        Log.i("RadioButtonsQuiz","2 at "+ position);
-                        Log.i("AnwerHashMap",answers.toString());
-                    }
-                });
-
-                rd_answer3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        rg1.clearCheck();
-
-                        answers.put(position,3);
-                        Log.i("RadioButtonsQuiz","3 at "+ position);
-                        Log.i("AnwerHashMap",answers.toString());
-
-                    }
-                });
-
-                rd_answer4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        rg1.clearCheck();
-
-                        answers.put(position,4);
-                        Log.i("RadioButtonsQuiz","4 at "+ position);
-                        Log.i("AnwerHashMap",answers.toString());
-
-                    }
-                });
-
-                return inflatedView;
-            };
-        };
-        Listview.setAdapter(adapterDoQuiz);
+            Log.d("USER QUESION",userAssignment.getQuestions().toString());
+            Log.d("ASSIGNMENT QUESION",assignment.getQuestions().toString());
+        });
+        lvQuestions.setAdapter(adapter);
 
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,19 +135,23 @@ public class ViewAssignment extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     int correctanswers = 0;
-                    for (int i = 0; i < Listview.getCount(); i++) {
-                        Question fetchedquestion = (Question) Listview.getItemAtPosition(i);
+                    for (int i = 0; i < userAssignment.getQuestions().size(); i++) {
+                        Question fetchedquestion = userAssignment.getQuestions().get(i);
                         Log.i("fetchedquestion", fetchedquestion.toString());
-                        if (fetchedquestion.getAnswer() == answers.get(i) - 1) {
+                        if (fetchedquestion.getAnswer().containsAll(assignment.getQuestions().get(i).getAnswer())
+                                && assignment.getQuestions().get(i).getAnswer().containsAll(fetchedquestion.getAnswer())) {
                             correctanswers++;
                         }
                     }
-
+                    double score = ((double)correctanswers / (double)assignment.getQuestions().size());
                     Intent intent = new Intent(ViewAssignment.this, GradeAssignment.class);
-                    intent.putExtra("PERCENTAGE_SCORE",((double)correctanswers / (double)Listview.getCount()));
+                    intent.putExtra("PERCENTAGE_SCORE",score);
                     intent.putExtra("CORRECT_ANSWER",correctanswers);
-                    intent.putExtra("NUM_OF_QUESTION",Listview.getCount());
+                    intent.putExtra("NUM_OF_QUESTION",lvQuestions.getCount());
 
+                    if(score >= 0.8){
+                        updateDataInFirestore();
+                    }
                     startActivity(intent);
                 }
                 catch (Exception e){
@@ -204,43 +160,27 @@ public class ViewAssignment extends AppCompatActivity {
 
             }
         });
-
     }
-    private void updateDataInFirestore(String textViewCourse, String textViewYoutube, String textViewLevel) {
+
+    private void updateDataInFirestore() {
         // Lấy ID của người dùng hiện tại từ Firebase Authentication
-        String id = userDocument.getId();
+        String id = user.getUuid();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        // Lấy assignmentId từ Intent
-        AssignmentList assignment = (AssignmentList) mList.get(Integer.parseInt(value));
-        String assignmentId = assignment.getId();
-
-//        assignment.getAssignment().setAnswer(answerView.getText().toString());
-//        assignment.getAssignment().setSubmitTime(sdf3.format(timestamp));
-        Log.v("Assignment data",assignment.getAssignment().toString());
-        // Cập nhật dữ liệu vào Firestore trong bảng "assignments" của người dùng hiện tại
-        db.collection("users").document(id)
-                .collection("assignment").document(assignmentId)
-                .set(assignment.getAssignment())
-                .addOnSuccessListener(aVoid -> {
-                    // Xử lý khi dữ liệu được cập nhật thành công
-                    Toast.makeText(ViewAssignment.this, "Dữ liệu đã được cập nhật thành công.", Toast.LENGTH_SHORT).show();
-                    // Điều hướng hoặc thực hiện các hành động cần thiết sau khi cập nhật dữ liệu thành công
-                    Log.v("Asnwer","submitted");
-                    UserList.UpdateL(db, ViewAssignment.this);
-                })
-                .addOnFailureListener(e -> {
-                    // Xử lý khi dữ liệu không thể được cập nhật vào Firestore
-                    Log.v("Asnwer","failed");
-                    Toast.makeText(ViewAssignment.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+        userAssignment.setSubmitTime(sdf3.format(timestamp));
+        userAssignment.calculatePoints(assignment.getQuestions());
+        Toast.makeText(this, userAssignment.getPoints().toString(),Toast.LENGTH_LONG).show();
+        service.addUserAssignment(userAssignment, id);
+        finish();
     }
+
     private void openFilePicker() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("*/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true); // Cho phép chọn nhiều tệp
         startActivityForResult(intent, PICK_FILES_REQUEST_CODE);
     }
+
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -273,6 +213,7 @@ public class ViewAssignment extends AppCompatActivity {
             }
         });
     }
+
     private void showSelectedFileList() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Danh sách các tệp đã chọn");
@@ -282,13 +223,13 @@ public class ViewAssignment extends AppCompatActivity {
 
         ViewAssignment.SelectedFilesAdapter adapter = new ViewAssignment.SelectedFilesAdapter(this, selectedFileNames, selectedFiles);
         selectedFilesListView.setAdapter(adapter);
-            selectedFilesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // Xử lý khi người dùng nhấp vào một tệp
-                    openSelectedFile(selectedFiles.get(position));
-                }
-            });
+        selectedFilesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Xử lý khi người dùng nhấp vào một tệp
+                openSelectedFile(selectedFiles.get(position));
+            }
+        });
 
         builder.setView(selectedFilesView);
         builder.setPositiveButton("Xong", new DialogInterface.OnClickListener() {
@@ -301,6 +242,7 @@ public class ViewAssignment extends AppCompatActivity {
 
         builder.show();
     }
+
     private void openSelectedFile(Uri fileUri) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(fileUri);
@@ -311,6 +253,7 @@ public class ViewAssignment extends AppCompatActivity {
             Toast.makeText(ViewAssignment.this, "Không có ứng dụng nào có thể mở file này", Toast.LENGTH_SHORT).show();
         }
     }
+
     private String getFileName(Uri uri) {
         String result = null;
         Cursor cursor = null;
@@ -334,72 +277,71 @@ public class ViewAssignment extends AppCompatActivity {
         return result;
     }
 
-    public void YoutubeButton(View view) {
-        editLink = youtube.getText().toString();
-        // Tách URL thành mảng các phần
-        String[] parts = editLink.split("/");
+        public void YoutubeButton(View view) {
+            editLink = youtube.getText().toString();
+            // Tách URL thành mảng các phần
+            String[] parts = editLink.split("/");
 
-        // Lấy phần thứ hai của mảng
-        String id = parts[3];
-        String sub_id = id.substring(0, id.indexOf("?"));
-        Log.v("YTID", sub_id);
+            // Lấy phần thứ hai của mảng
+            String id = parts[3];
+            String sub_id = id.substring(0, id.indexOf("?"));
+            Log.v("YTID", sub_id);
 
-        String stringJavaScript = "<!DOCTYPE html>\n" +
-                "<html>\n" +
-                "  <body>\n" +
-                "    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->\n" +
-                "    <div id=\"player\"></div>\n" +
-                "\n" +
-                "    <script>\n" +
-                "      // 2. This code loads the IFrame Player API code asynchronously.\n" +
-                "      var tag = document.createElement('script');\n" +
-                "\n" +
-                "      tag.src = \"https://www.youtube.com/iframe_api\";\n" +
-                "      var firstScriptTag = document.getElementsByTagName('script')[0];\n" +
-                "      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);\n" +
-                "\n" +
-                "      // 3. This function creates an <iframe> (and YouTube player)\n" +
-                "      //    after the API code downloads.\n" +
-                "      var player;\n" +
-                "      function onYouTubeIframeAPIReady() {\n" +
-                "        player = new YT.Player('player', {\n" +
-                "          height: '195',\n" +
-                "          width: '320',\n" +
-                "          videoId: '" + sub_id + "',\n" +
-                "          playerVars: {\n" +
-                "            'playsinline': 1\n" +
-                "          },\n" +
-                "          events: {\n" +
-                "            'onReady': onPlayerReady,\n" +
-                "            'onStateChange': onPlayerStateChange\n" +
-                "          }\n" +
-                "        });\n" +
-                "      }\n" +
-                "\n" +
-                "      // 4. The API will call this function when the video player is ready.\n" +
-                "      function onPlayerReady(event) {\n" +
-                "        event.target.playVideo();\n" +
-                "      }\n" +
-                "\n" +
-                "      // 5. The API calls this function when the player's state changes.\n" +
-                "      //    The function indicates that when playing a video (state=1),\n" +
-                "      //    the player should play for six seconds and then stop.\n" +
-                "      var done = false;\n" +
-                "      function onPlayerStateChange(event) {\n" +
-                "        if (event.data == YT.PlayerState.PLAYING && !done) {\n" +
-                "          setTimeout(stopVideo, 10000);\n" +
-                "          done = true;\n" +
-                "        }\n" +
-                "      }\n" +
-                "      function stopVideo() {\n" +
-                "        player.stopVideo();\n" +
-                "      }\n" +
-                "    </script>\n" +
-                "  </body>\n" +
-                "</html>";
-        webView.loadData(stringJavaScript, "text/html", "utf-8");
-
-    }
+            String stringJavaScript = "<!DOCTYPE html>\n" +
+                    "<html>\n" +
+                    "  <body>\n" +
+                    "    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->\n" +
+                    "    <div id=\"player\"></div>\n" +
+                    "\n" +
+                    "    <script>\n" +
+                    "      // 2. This code loads the IFrame Player API code asynchronously.\n" +
+                    "      var tag = document.createElement('script');\n" +
+                    "\n" +
+                    "      tag.src = \"https://www.youtube.com/iframe_api\";\n" +
+                    "      var firstScriptTag = document.getElementsByTagName('script')[0];\n" +
+                    "      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);\n" +
+                    "\n" +
+                    "      // 3. This function creates an <iframe> (and YouTube player)\n" +
+                    "      //    after the API code downloads.\n" +
+                    "      var player;\n" +
+                    "      function onYouTubeIframeAPIReady() {\n" +
+                    "        player = new YT.Player('player', {\n" +
+                    "          height: '195',\n" +
+                    "          width: '320',\n" +
+                    "          videoId: '" + sub_id + "',\n" +
+                    "          playerVars: {\n" +
+                    "            'playsinline': 1\n" +
+                    "          },\n" +
+                    "          events: {\n" +
+                    "            'onReady': onPlayerReady,\n" +
+                    "            'onStateChange': onPlayerStateChange\n" +
+                    "          }\n" +
+                    "        });\n" +
+                    "      }\n" +
+                    "\n" +
+                    "      // 4. The API will call this function when the video player is ready.\n" +
+                    "      function onPlayerReady(event) {\n" +
+                    "        event.target.playVideo();\n" +
+                    "      }\n" +
+                    "\n" +
+                    "      // 5. The API calls this function when the player's state changes.\n" +
+                    "      //    The function indicates that when playing a video (state=1),\n" +
+                    "      //    the player should play for six seconds and then stop.\n" +
+                    "      var done = false;\n" +
+                    "      function onPlayerStateChange(event) {\n" +
+                    "        if (event.data == YT.PlayerState.PLAYING && !done) {\n" +
+                    "          setTimeout(stopVideo, 10000);\n" +
+                    "          done = true;\n" +
+                    "        }\n" +
+                    "      }\n" +
+                    "      function stopVideo() {\n" +
+                    "        player.stopVideo();\n" +
+                    "      }\n" +
+                    "    </script>\n" +
+                    "  </body>\n" +
+                    "</html>";
+            webView.loadData(stringJavaScript, "text/html", "utf-8");
+        }
 
     public class SelectedFilesAdapter extends BaseAdapter {
         private List<String> fileNames;
@@ -413,7 +355,8 @@ public class ViewAssignment extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {return fileNames.size();
+        public int getCount() {
+            return fileNames.size();
         }
 
         @Override
@@ -444,6 +387,7 @@ public class ViewAssignment extends AppCompatActivity {
                     // Lấy Uri tương ứng với vị trí được nhấn trong danh sách
                     Uri fileUri = fileUris.get(position);
                     openSelectedFile(fileUris.get(position));
+
                     if (fileUri != null) {
                         // Xử lý khi người dùng nhấp vào tên tệp để mở tệp
                         try {
@@ -469,9 +413,11 @@ public class ViewAssignment extends AppCompatActivity {
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     // Xử lý khi người dùng ấn nút X để xóa tệp
                     fileNames.remove(position);
                     fileUris.remove(position); // Xóa Uri tương ứng
+
                     notifyDataSetChanged(); // Cập nhật danh sách
                     updateAttachmentTextView(); // Cập nhật TextView sau khi xóa tệp
                 }
@@ -492,3 +438,4 @@ public class ViewAssignment extends AppCompatActivity {
 
 
 }
+

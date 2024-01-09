@@ -5,10 +5,29 @@
     android:layout_height="match_parent"
     tools:context=".AssignmentSubmittedTab">
 
-    <ListView
-        android:id="@+id/ListViewSubmittedAssignment"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="10.0sp"/>
+        android:orientation="vertical"
+        android:weightSum="10">
+
+        <TextView
+            android:id="@+id/txt_count_done"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAlignment="textEnd"
+            android:textSize="18sp" />
+
+        <ListView
+            android:id="@+id/lv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:divider="@null"
+            android:dividerHeight="10.0sp" />
+
+    </LinearLayout>
+
 </FrameLayout>

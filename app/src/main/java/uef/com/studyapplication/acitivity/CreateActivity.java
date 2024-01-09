@@ -1,9 +1,8 @@
-package uef.com.studyapplication;
+package uef.com.studyapplication.acitivity;
 
 import static android.content.ContentValues.TAG;
-import static uef.com.studyapplication.LoginActivity.user;
-import static uef.com.studyapplication.LoginActivity.userDocument;
-import static uef.com.studyapplication.SignupActivity.sdf3;
+import static uef.com.studyapplication.acitivity.LoginActivity.userDocument;
+import static uef.com.studyapplication.acitivity.SignupActivity.sdf3;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -36,13 +35,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -55,6 +56,13 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import uef.com.studyapplication.R;
+import uef.com.studyapplication.adapter.AdapterCreateQuiz;
+import uef.com.studyapplication.dto.NewAssignment;
+import uef.com.studyapplication.dto.Question;
+import uef.com.studyapplication.service.AssignmentService;
+//import uef.com.studyapplication.UserList;
 
 
 public class CreateActivity extends AppCompatActivity {
@@ -71,15 +79,29 @@ public class CreateActivity extends AppCompatActivity {
     private Button okButton;
     private EditText customTagEditText;
     private LinearLayout customTagLayout;
-    List<Question> selectedQuestions;
+    ArrayList<Question> selectedQuestions = new ArrayList<>();
     private static final int PICK_FILES_REQUEST_CODE = 1;
     protected static EditText link_edt;
-    private AppCompatButton createdone_btn,createquiz_btn;
+    private AppCompatButton createdone_btn, createquiz_btn;
 //    private String userID;
 
     private List<Uri> selectedFiles = new ArrayList<>(); // Danh sách các tệp đã chọn
     private List<String> selectedFileNames = new ArrayList<>(); // Danh sách các tên tệp đã chọn
 
+    AssignmentService service = AssignmentService.getInstance();
+    //Mở quiz activity và nhận lại kết quả
+    ActivityResultLauncher<Intent> launchQuizActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            activityResult -> {
+                if (activityResult.getResultCode() == RESULT_OK) {
+                    Intent i = activityResult.getData();
+                    if (i != null) {
+                        selectedQuestions = i.getParcelableArrayListExtra("questions");
+                        AdapterCreateQuiz adapterCreateQuiz = new AdapterCreateQuiz(selectedQuestions);
+                        listView.setAdapter(adapterCreateQuiz);
+                    }
+                }
+            }
+    );
 
     private String getFileName(Uri uri) {
         String result = null;
@@ -112,7 +134,7 @@ public class CreateActivity extends AppCompatActivity {
 //        // Kiểm tra xem vai trò của người dùng hiện tại có phải là "admin" hay không
 //        return role.equals("admin");
 
-//    }
+    //    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +143,6 @@ public class CreateActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         tagSpinner = findViewById(R.id.tagSpinner);
-        EditText textlinkytb = findViewById(R.id.LinkURL);
         customTagEditText = findViewById(R.id.customTagEditText);
         customTagLayout = findViewById(R.id.customTagLayout);
         okButton = findViewById(R.id.okButton);
@@ -140,18 +161,7 @@ public class CreateActivity extends AppCompatActivity {
         final TextView displayEndDateTextView = findViewById(R.id.displayEndDateTextView);
         final TextView displayEndTimeTextView = findViewById(R.id.displayEndTimeTextView);
 
-        try {
-//            selectedQuestions = this.getIntent().getExtras().getParcelableArrayList("EXTRA_DATA");
-            selectedQuestions = (ArrayList<Question>)getIntent().getSerializableExtra("EXTRA_DATA");
-            if(selectedQuestions!=null) {
-                listView = findViewById(R.id.listView3);
-                AdapterCreateQuiz adapterCreateQuiz = new AdapterCreateQuiz(selectedQuestions);
-                listView.setAdapter(adapterCreateQuiz);
-            }
-        }
-        catch (Exception e){
-            Log.i("selectedQuestions","empty");
-        }
+
         return_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -251,8 +261,6 @@ public class CreateActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
-//        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
 
         // Khởi tạo Firestore
         db = FirebaseFirestore.getInstance();
@@ -260,9 +268,9 @@ public class CreateActivity extends AppCompatActivity {
         createquiz_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CreateActivity.this,QuizActivity.class);
-
-                startActivity(intent);
+                Intent i = new Intent(CreateActivity.this, QuizActivity.class);
+                i.putParcelableArrayListExtra("questions", selectedQuestions);
+                launchQuizActivity.launch(i);
             }
         });
 
@@ -270,19 +278,12 @@ public class CreateActivity extends AppCompatActivity {
         createdone_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CreateActivity.this,MainActivity.class);
-
-                startActivity(intent);
-
-
                 // Lấy dữ liệu từ các trường nhập liệu
-//                String title = ((EditText) findViewById(R.id.editText1)).getText().toString();
                 String course = ((EditText) findViewById(R.id.editText1)).getText().toString();
-//                String topic = ((EditText) findViewById(R.id.editText2)).getText().toString();
                 String startDate = ((TextView) findViewById(R.id.displayStartDateTextView)).getText().toString();
                 String startTime = ((TextView) findViewById(R.id.displayStartTimeTextView)).getText().toString();
-//                String endDate = ((TextView) findViewById(R.id.displayEndDateTextView)).getText().toString();
-//                String endTime = ((TextView) findViewById(R.id.displayEndTimeTextView)).getText().toString();
+                String endDate = ((TextView) findViewById(R.id.displayEndDateTextView)).getText().toString();
+                String endTime = ((TextView) findViewById(R.id.displayEndTimeTextView)).getText().toString();
                 String level = tagSpinner.getSelectedItem().toString();
                 String youtube = ((EditText) findViewById(R.id.LinkURL)).getText().toString();
                 // Kiểm tra xem đã chọn "Other" từ Spinner chưa
@@ -291,25 +292,17 @@ public class CreateActivity extends AppCompatActivity {
                 }
 
                 // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
-                if (course.isEmpty()  || level.isEmpty() || startDate.isEmpty() || startTime.isEmpty() ) {
+                if (course.isEmpty() || level.isEmpty() || startDate.isEmpty() || startTime.isEmpty() || endDate.isEmpty() || endTime.isEmpty()) {
                     Toast.makeText(CreateActivity.this, "Vui lòng nhập đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
                 } else {
                     // Lưu dữ liệu vào Firestore
-                    saveDataToFirestore(course, level, startDate, startTime, youtube, selectedQuestions);
+                    saveDataToFirestore(course, level, youtube, startDate, endDate, startTime, endTime);
+
+                    finish();
                 }
                 // Tạo đối tượng FCM
-                FirebaseMessaging fcm = FirebaseMessaging.getInstance();
-
-                // Tạo thông báo
-//                Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                        .setContentTitle("Tạo bài tập mới")
-//                        .setContentText("Bài tập mới có tên là [tên bài tập]. Mức độ khó: [mức độ khó]. Ngày bắt đầu: [ngày bắt đầu]. Ngày kết thúc: [ngày kết thúc].")
-////                        .setSmallIcon(R.drawable.ic_launcher)
-//                        .build();
-
-                // Gửi thông báo
-//                fcm.send(notification);
-                FirebaseMessaging.getInstance().toString();
+//                FirebaseMessaging fcm = FirebaseMessaging.getInstance();
+//                FirebaseMessaging.getInstance().toString();
             }
         });
         tagSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
@@ -368,118 +361,94 @@ public class CreateActivity extends AppCompatActivity {
         attachmentTextView = findViewById(R.id.attachmentTextView);
         attachmentButton.setOnClickListener(v -> openFilePicker());
         // Khởi tạo Firestore
-
-
     }
-    private void saveDataToFirestore(String course, String level,String startDate, String startTime ,String youtube, List<Question> questionlist) {
+
+    private void saveDataToFirestore(String course, String level, String youtube, String startDate, String endDate, String startTime, String endTime) {
         // Lấy ID của người dùng hiện tại từ Firebase Authentication
         String id = userDocument.getId();
-        db.collection("users").document(id).set(user);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        // Tạo một Map chứa dữ liệu để lưu vào Firestore
-        Map<String, Object> assignmentData = new HashMap<>();
-        assignmentData.put("course", course);
-        assignmentData.put("level", level);
-        assignmentData.put("startDate", startDate);
-        assignmentData.put("startTime", startTime);
-        assignmentData.put("youtube", youtube);
-//        assignmentData.put("")
-        assignmentData.put("numAttachments", selectedFiles.size());
-        assignmentData.put("createTime",sdf3.format(timestamp));
+        NewAssignment newAssignment = new NewAssignment();
+        newAssignment.setCourse(course);
+        newAssignment.setLevel(NewAssignment.AssignmentLevel.fromString(level));
+        newAssignment.setStartDate(startDate);
+        newAssignment.setEndDate(endDate);
+        newAssignment.setStartTime(startTime);
+        newAssignment.setEndTime(endTime);
+        newAssignment.setYoutube(youtube);
+        newAssignment.setNumAttachments(selectedFiles.size());
+        newAssignment.setCreateTime(sdf3.format(timestamp));
+        newAssignment.setQuestions(selectedQuestions);
 
 
         // Lưu dữ liệu vào Firestore trong bảng "assignments" của người dùng hiện tại
-        db.collection("users").document(id).collection("assignment")
-                .add(assignmentData)
+//        service.addAssignment(newAssignment, selectedFiles);
+        db.collection("assignment")
+                .add(newAssignment)
                 .addOnSuccessListener(documentReference -> {
                     String assignmentId = documentReference.getId();
-
+                    documentReference.update("uuid", assignmentId);
                     // Lưu trữ tệp đính kèm vào Firebase Storage
                     for (int i = 0; i < selectedFiles.size(); i++) {
                         Uri fileUri = selectedFiles.get(i);
                         String fileName = getFileName(fileUri);
 
-                        try {
-                            // Tạo đường dẫn đến thư mục lưu trữ tệp đính kèm
-                            StorageReference storageRef = FirebaseStorage.getInstance().getReference()
-                                    .child(id)
-                                    .child("attachments")
-                                    .child(assignmentId)
-                                    .child(fileName);
+                        // Tạo đường dẫn đến thư mục lưu trữ tệp đính kèm
+                        StorageReference storageRef = FirebaseStorage.getInstance().getReference()
+//                                .child(id)
+                                .child("attachments")
+                                .child(assignmentId)
+                                .child(fileName);
 
-                            // Upload tệp đính kèm lên Firebase Storage
-                            storageRef.putFile(fileUri)
-                                    .addOnSuccessListener(taskSnapshot -> {
-                                        // Lấy URL của tệp đính kèm đã được tải lên
-                                        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                                            // Lưu thông tin tên tệp và URL vào Firestore
-                                            saveAttachmentInfoToFirestore(assignmentId, fileName, uri.toString());
-                                        });
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        // Xử lý khi tệp đính kèm không thể được tải lên Firebase Storage
-                                        Toast.makeText(CreateActivity.this, "Lỗi khi tải tệp lên Firebase Storage: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        // Upload tệp đính kèm lên Firebase Storage
+                        storageRef.putFile(fileUri)
+                                .addOnSuccessListener(taskSnapshot -> {
+                                    // Lấy URL của tệp đính kèm đã được tải lên
+                                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                        // Lưu thông tin tên tệp và URL vào Firestore
+                                        saveAttachmentInfoToFirestore(assignmentId, fileName, uri.toString());
                                     });
-                        }
-                        catch (Exception e){
-                            Log.w("AttachmentInfo", e);
-                        }
+                                })
+                                .addOnFailureListener(e -> {
+                                    // Xử lý khi tệp đính kèm không thể được tải lên Firebase Storage
+                                    Toast.makeText(CreateActivity.this, "Lỗi khi tải tệp lên Firebase Storage: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
                     }
-                    try{
-                        for (Question question:
-                                questionlist) {
-                            Map<String, Object> questionData = new HashMap<>();
-                            questionData.put("question",question.getQuestion());
-                            questionData.put("options", question.getOptions());
-                            questionData.put("answer",question.getAnswer());
 
-                            db.collection("users").document(id)
-                                    .collection("assignment")
-                                    .document(assignmentId)
-                                    .collection("questions")
-                                    .add(questionData)
-                                    .addOnFailureListener(error ->
-                                            Toast.makeText(CreateActivity.this, "Lỗi khi lưu dữ liệu vào Firestore: "
-                                            + error.getMessage(), Toast.LENGTH_LONG).show());
-                        }
-                    }
-                    catch (Exception e){
-                        Log.w("Questions", e);
-                    }
                     // Xử lý khi dữ liệu được lưu thành công
-                    UserList.UpdateL(db,CreateActivity.this);
+//                    UserList.UpdateL(db,CreateActivity.this);
                     Toast.makeText(CreateActivity.this, "Dữ liệu và tệp đính kèm đã được lưu thành công.", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
                     // Xử lý khi dữ liệu không thể được lưu vào Firestore
-                    UserList.UpdateL(db,CreateActivity.this);
+//                    UserList.UpdateL(db,CreateActivity.this);
                     Toast.makeText(CreateActivity.this, "Lỗi khi lưu dữ liệu vào Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
 
 
-
     }
-    private void saveAttachmentInfoToFirestore(String name, String fileName, String fileUrl) {
-        String id = userDocument.getId();
-        db.collection("users").document(id).set(user);
+
+    private void saveAttachmentInfoToFirestore(String id, String fileName, String fileUrl) {
+//        db.collection("users").document(id).set(user);
         // Tạo một Map chứa thông tin về tệp đính kèm
         Map<String, Object> attachmentInfo = new HashMap<>();
         attachmentInfo.put("fileName", fileName);
         attachmentInfo.put("fileUrl", fileUrl);
 
         // Lưu thông tin tệp đính kèm vào Firestore trong bảng "attachments"
-        db.collection("users").document(id).collection("assignment")
-                .add(attachmentInfo)
+        db.collection("assignment")
+                .document(id)
+                .update("attachments", FieldValue.arrayUnion(fileUrl))
                 .addOnSuccessListener(documentReference -> {
                     // Xử lý khi thông tin tệp đính kèm được lưu thành công
-                    Log.d(TAG, "Tệp đính kèm được lưu thành công: " + documentReference.getId());
+//                    Log.d(TAG, "Tệp đính kèm được lưu thành công: " + documentReference.getId());
                 })
                 .addOnFailureListener(e -> {
                     // Xử lý khi thông tin tệp đính kèm không thể được lưu vào Firestore
                     Log.w(TAG, "Lỗi khi lưu thông tin tệp đính kèm vào Firestore", e);
                 });
     }
+
     private void showSelectedFileList() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Danh sách các tệp đã chọn");
@@ -509,6 +478,7 @@ public class CreateActivity extends AppCompatActivity {
 
         builder.show();
     }
+
     private void openSelectedFile(Uri fileUri) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(fileUri);
@@ -519,6 +489,7 @@ public class CreateActivity extends AppCompatActivity {
             Toast.makeText(CreateActivity.this, "Không có ứng dụng nào có thể mở file này", Toast.LENGTH_SHORT).show();
         }
     }
+
     // Cập nhật TextView sau khi xóa tệp khỏi danh sách
     private void updateAttachmentTextView() {
         if (selectedFileNames.isEmpty()) {
@@ -528,7 +499,8 @@ public class CreateActivity extends AppCompatActivity {
             attachmentTextView.setText("Đã chọn " + selectedFileNames.size() + " tệp");
         }
     }
-    public class SelectedFilesAdapter extends BaseAdapter  {
+
+    public class SelectedFilesAdapter extends BaseAdapter {
         private List<String> fileNames;
         private List<Uri> fileUris;
         private Context context;
@@ -616,6 +588,7 @@ public class CreateActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true); // Cho phép chọn nhiều tệp
         startActivityForResult(intent, PICK_FILES_REQUEST_CODE);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

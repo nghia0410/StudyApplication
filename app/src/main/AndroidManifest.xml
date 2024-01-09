@@ -10,24 +10,31 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".GradeAssignment"
+            android:name=".acitivity.ChartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".acitivity.CertificateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".acitivity.AdminAssignmentActivity"
             android:exported="false" />
         <activity
             android:name=".QuizList"
             android:exported="false" />
         <activity
-            android:name=".QuizActivity"
+            android:name=".acitivity.QuizActivity"
             android:exported="false" />
         <activity
             android:name=".MainQuizActivity"
             android:exported="false" />
         <activity
-            android:name=".EditActivity"
+            android:name=".acitivity.EditActivity"
             android:exported="false" />
         <activity
             android:name=".ViewAssignment"
@@ -40,19 +47,22 @@
         <!-- android:name=".GetYoutube" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".CreateActivity"
+            android:name=".acitivity.CreateActivity"
             android:exported="false" />
         <activity
-            android:name=".UserActivity"
+            android:name=".GradeAssignment"
             android:exported="false" />
         <activity
-            android:name=".SignupActivity"
+            android:name=".acitivity.UserActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".acitivity.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".acitivity.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".acitivity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

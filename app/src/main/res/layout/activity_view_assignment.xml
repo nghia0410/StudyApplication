@@ -33,8 +33,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="489dp"
-        android:layout_weight="1">
+        android:layout_height="273dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -141,6 +140,7 @@
                     android:textColor="@color/black"
                     android:textSize="20sp" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/selectionPrompt"
                 android:layout_width="wrap_content"
@@ -259,42 +259,44 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="301dp"
-                android:orientation="vertical">
-
-                <ListView
-                    android:id="@+id/QuizListView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/backButton"
-            android:layout_width="195dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_margin="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Back" />
+        <ListView
+            android:id="@+id/QuizListView"
+            android:layout_width="match_parent"
+            android:layout_height="332dp">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/doneButton"
-            android:layout_width="195dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_margin="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Done" />
+        </ListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/backButton"
+                android:layout_width="195dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:text="Back" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/doneButton"
+                android:layout_width="195dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="Done" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

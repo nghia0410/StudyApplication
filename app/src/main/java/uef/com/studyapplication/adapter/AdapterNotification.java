@@ -1,4 +1,4 @@
-package uef.com.studyapplication;
+package uef.com.studyapplication.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
+
+import uef.com.studyapplication.R;
+import uef.com.studyapplication.RowItem;
 
 
 public class AdapterNotification extends ArrayAdapter<RowItem> {

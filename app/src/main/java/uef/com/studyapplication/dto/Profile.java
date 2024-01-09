@@ -1,4 +1,4 @@
-package uef.com.studyapplication;
+package uef.com.studyapplication.dto;
 
 import android.content.Context;
 import android.content.SharedPreferences;
