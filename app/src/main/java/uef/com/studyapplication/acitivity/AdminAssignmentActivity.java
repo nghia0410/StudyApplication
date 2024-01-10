@@ -26,7 +26,7 @@ public class AdminAssignmentActivity extends AppCompatActivity {
         NewAssignment assignment = getIntent().getParcelableExtra("assignment");
         users = getIntent().getParcelableArrayListExtra("users");
 
-        UserArrayAdapter userArrayAdapter = new UserArrayAdapter(this, users, assignment.getUuid());
+        UserArrayAdapter userArrayAdapter = new UserArrayAdapter(this, users, assignment);
         binding.lvUsers.setAdapter(userArrayAdapter);
         binding.txtCourse.setText(assignment.getCourse());
         binding.btnBack.setOnClickListener(view -> {
