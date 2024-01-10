@@ -64,10 +64,10 @@ public class UserArrayAdapter extends BaseAdapter {
                 .collection("assignment")
                 .document(assignmentId)
                 .get().addOnSuccessListener(runnable -> {
-                    binding.txtPoints.setText(String.format("Điểm: %s", runnable.get("points",Integer.class)));
+                    binding.txtPoints.setText(String.format("Score: %s", runnable.get("points",Integer.class)));
                     binding.txtSubmitAt.setText(runnable.getString("submitTime"));
                 }).addOnFailureListener(runnable -> {
-                    binding.txtPoints.setText(String.format("Điểm: %s", 0));
+                    binding.txtPoints.setText(String.format("Score: %s", 0));
                 });
         binding.btnShowCert.setOnClickListener(view -> {
             Intent intent = new Intent(context, CertificateActivity.class);

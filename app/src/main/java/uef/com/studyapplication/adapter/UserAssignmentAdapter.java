@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ public class UserAssignmentAdapter extends ArrayAdapter<UserAssignment> {
 
     private class ViewHolder {
         TextView txtCourse, txtYoutube, txtLevel, txtDate;
+        ImageView btn_delete, btn_edit;
         RelativeLayout bgColor;
     }
 
@@ -48,12 +50,20 @@ public class UserAssignmentAdapter extends ArrayAdapter<UserAssignment> {
             convertView = mInflater.inflate(R.layout.list_assignment, null);
             holder = new ViewHolder();
             holder.bgColor = (RelativeLayout) convertView.findViewById(R.id.assignmentlayout);
+
             holder.txtCourse = (TextView) convertView.findViewById(R.id.firstline);
             holder.txtDate = (TextView) convertView.findViewById(R.id.secondline);
             holder.txtLevel = (TextView) convertView.findViewById(R.id.fourthline);
+
+            holder.btn_delete = (ImageView) convertView.findViewById(R.id.delete_btn);
+            holder.btn_edit = (ImageView) convertView.findViewById(R.id.edit_btn);
+
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
+
+        holder.btn_edit.setVisibility(View.INVISIBLE);
+        holder.btn_delete.setVisibility(View.INVISIBLE);
 
         holder.txtCourse.setText(rowItem.getCourse());
         holder.txtLevel.setText(rowItem.getLevel().toString());
@@ -63,10 +73,10 @@ public class UserAssignmentAdapter extends ArrayAdapter<UserAssignment> {
                     holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
                     break;
                 case medium:
-                    holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
+                    holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor1));
                     break;
                 case hard:
-                    holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
+                    holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor2));
                     break;
             }
 

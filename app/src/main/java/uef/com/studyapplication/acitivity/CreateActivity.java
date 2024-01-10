@@ -293,7 +293,7 @@ public class CreateActivity extends AppCompatActivity {
 
                 // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
                 if (course.isEmpty() || level.isEmpty() || startDate.isEmpty() || startTime.isEmpty() || endDate.isEmpty() || endTime.isEmpty()) {
-                    Toast.makeText(CreateActivity.this, "Vui lòng nhập đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateActivity.this, "Please enter complete information.", Toast.LENGTH_SHORT).show();
                 } else {
                     // Lưu dữ liệu vào Firestore
                     saveDataToFirestore(course, level, youtube, startDate, endDate, startTime, endTime);
@@ -329,29 +329,29 @@ public class CreateActivity extends AppCompatActivity {
         okButton.setOnClickListener(v -> {
             // Lấy tag tùy chỉnh từ EditText
             String customTag = customTagEditText.getText().toString().trim();
-            if (!customTag.isEmpty()) {
-                // Thêm tag tùy chỉnh vào Spinner
-                tags.add(customTag);
-                tagAdapter.notifyDataSetChanged();
-                // Chọn tag tùy chỉnh
-                tagSpinner.setSelection(tagAdapter.getCount() - 1);
-                // Ẩn EditText và nút OK
-                customTagLayout.setVisibility(View.GONE);
-                // Reset EditText
-                customTagEditText.setText("");
-                // Ẩn câu chú thích
-                selectionPrompt.setVisibility(View.GONE);
-                Toast.makeText(CreateActivity.this, "Tag đã được thêm vào Spinner.", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(CreateActivity.this, "Vui lòng nhập tag trước khi nhấn OK.", Toast.LENGTH_SHORT).show();
-            }
+//            if (!customTag.isEmpty()) {
+//                // Thêm tag tùy chỉnh vào Spinner
+//                tags.add(customTag);
+//                tagAdapter.notifyDataSetChanged();
+//                // Chọn tag tùy chỉnh
+//                tagSpinner.setSelection(tagAdapter.getCount() - 1);
+//                // Ẩn EditText và nút OK
+//                customTagLayout.setVisibility(View.GONE);
+//                // Reset EditText
+//                customTagEditText.setText("");
+//                // Ẩn câu chú thích
+//                selectionPrompt.setVisibility(View.GONE);
+//                Toast.makeText(CreateActivity.this, "Tag đã được thêm vào Spinner.", Toast.LENGTH_SHORT).show();
+//            } else {
+//                Toast.makeText(CreateActivity.this, "Vui lòng nhập tag trước khi nhấn OK.", Toast.LENGTH_SHORT).show();
+//            }
         });
 
         // Khởi tạo Spinner với các mục
         tags = new ArrayList<>();
-        tags.add("Dễ");
-        tags.add("Trung Bình");
-        tags.add("Khó");
+        tags.add("Easy");
+        tags.add("Medium");
+        tags.add("Hard");
 
         tagAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tags);
         tagAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

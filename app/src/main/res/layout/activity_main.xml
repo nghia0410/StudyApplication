@@ -16,6 +16,7 @@
             android:layout_width="304dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/background_main"
             android:src="@drawable/logo2" />
 
         <LinearLayout
@@ -51,6 +52,8 @@
                 android:layout_weight="1"
                 android:gravity="center|top"
                 android:text="@string/default_username"
+                android:textColor="#FDFFFFFF"
+                android:textColorHint="#F8FFFFFF"
                 android:textSize="13dp" />
         </LinearLayout>
 
@@ -82,7 +85,7 @@
                         android:id="@+id/assignmenttab"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/layoutpage">
+                        android:background="@drawable/background_main">
 
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/assignmenttab_layout"
@@ -144,7 +147,7 @@
                         android:id="@+id/activitytab"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/layoutpage"
+                        android:background="@drawable/background_main"
                         android:orientation="vertical">
 
                         <FrameLayout

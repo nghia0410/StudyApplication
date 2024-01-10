@@ -67,11 +67,11 @@ public class CustomArrayAdapter extends ArrayAdapter<NewAssignment>  {
                     holder.btnDelete.setVisibility(View.VISIBLE);
                     break;
                 case medium:
-                    holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
+                    holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor1));
                     holder.btnDelete.setVisibility(View.VISIBLE);
                     break;
                 case hard:
-                    holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
+                    holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor2));
                     holder.btnDelete.setVisibility(View.VISIBLE);
                     break;
 //            default:

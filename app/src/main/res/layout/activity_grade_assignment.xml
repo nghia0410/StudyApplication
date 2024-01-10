@@ -6,15 +6,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".GradeAssignment"
-    android:background="@drawable/ds_background">
+    android:background="@drawable/background_main">
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="148dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:scaleX="1"
-        android:src="@drawable/result_assignment" />
+        android:src="@drawable/logo2" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:gravity="center"
+        android:text="COURSE RESULTS"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,22 +34,22 @@
 
         <TextView
             android:id="@+id/textView19"
-            android:layout_width="121dp"
+            android:layout_width="146dp"
             android:layout_height="48dp"
             android:layout_gravity="left"
             android:layout_weight="1"
             android:paddingLeft="10px"
-            android:text="So cau hoi:"
-            android:textColor="#FAFFFFFF"
+            android:text="Number Question:"
+            android:textColor="#FA100D0D"
             android:textColorHint="#F60606"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textViewTotalQuestion"
-            android:layout_width="292dp"
+            android:layout_width="202dp"
             android:layout_height="48dp"
             android:text="0"
-            android:textColor="#FAFFFFFF"
+            android:textColor="#FA100D0D"
             android:textColorHint="#F60606"
             android:textSize="20sp" />
 
@@ -54,20 +63,20 @@
 
         <TextView
             android:id="@+id/textView11"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="48dp"
             android:paddingLeft="10px"
-            android:text="So cau tra loi dung: "
-            android:textColor="#FFFFFF"
+            android:text="Correct Answer:"
+            android:textColor="#FA100D0D"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textViewCorrectAnswer"
-            android:layout_width="229dp"
+            android:layout_width="200dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:text="0"
-            android:textColor="#FAFFFFFF"
+            android:textColor="#FA100D0D"
             android:textColorHint="#F60606"
             android:textSize="20sp" />
 
@@ -81,20 +90,20 @@
 
         <TextView
             android:id="@+id/textView12"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="48dp"
             android:paddingLeft="10px"
-            android:text="So cau tra loi sai: "
-            android:textColor="#FFFFFF"
+            android:text="Incorrect Answer: "
+            android:textColor="#FA100D0D"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textViewWrongAnswer"
-            android:layout_width="229dp"
+            android:layout_width="209dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:text="0"
-            android:textColor="#FAFFFFFF"
+            android:textColor="#FA100D0D"
             android:textColorHint="#F60606"
             android:textSize="20sp" />
     </LinearLayout>
@@ -107,11 +116,11 @@
 
         <TextView
             android:id="@+id/textView15"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="48dp"
             android:paddingLeft="10px"
-            android:text="Ban dat duoc: "
-            android:textColor="#FFFFFF"
+            android:text="Score: "
+            android:textColor="#FA100D0D"
             android:textSize="20sp" />
 
         <TextView
@@ -120,7 +129,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:text="0"
-            android:textColor="#FAFFFFFF"
+            android:textColor="#FA100D0D"
             android:textColorHint="#F60606"
             android:textSize="20sp" />
     </LinearLayout>
@@ -136,7 +145,7 @@
             android:layout_height="67dp"
             android:paddingLeft="10px"
             android:text="Chuc mung ban dat duoc chung chi or ban khong du diem de nhan chung chi"
-            android:textColor="#FFFFFF"
+            android:textColor="#FA100D0D"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -153,7 +162,7 @@
             android:layout_margin="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="Quaylaibaitap" />
+            android:text="Return Course" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_getCertificate"
@@ -161,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginTop="10dp"
-            android:text="Lay chung chi" />
+            android:text="Get certificate" />
     </LinearLayout>
 
 </LinearLayout>

@@ -148,6 +148,7 @@ public class ViewAssignment extends AppCompatActivity {
                     intent.putExtra("PERCENTAGE_SCORE",score);
                     intent.putExtra("CORRECT_ANSWER",correctanswers);
                     intent.putExtra("NUM_OF_QUESTION",lvQuestions.getCount());
+                    intent.putExtra("CERTIFICATE_NAME",assignment.getCourse());
 
                     if(score >= 0.8){
                         updateDataInFirestore();

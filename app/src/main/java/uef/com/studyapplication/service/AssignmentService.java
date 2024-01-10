@@ -1,6 +1,9 @@
 package uef.com.studyapplication.service;
 
+import static uef.com.studyapplication.acitivity.LoginActivity.user;
+
 import android.net.Uri;
+import android.util.Log;
 
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,9 +46,12 @@ public class AssignmentService {
             if (runnable.isSuccessful()) {
                 for (QueryDocumentSnapshot documentSnapshot : runnable.getResult()) {
                     NewAssignment assignment = documentSnapshot.toObject(NewAssignment.class);
-
-                    assignments.add(assignment);
-
+                    try {
+                        if (assignment.getSubmitter() == null || !assignment.getSubmitter().contains(user.getUuid()) || user.getType().compareTo("admin") == 0)
+                            assignments.add(assignment);
+                    }catch (Exception e){
+                        Log.d("GetAssignment","empty");
+                    }
                 }
                 this.assignments = assignments;
                 loadAdapter();

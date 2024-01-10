@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ViewAssignment"
-    android:background="@drawable/layoutpage" >
+    android:background="@drawable/background_main" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,7 +54,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:background="@drawable/vien"
                 android:contentDescription="Course"
                 android:gravity="top"
                 android:hint="Course"
@@ -120,13 +119,12 @@
                 android:layout_height="37dp"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="5dp"
-                android:background="#C6CBCC"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="86dp"
                     android:layout_height="wrap_content"
-                    android:hint="Cấp độ :"
+                    android:hint="Level :"
                     android:paddingBottom="13dp"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
@@ -135,7 +133,6 @@
                     android:id="@+id/tagSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#C6CBCC"
                     android:paddingBottom="13dp"
                     android:textColor="@color/black"
                     android:textSize="20sp" />

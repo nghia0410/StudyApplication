@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -48,10 +49,10 @@ public class AdapterCreateQuiz extends BaseAdapter {
         TextView etQuestion = view.findViewById(R.id.edit_question);
         etQuestion.setText(question.getQuestion());
 
-        TextView rbAnswer1 = view.findViewById(R.id.edit_option1);
-        TextView rbAnswer2 = view.findViewById(R.id.edit_option2);
-        TextView rbAnswer3 = view.findViewById(R.id.edit_option3);
-        TextView rbAnswer4 = view.findViewById(R.id.edit_option4);
+        RadioButton rbAnswer1 = view.findViewById(R.id.edit_option1);
+        RadioButton rbAnswer2 = view.findViewById(R.id.edit_option2);
+        RadioButton rbAnswer3 = view.findViewById(R.id.edit_option3);
+        RadioButton rbAnswer4 = view.findViewById(R.id.edit_option4);
 
         rbAnswer1.setText(question.getOptions().get(0));
         rbAnswer2.setText(question.getOptions().get(1));

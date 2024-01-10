@@ -33,7 +33,7 @@ public class PageAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Assignment";
+                return "Course";
             case 1:
                 return "Submitted";
             default:

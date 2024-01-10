@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@drawable/background_main"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="20dp"
@@ -51,6 +51,7 @@
             android:textAlignment="center" />
 
         <TextView
+            android:id="@+id/txt_certificate_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Self Study Certificate"

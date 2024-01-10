@@ -20,11 +20,11 @@ public class NewAssignment implements Parcelable {
         public String toString() {
             switch (this) {
                 case easy:
-                    return "Dễ";
+                    return "Easy";
                 case medium:
-                    return "Trung Bình";
+                    return "Medium";
                 case hard:
-                    return "Khó";
+                    return "Hard";
                 default:
                     return "";
             }
@@ -33,13 +33,13 @@ public class NewAssignment implements Parcelable {
         public static AssignmentLevel fromString(String value) {
             switch (value) {
                 case "medium":
-                case "Trung Bình":
+                case "Medium":
                     return AssignmentLevel.medium;
                 case "hard":
-                case "Khó":
+                case "Hard":
                     return AssignmentLevel.hard;
                 case "easy":
-                case "Dễ":
+                case "Easy":
                 default:
                     return AssignmentLevel.easy;
             }

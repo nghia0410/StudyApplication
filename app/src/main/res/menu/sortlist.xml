@@ -4,11 +4,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <item android:id="@+id/i1" android:title="Theo cấp độ" app:showAsAction="never">
+    <item android:id="@+id/i1" android:title="Sort by Level" app:showAsAction="never">
         <menu>
-            <item android:id="@+id/s11" android:title="Dễ" app:showAsAction="ifRoom|withText" />
-            <item android:id="@+id/s12" android:title="Trung Bình" app:showAsAction="ifRoom|withText" />
-            <item android:id="@+id/s13" android:title="Khó" app:showAsAction="ifRoom|withText" />
+            <item android:id="@+id/s11" android:title="Easy" app:showAsAction="ifRoom|withText" />
+            <item android:id="@+id/s12" android:title="Medium" app:showAsAction="ifRoom|withText" />
+            <item android:id="@+id/s13" android:title="Hard" app:showAsAction="ifRoom|withText" />
         </menu>
     </item>
 </menu>

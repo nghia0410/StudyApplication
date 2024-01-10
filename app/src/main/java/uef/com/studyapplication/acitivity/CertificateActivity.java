@@ -21,25 +21,29 @@ import uef.com.studyapplication.databinding.ActivityCertificateBinding;
 public class CertificateActivity extends AppCompatActivity {
     ActivityCertificateBinding binding;
     String userName;
-
+    String course_name;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCertificateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Bundle extras = getIntent().getExtras();
 
         if (getIntent().hasExtra("user_name")) {
             userName = getIntent().getStringExtra("user_name");
+            course_name = extras.getString("CERTIFICATE_NAME");
         } else {
             userName = "";
+            course_name = "";
         }
+
         String issuedDate = simpleDateFormat.format(new Date());
         String expiryDate = simpleDateFormat.format( Date.parse("1/1/2040"));
         binding.txtIssueDate.setText(String.format("Issued Date: %s", issuedDate));
         binding.txtExpiryDate.setText(String.format("Expiry Date: %s", expiryDate));
         binding.txtUserName.setText(userName);
+        binding.txtCertificateName.setText(course_name);
 
         binding.btnSave.setOnClickListener(view -> {
             convertXmlToBitmap();
@@ -95,7 +99,7 @@ public class CertificateActivity extends AppCompatActivity {
                 // Lưu bitmap vào tệp tin với định dạng PNG
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
             }
-            Toast.makeText(this, "Lưu ảnh thành công", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Save image successful", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         }

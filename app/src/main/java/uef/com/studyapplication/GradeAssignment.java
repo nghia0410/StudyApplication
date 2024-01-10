@@ -19,6 +19,8 @@ public class GradeAssignment extends AppCompatActivity {
     int total_question, correct_answers;
     Button btn_back, btn_certificate;
     TextView tv_percentage, tv_total_question, tv_correct_answers, tv_result, tv_wrong_answer;
+    String course_name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +30,7 @@ public class GradeAssignment extends AppCompatActivity {
             total_question = extras.getInt("NUM_OF_QUESTION");
             correct_answers = extras.getInt("CORRECT_ANSWER");
             percentage = extras.getDouble("PERCENTAGE_SCORE");
+            course_name = extras.getString("CERTIFICATE_NAME");
         }
 
         tv_correct_answers = findViewById(R.id.textViewCorrectAnswer);
@@ -76,12 +79,13 @@ public class GradeAssignment extends AppCompatActivity {
 //            myCanvas.drawText(user.getEmail(), 1350, 1300, paint);
 //
 //            iv_certificate.setImageDrawable(new BitmapDrawable(getResources(), mutableBitmap));
-            tv_result.setText("Chúc mừng bạn đạt được chứng chỉ!");
+            tv_result.setText("Congratulations on achieving your certification!");
             btn_certificate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(GradeAssignment.this, CertificateActivity.class);
                     intent.putExtra("user_name",user.getEmail());
+                    intent.putExtra("CERTIFICATE_NAME",course_name);
 
                     startActivity(intent);
                 }
@@ -89,7 +93,7 @@ public class GradeAssignment extends AppCompatActivity {
 
         }
         else {
-            tv_result.setText("Rất tiếc, Vui lòng làm lại bài tập");
+            tv_result.setText("Sorry, please return to the course");
             btn_certificate.setVisibility(View.INVISIBLE);
         }
 

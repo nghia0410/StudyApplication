@@ -149,17 +149,6 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
 
-//            private void AnimationForSignUpSuccess() {
-//                Animation anim = AnimationUtils.loadAnimation(SignupActivity.this, R.anim.shake);
-//                btnSignup.setBackgroundResource(R.drawable.login_success);
-//                btnSignup.startAnimation(anim);
-//            }
-//
-//            private void AnimationForSignUpFail() {
-//                Animation anim = AnimationUtils.loadAnimation(SignupActivity.this, R.anim.shake);
-//                btnSignup.setBackgroundResource(R.drawable.login_fail);
-//                btnSignup.startAnimation(anim);
-//            }
         });
     }
 
