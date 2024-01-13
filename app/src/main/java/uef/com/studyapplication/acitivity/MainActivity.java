@@ -84,12 +84,12 @@ public class MainActivity extends AppCompatActivity {
 
         TabHost tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
-        TabHost.TabSpec spec1 = tabHost.newTabSpec("Bài Tập");
-        spec1.setIndicator("", getResources().getDrawable(R.drawable.book_icon_tabhost));
+        TabHost.TabSpec spec1 = tabHost.newTabSpec("Course");
+        spec1.setIndicator("", getResources().getDrawable(R.drawable.course_icon_tabhost));
         spec1.setContent(R.id.assignmenttab);
 //
-        TabHost.TabSpec spec2 = tabHost.newTabSpec("Hoạt Động");
-        spec2.setIndicator("", getResources().getDrawable(R.drawable.history_icon_tabhost));
+        TabHost.TabSpec spec2 = tabHost.newTabSpec("Notification");
+        spec2.setIndicator("", getResources().getDrawable(R.drawable.notification_icon_tabhost));
         spec2.setContent(R.id.activitytab);
 //
         tabHost.addTab(spec1);

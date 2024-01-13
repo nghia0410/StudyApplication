@@ -66,7 +66,7 @@ public class AdapterNotification extends ArrayAdapter<RowItem> {
 //        holder.txtTime.setText(rowItem.getTimeNotification().toString());
         switch(rowItem.getBgcolors()){
             case 0:
-                holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor));
+                holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor3));
                 holder.txtDay.setText("Created at: "+ rowItem.getDate());
                 break;
             case 1:
@@ -75,7 +75,7 @@ public class AdapterNotification extends ArrayAdapter<RowItem> {
                 break;
             case 2:
                 holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor1));
-                holder.txtDay.setText("Created at: "+ rowItem.getDate());
+                holder.txtDay.setText("Edited at: "+ rowItem.getDate());
                 break;
             default:
                 holder.bgColor.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.assignmentblockbgcolor1));

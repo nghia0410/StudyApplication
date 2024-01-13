@@ -86,6 +86,7 @@ public class ViewAssignment extends AppCompatActivity {
         back_btn = findViewById(R.id.backButton);
         okButton = findViewById(R.id.okButton);
         attachmentButton = findViewById(R.id.attachmentButton);
+        attachmentTextView = findViewById(R.id.attachmentTextView);
         lvQuestions = findViewById(R.id.QuizListView);
 
 
@@ -122,12 +123,12 @@ public class ViewAssignment extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        attachmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFilePicker();
-            }
-        });
+//        attachmentButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                openFilePicker();
+//            }
+//        });
 
         done_btn = findViewById(R.id.doneButton);
         done_btn.setOnClickListener(new View.OnClickListener() {

@@ -144,7 +144,7 @@ public class SignupActivity extends AppCompatActivity {
 //                      }
 //                    });
 
-                        signUpWithFirebaseAuth(username, password);
+//                        signUpWithFirebaseAuth(username, password);
                     }
                 }
             }

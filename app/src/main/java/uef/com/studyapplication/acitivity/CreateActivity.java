@@ -286,19 +286,24 @@ public class CreateActivity extends AppCompatActivity {
                 String endTime = ((TextView) findViewById(R.id.displayEndTimeTextView)).getText().toString();
                 String level = tagSpinner.getSelectedItem().toString();
                 String youtube = ((EditText) findViewById(R.id.LinkURL)).getText().toString();
-                // Kiểm tra xem đã chọn "Other" từ Spinner chưa
-                if (level.equals("Other")) {
-                    level = customTagEditText.getText().toString();
+                if(!service.assignments.stream().filter(p -> p.getCourse().equals(course)).findAny().isPresent()) {
+                    // Kiểm tra xem đã chọn "Other" từ Spinner chưa
+                    if (level.equals("Other")) {
+                        level = customTagEditText.getText().toString();
+                    }
+
+                    // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
+                    if (course.isEmpty() || level.isEmpty() || startDate.isEmpty() || startTime.isEmpty() || endDate.isEmpty() || endTime.isEmpty()) {
+                        Toast.makeText(CreateActivity.this, "Please enter complete information.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Lưu dữ liệu vào Firestore
+                        saveDataToFirestore(course, level, youtube, startDate, endDate, startTime, endTime);
+
+                        finish();
+                    }
                 }
-
-                // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
-                if (course.isEmpty() || level.isEmpty() || startDate.isEmpty() || startTime.isEmpty() || endDate.isEmpty() || endTime.isEmpty()) {
-                    Toast.makeText(CreateActivity.this, "Please enter complete information.", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Lưu dữ liệu vào Firestore
-                    saveDataToFirestore(course, level, youtube, startDate, endDate, startTime, endTime);
-
-                    finish();
+                else {
+                    Toast.makeText(CreateActivity.this, "The course already exists! Please enter a new course name.",Toast.LENGTH_SHORT).show();
                 }
                 // Tạo đối tượng FCM
 //                FirebaseMessaging fcm = FirebaseMessaging.getInstance();
@@ -611,9 +616,15 @@ public class CreateActivity extends AppCompatActivity {
                 attachmentTextView.setText(fileName);
                 attachmentTextView.setVisibility(View.VISIBLE);
             }
-
-
         }
+        // Xử lý khi người dùng nhấp vào TextView để kiểm tra danh sách các tệp đã chọn
 
+
+        attachmentTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSelectedFileList();
+            }
+        });
     }
-}
+    }

@@ -88,6 +88,7 @@ public class CustomArrayAdapter extends ArrayAdapter<NewAssignment>  {
 //                holder.txtYoutube.setText("Answer: "+rowItem.getYoutube());
                 holder.btnDelete.setVisibility(View.GONE);
                 holder.btnEdit.setVisibility(View.GONE);
+                holder.txtDate.setText("Deadline: " + rowItem.getDate());
             }
         }
         catch (Exception e){

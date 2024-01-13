@@ -97,7 +97,7 @@ public class NewAssignment implements Parcelable {
     private List<String> attachments;
 
     public String getDate() {
-        return getStartDate() + " - " + getEndDate();
+        return getEndDate() + " (" + getEndTime()+ ")" ;
     }
 
 

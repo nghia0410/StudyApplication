@@ -97,12 +97,19 @@
                     android:src="@drawable/ic_playvideo" />
 
                 <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="206dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Click on the Youtube icon" />
+
+                <TextView
                     android:id="@+id/ViewlinkURL"
-                    android:layout_width="343dp"
+                    android:layout_width="139dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:hint="Link URL"
-                    android:visibility="visible" />
+                    android:visibility="invisible" />
             </LinearLayout>
 
             <WebView

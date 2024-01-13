@@ -28,7 +28,6 @@ import java.util.List;
 import uef.com.studyapplication.AssignmentList;
 import uef.com.studyapplication.R;
 import uef.com.studyapplication.dto.User;
-//import uef.com.studyapplication.UserList;
 
 public class LoginActivity extends AppCompatActivity {
     static FirebaseStorage storage = FirebaseStorage.getInstance();;
@@ -62,8 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Please fill username", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                    signIn(email, password);
-//                } else {
+//                                 else {
 //                    // Truy vấn tài liệu trong Firestore để kiểm tra thông tin đăng nhập.
 //                    db.collection("users")
 //                            .whereIn("username", Arrays.asList(username, email))
@@ -115,6 +113,8 @@ public class LoginActivity extends AppCompatActivity {
 //                                }
 //                            });
 //                }
+                    signIn(email, password);
+
             }
         });
         tvSignUp.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +145,8 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnCompleteListener(runnable -> {
                         userDocument = runnable.getResult();
                         user.setType(userDocument.getString("type"));
+                        user.setFullname(userDocument.getString("fullname"));
+                        user.setPhone(userDocument.getString("phone"));
 
                         //UserList.UpdateL(db, LoginActivity.this);
 
@@ -230,12 +232,5 @@ public class LoginActivity extends AppCompatActivity {
             });
         });
     }
-//        tvSignUp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
+
 }
