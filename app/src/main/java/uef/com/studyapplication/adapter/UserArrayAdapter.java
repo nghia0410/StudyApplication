@@ -77,7 +77,7 @@ public class UserArrayAdapter extends BaseAdapter {
         binding.txtPoints.setVisibility(View.INVISIBLE);
         binding.btnShowCert.setOnClickListener(view -> {
             Intent intent = new Intent(context, CertificateActivity.class);
-            intent.putExtra("user_name",getItem(position).getNameOrEmail());
+            intent.putExtra("user_name",getItem(position).getEmail());
             intent.putExtra("CERTIFICATE_NAME",assignment.getCourse());
 
             context.startActivity(intent);
