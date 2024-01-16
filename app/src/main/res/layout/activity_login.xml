@@ -13,28 +13,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/shape" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Self-Study"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:transitionName="splash_text"></TextView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Application"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:transitionName="splash_text"></TextView>
-
     <ImageView
-        android:layout_width="165dp"
+        android:layout_width="230dp"
         android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
@@ -42,6 +22,15 @@
         android:scaleY="1"
         android:src="@drawable/logo1"
         android:transitionName="splash_image" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="323dp"
+        android:layout_height="114dp"
+        android:layout_gravity="center"
+        android:background="@drawable/flash_logo"
+        android:padding="2dp"
+        android:scaleType="centerInside" />
 
     <EditText
         android:id="@+id/Username"

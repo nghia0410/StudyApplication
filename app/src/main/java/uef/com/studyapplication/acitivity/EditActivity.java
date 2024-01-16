@@ -72,6 +72,7 @@ public class EditActivity extends AppCompatActivity {
     private Uri selectedFUri;
     private ImageButton attachmentButton,return_btn;
     private TextView attachmentTextView;
+    private AppCompatButton create_quiz;
     // Khai báo biến cho Firestore
     NewAssignment selectedAssignment;
     private ListView listView;
@@ -105,7 +106,8 @@ public class EditActivity extends AppCompatActivity {
         selectionPrompt = findViewById(R.id.selectionPrompt);
         btn1=  findViewById(R.id.create_btn);
         listView = findViewById(R.id.listView3);
-
+        create_quiz = findViewById(R.id.CreateQuiz);
+        create_quiz.setVisibility(View.INVISIBLE);
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -135,6 +137,8 @@ public class EditActivity extends AppCompatActivity {
         attachmentButton = findViewById(R.id.attachmentButton);
         attachmentTextView = findViewById(R.id.attachmentTextView);
         attachmentButton.setOnClickListener(v -> openFilePicker());
+        attachmentButton.setVisibility(View.INVISIBLE);
+        attachmentTextView.setVisibility(View.INVISIBLE);
 
         ImageButton startDatePickerButton = findViewById(R.id.startDatePickerButton);
         ImageButton startTimePickerButton = findViewById(R.id.startTimePickerButton);

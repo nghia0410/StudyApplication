@@ -365,6 +365,8 @@ public class CreateActivity extends AppCompatActivity {
         attachmentButton = findViewById(R.id.attachmentButton);
         attachmentTextView = findViewById(R.id.attachmentTextView);
         attachmentButton.setOnClickListener(v -> openFilePicker());
+        attachmentButton.setVisibility(View.INVISIBLE);
+        attachmentTextView.setVisibility(View.INVISIBLE);
         // Khởi tạo Firestore
     }
 

@@ -9,7 +9,7 @@
     android:orientation="vertical"
     app:layout_gravity="fill"
     tools:context=".acitivity.UserActivity"
-    android:background="@drawable/background_main" >
+     >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +21,8 @@
             android:layout_width="304dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/logo2" />
+            android:padding="3dp"
+            android:src="@drawable/flash_logo" />
 
         <TextView
             android:id="@+id/textView5"

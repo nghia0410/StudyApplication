@@ -87,6 +87,8 @@ public class ViewAssignment extends AppCompatActivity {
         okButton = findViewById(R.id.okButton);
         attachmentButton = findViewById(R.id.attachmentButton);
         attachmentTextView = findViewById(R.id.attachmentTextView);
+        attachmentButton.setVisibility(View.INVISIBLE);
+        attachmentTextView.setVisibility(View.INVISIBLE);
         lvQuestions = findViewById(R.id.QuizListView);
 
 

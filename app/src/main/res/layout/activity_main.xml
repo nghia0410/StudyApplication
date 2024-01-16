@@ -17,7 +17,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/background_main"
-            android:src="@drawable/logo2" />
+            android:padding="3dp"
+            android:src="@drawable/flash_logo" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -84,8 +85,7 @@
                     <RelativeLayout
                         android:id="@+id/assignmenttab"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/background_main">
+                        android:layout_height="match_parent">
 
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/assignmenttab_layout"
@@ -147,7 +147,6 @@
                         android:id="@+id/activitytab"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/background_main"
                         android:orientation="vertical">
 
                         <FrameLayout
