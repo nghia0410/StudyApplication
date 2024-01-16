@@ -24,9 +24,11 @@ public class AdminAssignmentActivity extends AppCompatActivity {
         binding = ActivityAdminAssignmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         try{
+            // Lấy danh sách bài tập từ người dùng
             NewAssignment assignment = getIntent().getParcelableExtra("assignment");
             users = getIntent().getParcelableArrayListExtra("users");
 
+            // Lấy chứng chỉ của User
             UserArrayAdapter userArrayAdapter = new UserArrayAdapter(this, users, assignment);
             binding.lvUsers.setAdapter(userArrayAdapter);
             binding.txtCourse.setText(assignment.getCourse());

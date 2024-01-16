@@ -1,11 +1,13 @@
 package uef.com.studyapplication.acitivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import uef.com.studyapplication.AssignmentList;
 import uef.com.studyapplication.R;
@@ -42,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvSignUp, tvUsername, tvPassword, tvEmail;
     private LinearLayout layoutSignUp, layoutForgotPass;
     private Button btn_Login;
-    CheckBox rememberCheck;
     String TAG = "LoginAct";
 
     @Override
@@ -56,65 +59,11 @@ public class LoginActivity extends AppCompatActivity {
                 String username = tvUsername.getText().toString();
                 String password = tvPassword.getText().toString();
                 String email = tvEmail.getText().toString();
-
                 if (username.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please fill username", Toast.LENGTH_SHORT).show();
                     return;
                 }
-//                                 else {
-//                    // Truy vấn tài liệu trong Firestore để kiểm tra thông tin đăng nhập.
-//                    db.collection("users")
-//                            .whereIn("username", Arrays.asList(username, email))
-//                            .get()
-//                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                    if (task.isSuccessful()) {
-//                                        if (!task.getResult().isEmpty()) {
-//                                            userDocument = task.getResult().getDocuments().get(0); // Lấy tài liệu đầu tiên (nếu có).
-//
-//                                            user = userDocument.toObject(User.class);
-//                                            Log.v(TAG, "user data fetched");
-//                                            if (user != null && user.getPassword().equals(password)) {
-//                                                // Đăng nhập thành công.
-////                                                AnimationForLoginSuccess();
-//                                                try {
-//                                                    syncCloud();
-//                                                } catch (IOException e) {
-//                                                    throw new RuntimeException(e);
-//                                                }
-//                                                if (rememberCheck.isChecked()) {
-//                                                    // Ghi chú TT và trạng thái người dùng vào SharedPreferences
-//                                                    setBooleanDefaults(getString(R.string.userlogged), true, LoginActivity.this);
-//                                                    setStringDefaults("userid",userDocument.getId(), LoginActivity.this);
-//                                                    Log.v("Login State", "true");
-//                                                } else {
-//                                                    setBooleanDefaults(getString(R.string.userlogged), false, LoginActivity.this);
-//                                                    Log.v("Login State", "false");
-//                                                }
-//                                                UserList.UpdateL(db, LoginActivity.this);
-//                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                                                startActivity(intent);
-//                                                Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
-//                                            } else {
-//                                                // Sai mật khẩu.
-//                                                //    AnimationForLoginFail();
-//                                                Toast.makeText(LoginActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();
-//                                            }
-//                                        } else {
-//                                            // Sai tên đăng nhập.
-//                                            //   AnimationForLoginFail();
-//                                            Toast.makeText(LoginActivity.this, "Wrong username", Toast.LENGTH_SHORT).show();
-//                                        }
-//                                    } else {
-//                                        // Xử lý lỗi.
-//                                        Toast.makeText(LoginActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }
-//                            });
-//                }
                     signIn(email, password);
-
             }
         });
         tvSignUp.setOnClickListener(new View.OnClickListener() {
@@ -217,19 +166,30 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         layoutForgotPass.setOnClickListener(view -> {
-            if (tvEmail.getText().toString().isEmpty()) {
-                Toast.makeText(this, "Please enter email first", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            auth.sendPasswordResetEmail(tvEmail.getText().toString()).addOnCompleteListener(runnable -> {
-                if (runnable.isSuccessful()) {
-                    Toast.makeText(this, "Email for reset password sent", Toast.LENGTH_LONG).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogInflater = inflater.inflate(R.layout.dialog_change_password, null);
+            builder.setView(dialogInflater);
+            builder.setPositiveButton("Ok", (dialogInterface, i) -> {
+                EditText emailInput = dialogInflater.findViewById(R.id.edit_change_email);
+                if (emailInput == null) return;
+                String email = emailInput.getText().toString();
+                // Validate email address using a regular expression
+                Pattern pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,}$");
+                Matcher matcher = pattern.matcher(email);
+                if (!matcher.matches()) {
+                    Toast.makeText(this, "Invalid email", Toast.LENGTH_LONG).show();
+                    return;
                 }
-            }).addOnFailureListener(runnable -> {
-                Toast.makeText(this, runnable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                auth.sendPasswordResetEmail(email).addOnCompleteListener(runnable -> {
+                    Toast.makeText(this, "An email sent for reset password", Toast.LENGTH_LONG).show();
+                }).addOnFailureListener(runnable -> {
+                    Toast.makeText(this, runnable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
+                });
             });
+            builder.show();
+
         });
     }
 

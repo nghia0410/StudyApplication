@@ -40,6 +40,7 @@ public class CertificateActivity extends AppCompatActivity {
 
         String issuedDate = simpleDateFormat.format(new Date());
         String expiryDate = simpleDateFormat.format( Date.parse("1/1/2040"));
+
         binding.txtIssueDate.setText(String.format("Issued Date: %s", issuedDate));
         binding.txtExpiryDate.setText(String.format("Expiry Date: %s", expiryDate));
         binding.txtUserName.setText(userName);
@@ -87,13 +88,10 @@ public class CertificateActivity extends AppCompatActivity {
             if (!storageDir.exists()) {
                 storageDir.mkdirs();
             }
-
             // Tạo tệp tin để lưu bitmap
             File imageFile = new File(storageDir, fileName + ".png");
-
             // Tạo đường dẫn tuyệt đối của tệp tin
             filePath = imageFile.getAbsolutePath();
-
             // Mở FileOutputStream để ghi dữ liệu vào tệp tin
             try (FileOutputStream fos = new FileOutputStream(imageFile)) {
                 // Lưu bitmap vào tệp tin với định dạng PNG

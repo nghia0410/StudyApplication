@@ -4,7 +4,6 @@ import static uef.com.studyapplication.acitivity.LoginActivity.user;
 import static uef.com.studyapplication.acitivity.LoginActivity.userDocument;
 import static uef.com.studyapplication.dto.Profile.setBooleanDefaults;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -164,32 +162,20 @@ public class UserActivity extends AppCompatActivity {
         });
 
         changePass_btn.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog
-                    .Builder(this);
-            LayoutInflater inflater = getLayoutInflater();
-            View dialogInflater = inflater.inflate(R.layout.dialog_change_password, null);
-            builder.setView(dialogInflater);
-            builder.setPositiveButton("Ok", (dialogInterface, i) -> {
-                EditText emailInput = dialogInflater.findViewById(R.id.edit_change_email);
-                if (emailInput == null) return;
-                String email = emailInput.getText().toString();
-                if (email.substring(0).isEmpty()) {
-                    Toast.makeText(this, "Email must not empty", Toast.LENGTH_LONG).show();
-                    return;
+//            if (email.getText().toString().isEmpty()) {
+//                Toast.makeText(this, "Please enter email first", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+            auth.sendPasswordResetEmail(user.getEmail()).addOnCompleteListener(runnable -> {
+                if (runnable.isSuccessful()) {
+                    Toast.makeText(this, "Email for reset password sent", Toast.LENGTH_LONG).show();
                 }
-                auth.sendPasswordResetEmail(email).addOnCompleteListener(runnable -> {
-                    Toast.makeText(this, "An email sent for reset password", Toast.LENGTH_LONG).show();
-
-                }).addOnFailureListener(runnable -> {
-                    Toast.makeText(this, runnable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-                });
-
+            }).addOnFailureListener(runnable -> {
+                Toast.makeText(this, runnable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             });
-            builder.show();
-
         });
     }
+
 
     private void imageMover() throws Exception {
         String uriPath = getRealPathFromURI(selectedImageUri);

@@ -291,7 +291,6 @@ public class CreateActivity extends AppCompatActivity {
                     if (level.equals("Other")) {
                         level = customTagEditText.getText().toString();
                     }
-
                     // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
                     if (course.isEmpty() || level.isEmpty() || startDate.isEmpty() || startTime.isEmpty() || endDate.isEmpty() || endTime.isEmpty()) {
                         Toast.makeText(CreateActivity.this, "Please enter complete information.", Toast.LENGTH_SHORT).show();
