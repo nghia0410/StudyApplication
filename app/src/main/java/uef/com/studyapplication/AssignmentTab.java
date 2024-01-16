@@ -4,6 +4,7 @@ import static uef.com.studyapplication.acitivity.LoginActivity.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,17 +84,23 @@ public class AssignmentTab extends Fragment {
                             db.collection("users")
                                     .get()
                                     .addOnSuccessListener(runnable -> {
-                                        ArrayList<User> users = new ArrayList<>();
-                                        for (DocumentSnapshot snap : runnable.getDocuments()) {
-                                            User u = snap.toObject(User.class);
-                                            if (assignment.getSubmitter().contains(u.getUuid())) {
-                                                users.add(u);
+                                        try {
+                                            ArrayList<User> users = new ArrayList<>();
+                                            for (DocumentSnapshot snap : runnable.getDocuments()) {
+                                                User u = snap.toObject(User.class);
+                                                if (assignment.getSubmitter().contains(u.getUuid())) {
+                                                    users.add(u);
+                                                }
                                             }
+                                            Intent intent = new Intent(getActivity(), AdminAssignmentActivity.class);
+                                            intent.putExtra("assignment", assignment);
+                                            intent.putParcelableArrayListExtra("users", users);
+                                            startActivity(intent);
+                                        }catch (Exception e){
+                                            Toast.makeText(this.getContext(),"No user submitted",Toast.LENGTH_SHORT).show();
+
+                                            Log.w("AdminAssignmentTab","No Assignment");
                                         }
-                                        Intent intent = new Intent(getActivity(), AdminAssignmentActivity.class);
-                                        intent.putExtra("assignment", assignment);
-                                        intent.putParcelableArrayListExtra("users", users);
-                                        startActivity(intent);
                                     });
 
             });

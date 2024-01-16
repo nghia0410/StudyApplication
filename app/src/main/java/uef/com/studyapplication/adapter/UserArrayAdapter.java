@@ -62,7 +62,7 @@ public class UserArrayAdapter extends BaseAdapter {
         }
 
 
-        binding.txtName.setText(getItem(position).getNameOrEmail());
+        binding.txtName.setText(getItem(position).getEmail());
 
         _db.collection("users")
                 .document(getItem(position).getUuid())

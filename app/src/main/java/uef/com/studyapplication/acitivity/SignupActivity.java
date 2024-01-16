@@ -167,7 +167,7 @@ public class SignupActivity extends AppCompatActivity {
 
                     } else {
                         Log.w("SIGN UP", "Failed to sign up", task.getException());
-                        Toast.makeText(this, "Failed to sign up.",
+                        Toast.makeText(this, "Account already exists.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -1,6 +1,7 @@
 package uef.com.studyapplication.acitivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,17 +23,18 @@ public class AdminAssignmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAdminAssignmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        try{
+            NewAssignment assignment = getIntent().getParcelableExtra("assignment");
+            users = getIntent().getParcelableArrayListExtra("users");
 
-        NewAssignment assignment = getIntent().getParcelableExtra("assignment");
-        users = getIntent().getParcelableArrayListExtra("users");
-
-        UserArrayAdapter userArrayAdapter = new UserArrayAdapter(this, users, assignment);
-        binding.lvUsers.setAdapter(userArrayAdapter);
-        binding.txtCourse.setText(assignment.getCourse());
-        binding.btnBack.setOnClickListener(view -> {
-            finish();
-        });
+            UserArrayAdapter userArrayAdapter = new UserArrayAdapter(this, users, assignment);
+            binding.lvUsers.setAdapter(userArrayAdapter);
+            binding.txtCourse.setText(assignment.getCourse());
+            binding.btnBack.setOnClickListener(view -> {
+                finish();
+            });
+        }catch (Exception e){
+            Log.w("AdminAssignment","Nothing to be seen");
+        }
     }
-
-
 }
